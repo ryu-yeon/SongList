@@ -21,8 +21,12 @@ class TabBarController: UITabBarController {
         firstVC.tabBarItem.image = UIImage(systemName: "house")
         firstVC.tabBarItem.selectedImage = UIImage(systemName: "house.fill")
         
+        let secondVC = UINavigationController(rootViewController: ListBoxViewControlller())
+        secondVC.tabBarItem.title = "ListBox"
+        secondVC.tabBarItem.image = UIImage(systemName: "list.star")
+        secondVC.tabBarItem.selectedImage = UIImage(systemName: "list.star")
         
         
-        setViewControllers([firstVC], animated: true)
+        setViewControllers([firstVC, secondVC], animated: true)
     }
 }
