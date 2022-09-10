@@ -14,7 +14,6 @@ class HomeTableViewCell: BaseTableViewCell {
     let rankLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .center
-        view.text = "1"
         view.font = .boldSystemFont(ofSize: 28)
         return view
     }()

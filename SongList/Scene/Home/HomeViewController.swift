@@ -24,9 +24,10 @@ class HomeViewController: BaseViewController {
         navigationItem.title = "Home"
         mainView.chartTableView.delegate = self
         mainView.chartTableView.dataSource = self
-        mainView.chartTableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "HomeTableViewCell")
-//        mainView.themeCollectionView.delegate = self
-//        mainView.themeCollectionView.dataSource = self
+        mainView.chartTableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reusableIdentifier)
+        mainView.themeCollectionView.delegate = self
+        mainView.themeCollectionView.dataSource = self
+        mainView.themeCollectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.reusableIdentifier)
     }
 }
 
@@ -36,8 +37,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as! HomeTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reusableIdentifier, for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
         
+        cell.rankLabel.text = "\(indexPath.row + 1)"
         
         return cell
     }
@@ -48,16 +50,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 10
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = UICollectionViewCell()
-//
-//        return cell
-//    }
-//
-//
-//}
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.reusableIdentifier, for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
+        
+        return cell
+    }
+
+
+}
