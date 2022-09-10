@@ -18,6 +18,7 @@ class SettingView: BaseView {
     }()
     
     override func configureUI() {
+        self.backgroundColor = .systemBackground
         [settingTableView].forEach {
             self.addSubview($0)
         }
