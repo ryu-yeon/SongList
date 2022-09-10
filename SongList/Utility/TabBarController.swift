@@ -31,7 +31,12 @@ class TabBarController: UITabBarController {
         thirdVC.tabBarItem.image = UIImage(systemName: "map")
         thirdVC.tabBarItem.selectedImage = UIImage(systemName: "map.fill")
         
+        let fourthVC = UINavigationController(rootViewController: SettingViewController())
+        fourthVC.tabBarItem.title = "Setting"
+        fourthVC.tabBarItem.image = UIImage(systemName: "gearshape")
+        fourthVC.tabBarItem.selectedImage = UIImage(systemName: "gearshape.fill")
         
-        setViewControllers([firstVC, secondVC, thirdVC], animated: true)
+        
+        setViewControllers([firstVC, secondVC, thirdVC, fourthVC], animated: true)
     }
 }
