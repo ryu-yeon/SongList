@@ -26,7 +26,12 @@ class TabBarController: UITabBarController {
         secondVC.tabBarItem.image = UIImage(systemName: "list.star")
         secondVC.tabBarItem.selectedImage = UIImage(systemName: "list.star")
         
+        let thirdVC = UINavigationController(rootViewController: MapViewController())
+        thirdVC.tabBarItem.title = "Map"
+        thirdVC.tabBarItem.image = UIImage(systemName: "map")
+        thirdVC.tabBarItem.selectedImage = UIImage(systemName: "map.fill")
         
-        setViewControllers([firstVC, secondVC], animated: true)
+        
+        setViewControllers([firstVC, secondVC, thirdVC], animated: true)
     }
 }
