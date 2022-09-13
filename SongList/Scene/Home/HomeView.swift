@@ -15,7 +15,16 @@ class HomeView: BaseView {
         let view = UITextField()
         view.borderStyle = .line
         view.backgroundColor = .white
-        view.placeholder = "노래 제목, 가수이름을 입력해주세요"
+        view.placeholder = "  노래 제목, 가수이름을 입력해주세요"
+        return view
+    }()
+    
+    let searchButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .white
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 1
+        view.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         return view
     }()
     
@@ -43,7 +52,7 @@ class HomeView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [usertextField, chartTableView, themeCollectionView].forEach {
+        [usertextField, searchButton, chartTableView, themeCollectionView].forEach {
             self.addSubview($0)
         }
     }
@@ -52,21 +61,28 @@ class HomeView: BaseView {
         
         usertextField.snp.makeConstraints { make in
             make.top.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.trailing.equalTo(searchButton.snp.leading)
             make.height.equalTo(48)
+        }
+        
+        searchButton.snp.makeConstraints { make in
+            make.top.equalTo(usertextField.snp.top)
+            make.leading.equalTo(usertextField.snp.trailing)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.width.height.equalTo(48)
         }
         
         chartTableView.snp.makeConstraints { make in
             make.top.equalTo(usertextField.snp.bottom).offset(20)
             make.leading.equalTo(usertextField.snp.leading)
-            make.trailing.equalTo(usertextField.snp.trailing)
+            make.trailing.equalTo(searchButton.snp.trailing)
             make.height.equalTo(self).multipliedBy(0.4)
         }
         
         themeCollectionView.snp.makeConstraints { make in
             make.top.equalTo(chartTableView.snp.bottom).offset(20)
             make.leading.equalTo(usertextField.snp.leading)
-            make.trailing.equalTo(usertextField.snp.trailing)
+            make.trailing.equalTo(searchButton.snp.trailing)
             make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
         }
     }
