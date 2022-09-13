@@ -19,7 +19,14 @@ class HomeViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainView.usertextField.text = ""
+    }
+    
     override func configure() {
+        
+        mainView.searchButton.addTarget(self, action: #selector(searchButtonClicked), for: .touchUpInside)
         
         navigationItem.title = "Home"
         mainView.chartTableView.delegate = self
@@ -28,6 +35,12 @@ class HomeViewController: BaseViewController {
         mainView.themeCollectionView.delegate = self
         mainView.themeCollectionView.dataSource = self
         mainView.themeCollectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.reusableIdentifier)
+    }
+    
+    @objc func searchButtonClicked() {
+        let vc = SearchViewController()
+        vc.searchText = mainView.usertextField.text ?? ""
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
