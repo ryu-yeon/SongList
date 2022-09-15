@@ -28,6 +28,20 @@ class HomeViewController: BaseViewController {
         mainView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reusableIdentifier)
         mainView.tableView.register(ChartTableViewCell.self, forCellReuseIdentifier: ChartTableViewCell.reusableIdentifier)
         mainView.tableView.register(BannerTableViewCell.self, forCellReuseIdentifier: BannerTableViewCell.reusableIdentifier)
+        
+        mainView.settingButton.addTarget(self, action: #selector(settingButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func settingButtonClicked() {
+        print(#function)
+        let vc = SettingViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func mapButtonClicked() {
+        print(#function)
+        let vc = MapViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -48,6 +62,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BannerTableViewCell.reusableIdentifier) as? BannerTableViewCell else { return UITableViewCell()}
             cell.bannerLabel.text = "주변 노래방 찾기"
+            cell.bannerButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
             return cell
         }
     }
@@ -56,7 +71,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0: return 24 + 16 + (UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20
-        case 1: return 20 + 24 + 210 + 16
+        case 1: return 20 + 24 + 260 + 16
         default: return 20 + 24 + 120 + 16
         }
     }

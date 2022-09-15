@@ -14,7 +14,7 @@ class ListTableViewCell: BaseTableViewCell {
     let listLabel: UILabel = {
         let view = UILabel()
         view.text = "노래 리스트"
-        view.font = .boldSystemFont(ofSize: 20)
+        view.font = .boldSystemFont(ofSize: 24)
         view.textColor = .black
         return view
     }()

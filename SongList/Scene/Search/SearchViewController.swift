@@ -7,11 +7,18 @@
 
 import UIKit
 
+import Kingfisher
+
 class SearchViewController: BaseViewController {
     
     private let mainView = SearchView()
     
-    var searchText: String?
+    var searchText: String = ""
+    
+    var songList: [Song] = []
+    
+    var albumList: [String] = []
+    
     
     override func loadView() {
         self.view = mainView
@@ -41,12 +48,18 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
+        cell.titleLabel.text = songList[indexPath.row].title
+        cell.artistLabel.text = songList[indexPath.row].artist
+        cell.numberLabel.text = songList[indexPath.row].number
+        
+        
+        let url = URL(string: albumList[indexPath.row])
+        cell.albumImageView.kf.setImage(with: url)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        
         navigationController?.pushViewController(vc, animated: true)
     }
     
