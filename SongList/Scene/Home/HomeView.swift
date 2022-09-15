@@ -11,79 +11,132 @@ import SnapKit
 
 class HomeView: BaseView {
     
-    let usertextField: UITextField = {
-        let view = UITextField()
-        view.borderStyle = .line
+    let logoImageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .lightGray
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    let settingButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
+        view.tintColor = .black
+        view.backgroundColor = .lightGray
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    let songSearchButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .lightGray
+        view.setTitle("제목검색", for: .normal)
+        view.tintColor = .black
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    let artistSearchButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .lightGray
+        view.setTitle("가수검색", for: .normal)
+        view.tintColor = .black
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    let searchContainer: UIView = {
+        let view = UIView()
         view.backgroundColor = .white
-        view.placeholder = "  노래 제목, 가수이름을 입력해주세요"
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    let userTextField: UITextField = {
+        let view = UITextField()
+        view.borderStyle = .none
+        view.backgroundColor = .white
+        view.placeholder = "입력해주세요"
         return view
     }()
     
     let searchButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
+        view.backgroundColor = .lightGray
+        view.tintColor = .white
+        view.layer.cornerRadius = 8
         view.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         return view
     }()
     
-    let chartTableView: UITableView = {
+    let tableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = .blue
+        view.separatorStyle = .none
         return view
     }()
-    
 
-    let themeCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let spacing: CGFloat = 16
-        let width = UIScreen.main.bounds.width - 42 - spacing * 3
-
-        layout.itemSize = CGSize(width: width / 2, height: width / 2 * 0.36)
-        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-        layout.minimumInteritemSpacing = spacing
-        layout.minimumLineSpacing = spacing
-        layout.scrollDirection = .vertical
-
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        return view
-    }()
-    
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [usertextField, searchButton, chartTableView, themeCollectionView].forEach {
+        [logoImageView, settingButton, songSearchButton, artistSearchButton, searchContainer, userTextField, searchButton, tableView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setContraints() {
+        logoImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(8)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.width.equalTo(self).multipliedBy(0.55)
+            make.height.equalTo(self).multipliedBy(0.06)
+        }
         
-        usertextField.snp.makeConstraints { make in
-            make.top.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.trailing.equalTo(searchButton.snp.leading)
+        settingButton.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.top)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.width.height.equalTo(logoImageView.snp.height)
+        }
+        
+        songSearchButton.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.bottom).offset(20)
+            make.leading.equalTo(logoImageView.snp.leading)
+            make.width.equalTo(80)
+            make.height.equalTo(25)
+        }
+        
+        artistSearchButton.snp.makeConstraints { make in
+            make.top.equalTo(songSearchButton.snp.top)
+            make.leading.equalTo(songSearchButton.snp.trailing).offset(8)
+            make.width.equalTo(songSearchButton.snp.width)
+            make.height.equalTo(songSearchButton.snp.height)
+        }
+        
+        searchContainer.snp.makeConstraints { make in
+            make.top.equalTo(songSearchButton.snp.bottom).offset(8)
+            make.leading.equalTo(logoImageView.snp.leading)
+            make.trailing.equalTo(settingButton.snp.trailing)
             make.height.equalTo(48)
         }
         
+        userTextField.snp.makeConstraints { make in
+            make.top.equalTo(searchContainer.snp.top).inset(2)
+            make.bottom.equalTo(searchContainer.snp.bottom).inset(2)
+            make.leading.equalTo(searchContainer.snp.leading).inset(16)
+            make.trailing.equalTo(searchButton.snp.leading)
+        }
+        
         searchButton.snp.makeConstraints { make in
-            make.top.equalTo(usertextField.snp.top)
-            make.leading.equalTo(usertextField.snp.trailing)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
-            make.width.height.equalTo(48)
+            make.top.equalTo(searchContainer.snp.top).inset(4)
+            make.bottom.equalTo(searchContainer.snp.bottom).inset(4)
+            make.trailing.equalTo(searchContainer.snp.trailing).inset(16)
+            make.width.equalTo(40)
         }
         
-        chartTableView.snp.makeConstraints { make in
-            make.top.equalTo(usertextField.snp.bottom).offset(20)
-            make.leading.equalTo(usertextField.snp.leading)
-            make.trailing.equalTo(searchButton.snp.trailing)
-            make.height.equalTo(self).multipliedBy(0.4)
-        }
-        
-        themeCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(chartTableView.snp.bottom).offset(20)
-            make.leading.equalTo(usertextField.snp.leading)
-            make.trailing.equalTo(searchButton.snp.trailing)
-            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(searchContainer.snp.bottom).offset(10)
+            make.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.bottom.equalTo(self)
         }
     }
 }
