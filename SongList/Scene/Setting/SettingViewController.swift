@@ -19,6 +19,11 @@ class SettingViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     override func configure() {
         mainView.settingTableView.delegate = self
         mainView.settingTableView.dataSource = self
