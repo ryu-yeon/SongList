@@ -40,13 +40,14 @@ class ChartView: BaseView {
         rangeLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.leading.equalTo(20)
+            make.width.equalTo(72)
             make.height.equalTo(40)
         }
         
         segmentControl.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.leading.equalTo(rangeLabel.snp.trailing).offset(20)
             make.trailing.equalTo(self).offset(-20)
+            make.width.equalTo(120)
             make.height.equalTo(40)
         }
         

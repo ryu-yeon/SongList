@@ -7,9 +7,11 @@
 
 import UIKit
 
+import Hero
+
 class ChartViewController: BaseViewController {
     
-    private let mainView = ChartView()
+    let mainView = ChartView()
     
     var range: String?
     
