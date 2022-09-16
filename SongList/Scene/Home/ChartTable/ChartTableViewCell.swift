@@ -45,7 +45,7 @@ class ChartTableViewCell: BaseTableViewCell {
     
     override func configureUI() {
         [chartLabel, chartCollectionView].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
         chartCollectionView.delegate = self
         chartCollectionView.dataSource = self
@@ -81,6 +81,9 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.chartLabel.text = text[indexPath.item]
         cell.requestChart(range: range[indexPath.item])
+        cell.isHeroEnabled = true
+        cell.chartTableView.heroID = "chartTableView\(indexPath.item)"
+        
         return cell
     }
     
@@ -89,6 +92,7 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
             let vc = ChartViewController()
             vc.range = range[indexPath.item]
             vc.text = text[indexPath.item]
+            vc.mainView.chartTableView.heroID = "chartTableView\(indexPath.item)"
             delegate.selectedCVCell(indexPath.item, vc: vc)
         }
     }

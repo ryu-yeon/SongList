@@ -64,7 +64,7 @@ class ListTableViewCell: BaseTableViewCell {
         listCollectionView.delegate = self
         listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.reusableIdentifier)
         [listLabel, myListButton, recommandListButton, listCollectionView].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
         
         myListButton.addTarget(self, action: #selector(myListButtonClicked), for: .touchUpInside)

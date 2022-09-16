@@ -28,7 +28,7 @@ class BannerTableViewCell: BaseTableViewCell {
     
     override func configureUI() {
         [bannerLabel, bannerButton].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
     }
     
