@@ -39,7 +39,7 @@ class ChartTableViewCell: BaseTableViewCell {
     
     let text = ["일간", "주간", "월간"]
     
-    let range = ["daily", "weekly", "mouthly"]
+    let range = ["daily", "weekly", "monthly"]
     
     var chartList: [Song] = []
     
@@ -80,7 +80,7 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.reusableIdentifier, for: indexPath) as? ChartCollectionViewCell else { return UICollectionViewCell() }
         
         cell.chartLabel.text = text[indexPath.item]
-        cell.text = range[indexPath.row]
+        cell.requestChart(range: range[indexPath.item])
         return cell
     }
     
@@ -90,4 +90,6 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
             delegate.selectedCVCell(indexPath.item, vc: vc)
         }
     }
+    
+
 }

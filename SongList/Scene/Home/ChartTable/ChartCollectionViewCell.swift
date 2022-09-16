@@ -28,18 +28,20 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         return view
     }()
     
+    func requestChart(range: String) {
+        ChartAPIManager.shared.requestChart(limit: 3, range: range) { chartList in
+            self.chartList = chartList
+            self.chartTableView.reloadData()
+        }
+    }
+    
     override func configureUI() {
         self.backgroundColor = .systemYellow
         self.layer.cornerRadius = 20
         [chartLabel, chartTableView].forEach {
             self.addSubview($0)
         }
-        
-        ChartAPIManager.shared.requestChart(limit: 3, range: text) { chartList in
-            self.chartList = chartList
-            self.chartTableView.reloadData()
-        }
-        
+
         chartTableView.delegate = self
         chartTableView.dataSource = self
         chartTableView.register(RankTableViewCell.self, forCellReuseIdentifier: RankTableViewCell.reusableIdentifier)
