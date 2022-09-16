@@ -7,18 +7,11 @@
 
 import UIKit
 
-import Kingfisher
+import Hero
 
 class SearchViewController: BaseViewController {
     
     private let mainView = SearchView()
-    
-    var searchText: String = ""
-    
-    var songList: [Song] = []
-    
-    var albumList: [String] = []
-    
     
     override func loadView() {
         self.view = mainView
@@ -27,44 +20,43 @@ class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mainView.searchContainer.isHeroEnabled = true
+        mainView.searchContainer.heroID = "searchContainer"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+
     override func configure() {
         
-        mainView.usertextField.text = searchText
         mainView.searchTableView.delegate = self
         mainView.searchTableView.dataSource = self
         mainView.searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
+        
+        mainView.xButton.addTarget(self, action: #selector(xButtonClicked), for: .touchUpInside)
+        
+        mainView.searchContainer.userTextField.becomeFirstResponder()
+    }
+    
+    @objc func xButtonClicked() {
+        dismiss(animated: true)
     }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
-        cell.titleLabel.text = songList[indexPath.row].title
-        cell.artistLabel.text = songList[indexPath.row].artist
-        cell.numberLabel.text = songList[indexPath.row].number
-        
-        
-        let url = URL(string: albumList[indexPath.row])
-        cell.albumImageView.kf.setImage(with: url)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 70
     }
-    
 }

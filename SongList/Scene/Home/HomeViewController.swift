@@ -20,7 +20,7 @@ class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
         navigationController?.isHeroEnabled = true
     }
     
@@ -38,6 +38,18 @@ class HomeViewController: BaseViewController {
         mainView.tableView.register(BannerTableViewCell.self, forCellReuseIdentifier: BannerTableViewCell.reusableIdentifier)
         
         mainView.settingButton.addTarget(self, action: #selector(settingButtonClicked), for: .touchUpInside)
+        mainView.searchContainerButton.addTarget(self, action: #selector(searchContainerButtonClicked), for: .touchUpInside)
+        
+        mainView.searchContainer.heroID = "searchContainer"
+    }
+    
+    @objc func searchContainerButtonClicked() {
+        print(#function)
+        let vc = SearchViewController()
+        vc.isHeroEnabled = true
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .fade
+        present(vc, animated: true)
     }
     
     @objc func settingButtonClicked() {

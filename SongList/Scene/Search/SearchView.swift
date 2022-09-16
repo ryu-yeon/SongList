@@ -11,55 +11,63 @@ import SnapKit
 
 class SearchView: BaseView {
     
-    let usertextField: UITextField = {
-        let view = UITextField()
-        view.borderStyle = .line
-        view.backgroundColor = .white
-        view.placeholder = "노래 제목, 가수이름을 입력해주세요"
+    let xButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .lightGray
         return view
     }()
     
-    let searchButton: UIButton = {
-        let view = UIButton()
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
-        view.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+    let searchContainer: SearchContainerView = {
+        let view = SearchContainerView()
+        return view
+    }()
+    
+    let segmentControl: UISegmentedControl = {
+        let view = UISegmentedControl(items: ["TJ", "금영"])
         return view
     }()
     
     let searchTableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = .blue
+        view.separatorStyle = .singleLine
+        view.backgroundColor = .clear
         return view
     }()
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [usertextField, searchButton, searchTableView].forEach {
+        [searchContainer, segmentControl, searchTableView, xButton].forEach {
             self.addSubview($0)
         }
     }
     
     override func setContraints() {
-        usertextField.snp.makeConstraints { make in
-            make.top.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.height.equalTo(48)
+               
+        searchContainer.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.leading.equalTo(20)
+            make.trailing.equalTo(-20)
+            make.height.equalTo(80)
         }
         
-        searchButton.snp.makeConstraints { make in
-            make.top.equalTo(usertextField.snp.top)
-            make.leading.equalTo(usertextField.snp.trailing)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
-            make.width.height.equalTo(48)
+        xButton.snp.makeConstraints { make in
+            make.top.equalTo(searchContainer.snp.top)
+            make.trailing.equalTo(-20)
+            make.width.height.equalTo(25)
         }
         
+        segmentControl.snp.makeConstraints { make in
+            make.top.equalTo(searchContainer.snp.bottom).offset(20)
+            make.centerX.equalTo(self)
+            make.width.equalTo(160)
+            make.height.equalTo(40)
+        }
+
         searchTableView.snp.makeConstraints { make in
-            make.top.equalTo(usertextField.snp.bottom).offset(20)
-            make.leading.equalTo(usertextField.snp.leading)
-            make.trailing.equalTo(searchButton.snp.trailing)
-            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.top.equalTo(segmentControl.snp.bottom).offset(20)
+            make.leading.equalTo(searchContainer.snp.leading)
+            make.trailing.equalTo(searchContainer.snp.trailing)
+            make.bottom.equalTo(self.safeAreaLayoutGuide)
         }
-        
     }
 }
