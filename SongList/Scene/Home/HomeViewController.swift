@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Hero
+
 class HomeViewController: BaseViewController {
     
     private let mainView = HomeView()
@@ -19,6 +21,12 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.isHeroEnabled = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func configure() {
@@ -55,9 +63,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0: guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reusableIdentifier) as? ListTableViewCell else { return UITableViewCell() }
             
+            cell.delegate = self
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChartTableViewCell.reusableIdentifier) as? ChartTableViewCell  else { return UITableViewCell() }
+            
+            cell.delegate = self
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BannerTableViewCell.reusableIdentifier) as? BannerTableViewCell else { return UITableViewCell()}
@@ -75,4 +86,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         default: return 20 + 24 + 120 + 16
         }
     }
+}
+
+extension HomeViewController: CVCellDelegate {
+    func selectedCVCell(_ index: Int, vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
 }

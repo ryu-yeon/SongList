@@ -11,10 +11,12 @@ import SnapKit
 
 class ChartTableViewCell: BaseTableViewCell {
     
+    var delegate: CVCellDelegate?
+    
     let chartLabel: UILabel = {
         let view = UILabel()
         view.text = "인기 차트"
-        view.font = .boldSystemFont(ofSize: 20)
+        view.font = .boldSystemFont(ofSize: 24)
         view.textColor = .black
         return view
     }()
@@ -24,7 +26,7 @@ class ChartTableViewCell: BaseTableViewCell {
         let spacing: CGFloat = 16
         let width = UIScreen.main.bounds.width - spacing * 2 - 16
         
-        layout.itemSize = CGSize(width: width, height: 210)
+        layout.itemSize = CGSize(width: width, height: 260)
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
@@ -34,6 +36,12 @@ class ChartTableViewCell: BaseTableViewCell {
         view.backgroundColor = .systemBackground
         return view
     }()
+    
+    let text = ["일간", "주간", "월간"]
+    
+    let range = ["daily", "weekly", "mouthly"]
+    
+    var chartList: [Song] = []
     
     override func configureUI() {
         [chartLabel, chartCollectionView].forEach {
@@ -56,7 +64,7 @@ class ChartTableViewCell: BaseTableViewCell {
             make.top.equalTo(chartLabel.snp.bottom).offset(16)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(210)
+            make.height.equalTo(260)
         }
     }
 }
@@ -67,9 +75,19 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.reusableIdentifier, for: indexPath) as? ChartCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.chartLabel.text = text[indexPath.item]
+        cell.text = range[indexPath.row]
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let delegate = delegate {
+            let vc = ChartViewController()
+            delegate.selectedCVCell(indexPath.item, vc: vc)
+        }
+    }
 }

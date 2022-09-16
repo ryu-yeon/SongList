@@ -8,8 +8,15 @@
 import UIKit
 
 import SnapKit
+import Hero
+
+protocol CVCellDelegate {
+    func selectedCVCell(_ index: Int, vc: UIViewController)
+}
 
 class ListTableViewCell: BaseTableViewCell {
+    
+    var delegate: CVCellDelegate?
     
     let listLabel: UILabel = {
         let view = UILabel()
@@ -52,6 +59,8 @@ class ListTableViewCell: BaseTableViewCell {
     }()
     
     override func configureUI() {
+        listCollectionView.allowsSelection = true
+        
         listCollectionView.dataSource = self
         listCollectionView.delegate = self
         listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.reusableIdentifier)
@@ -99,10 +108,20 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reusableIdentifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
+        cell.isHeroEnabled = true
+        cell.heroID = "\(indexPath.item)"
         
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let delegate = delegate {
+            let vc = ListViewController()
+            vc.mainView.listImage.heroID = "\(indexPath.item)"
+            delegate.selectedCVCell(indexPath.item, vc: vc)
+        }
+    }
+    
 }
 
 
