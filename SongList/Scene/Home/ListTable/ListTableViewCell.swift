@@ -30,7 +30,7 @@ class ListTableViewCell: BaseTableViewCell {
         let view = UIButton()
         view.setTitle("마이", for: .normal)
         view.layer.cornerRadius = 8
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .black
         return view
     }()
     
@@ -59,7 +59,6 @@ class ListTableViewCell: BaseTableViewCell {
     }()
     
     override func configureUI() {
-        listCollectionView.allowsSelection = true
         
         listCollectionView.dataSource = self
         listCollectionView.delegate = self
@@ -67,6 +66,21 @@ class ListTableViewCell: BaseTableViewCell {
         [listLabel, myListButton, recommandListButton, listCollectionView].forEach {
             self.addSubview($0)
         }
+        
+        myListButton.addTarget(self, action: #selector(myListButtonClicked), for: .touchUpInside)
+        recommandListButton.addTarget(self, action: #selector(recommandListButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func myListButtonClicked() {
+        print(#function)
+        myListButton.backgroundColor = .black
+        recommandListButton.backgroundColor = .lightGray
+    }
+    
+    @objc func recommandListButtonClicked() {
+        print(#function)
+        myListButton.backgroundColor = .lightGray
+        recommandListButton.backgroundColor = .black
     }
     
     override func setConstraints() {
