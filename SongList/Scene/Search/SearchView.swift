@@ -44,7 +44,6 @@ class SearchView: BaseView {
     override func setContraints() {
         usertextField.snp.makeConstraints { make in
             make.top.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
             make.height.equalTo(48)
         }
         
