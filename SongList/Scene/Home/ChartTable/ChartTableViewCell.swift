@@ -87,6 +87,8 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let delegate = delegate {
             let vc = ChartViewController()
+            vc.range = range[indexPath.item]
+            vc.text = text[indexPath.item]
             delegate.selectedCVCell(indexPath.item, vc: vc)
         }
     }
