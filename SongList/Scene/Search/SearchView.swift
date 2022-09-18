@@ -27,6 +27,7 @@ class SearchView: BaseView {
     
     let segmentControl: UISegmentedControl = {
         let view = UISegmentedControl(items: ["TJ", "금영"])
+        view.selectedSegmentIndex = 0
         return view
     }()
     
