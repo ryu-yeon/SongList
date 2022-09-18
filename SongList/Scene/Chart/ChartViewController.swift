@@ -26,7 +26,7 @@ class ChartViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ChartAPIManager.shared.requestChart(limit: 100, range: range ?? "") { charList in
+        KaraokeAPIManager.shared.requestChart(limit: 100, range: range ?? "") { charList in
             self.chartList = charList
             
             self.mainView.chartTableView.reloadData()

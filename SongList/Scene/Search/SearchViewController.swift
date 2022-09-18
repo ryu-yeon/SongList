@@ -80,7 +80,7 @@ class SearchViewController: BaseViewController {
     
     @objc func searchTextEditing() {
      
-        SearchAPIManager.shared.requestSong(text: mainView.searchContainer.userTextField.text ?? "", type: type, brand: brand) { songList in
+        KaraokeAPIManager.shared.requestSearch(text: mainView.searchContainer.userTextField.text ?? "", type: type, brand: brand) { songList in
             self.searchList = songList
             self.mainView.searchTableView.reloadData()
         }

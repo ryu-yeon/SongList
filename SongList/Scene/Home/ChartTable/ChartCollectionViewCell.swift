@@ -29,7 +29,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     }()
     
     func requestChart(range: String) {
-        ChartAPIManager.shared.requestChart(limit: 3, range: range) { chartList in
+        KaraokeAPIManager.shared.requestChart(limit: 3, range: range) { chartList in
             self.chartList = chartList
             self.chartTableView.reloadData()
         }
