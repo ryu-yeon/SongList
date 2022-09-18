@@ -11,24 +11,47 @@ import SnapKit
 
 class DetailView: BaseView {
     
+    let backgroundImageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     let albumImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "star.fill")
         view.backgroundColor = .yellow
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    let brandLabel: UILabel = {
+        let view = UILabel()
+        view.text = "TJ"
+        view.font = .boldSystemFont(ofSize: 24)
         return view
     }()
     
     let titleLabel: UILabel = {
         let view = UILabel()
         view.text = "그라데이션"
-        view.font = .boldSystemFont(ofSize: 24)
+        view.font = .boldSystemFont(ofSize: 36)
         return view
     }()
     
     let artistLabel: UILabel = {
         let view = UILabel()
         view.text = "10CM"
-        view.font = .systemFont(ofSize: 20)
+        view.font = .systemFont(ofSize: 24)
+        return view
+    }()
+    
+    let numberLabel: UILabel = {
+        let view = UILabel()
+        view.text = "123123"
+        view.font = .boldSystemFont(ofSize: 28)
         return view
     }()
     
@@ -50,13 +73,6 @@ class DetailView: BaseView {
         let view = UILabel()
         view.text = "2022-01-01"
         view.font = .systemFont(ofSize: 18)
-        return view
-    }()
-    
-    let numberLabel: UILabel = {
-        let view = UILabel()
-        view.text = "123123"
-        view.font = .boldSystemFont(ofSize: 28)
         return view
     }()
     
@@ -94,6 +110,13 @@ class DetailView: BaseView {
         return view
     }()
     
+    let recommandLabel: UILabel = {
+        let view = UILabel()
+        view.text = "같은 가수 노래"
+        view.font = .boldSystemFont(ofSize: 24)
+        return view
+    }()
+    
     let recommandTableView: UITableView = {
         let view = UITableView()
         view.backgroundColor = .darkGray
@@ -102,29 +125,42 @@ class DetailView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [albumImageView, titleLabel, artistLabel, composerLabel, lyricistLabel, releaseLabel, numberLabel, youtubeButton, lyricsButton, addButton, likeButton, recommandTableView].forEach {
+        [backgroundImageView, albumImageView, brandLabel, titleLabel, artistLabel, composerLabel, lyricistLabel, releaseLabel, numberLabel, youtubeButton, lyricsButton, addButton, likeButton, recommandLabel, recommandTableView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setContraints() {
         
+        backgroundImageView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.leading.trailing.equalTo(self)
+            make.height.equalTo(self).multipliedBy(0.15)
+        }
+        
         albumImageView.snp.makeConstraints { make in
-            make.top.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.width.equalTo(self).multipliedBy(0.4)
+            make.top.equalTo(backgroundImageView.snp.centerY)
+            make.centerX.equalTo(self)
+            make.width.equalTo(self).multipliedBy(0.32)
             make.height.equalTo(albumImageView.snp.width)
         }
         
+        brandLabel.snp.makeConstraints { make in
+            make.top.equalTo(backgroundImageView.snp.bottom).offset(24)
+            make.leading.equalTo(self).offset(20)
+            make.height.equalTo(28)
+        }
+        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(albumImageView.snp.top)
-            make.leading.equalTo(albumImageView.snp.trailing).offset(16)
+            make.top.equalTo(brandLabel.snp.bottom).offset(16)
+            make.leading.equalTo(brandLabel.snp.leading)
             make.trailing.equalTo(self).offset(-20)
         }
         
         artistLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
         }
         
         composerLabel.snp.makeConstraints { make in
@@ -134,54 +170,58 @@ class DetailView: BaseView {
         }
         
         lyricistLabel.snp.makeConstraints { make in
-            make.top.equalTo(composerLabel.snp.bottom).offset(8)
+            make.top.equalTo(composerLabel.snp.bottom).offset(4)
             make.leading.equalTo(titleLabel.snp.leading)
             make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
         releaseLabel.snp.makeConstraints { make in
-            make.top.equalTo(lyricistLabel.snp.bottom).offset(8)
+            make.top.equalTo(lyricistLabel.snp.bottom).offset(4)
             make.leading.equalTo(titleLabel.snp.leading)
             make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
         numberLabel.snp.makeConstraints { make in
-            make.top.equalTo(albumImageView.snp.bottom).offset(20)
-            make.leading.equalTo(albumImageView.snp.leading)
-            make.trailing.equalTo(albumImageView.snp.trailing)
-            make.height.equalTo(40)
+            make.top.equalTo(artistLabel.snp.top)
+            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.height.equalTo(36)
         }
         
         likeButton.snp.makeConstraints { make in
-            make.top.equalTo(numberLabel.snp.top)
-            make.leading.equalTo(titleLabel.snp.leading)
+            make.bottom.equalTo(releaseLabel.snp.bottom)
+            make.trailing.equalTo(addButton.snp.leading).offset(-16)
             make.width.height.equalTo(40)
         }
         
         addButton.snp.makeConstraints { make in
-            make.top.equalTo(numberLabel.snp.top)
-            make.leading.equalTo(likeButton.snp.trailing).offset(20)
+            make.bottom.equalTo(likeButton.snp.bottom)
+            make.trailing.equalTo(titleLabel.snp.trailing)
             make.width.height.equalTo(40)
         }
         
         youtubeButton.snp.makeConstraints { make in
-            make.top.equalTo(numberLabel.snp.bottom).offset(20)
-            make.leading.equalTo(albumImageView.snp.leading)
+            make.top.equalTo(releaseLabel.snp.bottom).offset(20)
+            make.leading.equalTo(titleLabel.snp.leading).offset(16)
             make.width.equalTo(self).multipliedBy(0.4)
             make.height.equalTo(50)
         }
         
         lyricsButton.snp.makeConstraints { make in
             make.top.equalTo(youtubeButton.snp.top)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.trailing.equalTo(titleLabel.snp.trailing).offset(-16)
             make.width.equalTo(self).multipliedBy(0.4)
             make.height.equalTo(50)
         }
         
-        recommandTableView.snp.makeConstraints { make in
+        recommandLabel.snp.makeConstraints { make in
             make.top.equalTo(youtubeButton.snp.bottom).offset(20)
-            make.leading.equalTo(albumImageView.snp.leading)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.height.equalTo(24)
+        }
+        
+        recommandTableView.snp.makeConstraints { make in
+            make.top.equalTo(recommandLabel.snp.bottom).offset(8)
+            make.leading.trailing.equalTo(self)
             make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
         }
     }
