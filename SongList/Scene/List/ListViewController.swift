@@ -13,7 +13,7 @@ class ListViewController: BaseViewController {
     
     let mainView = ListView()
     
-    var number: Int?
+    var list: List?
     
     override func loadView() {
         self.view = mainView
@@ -33,6 +33,7 @@ class ListViewController: BaseViewController {
         mainView.listTableView.dataSource = self
         
         mainView.listImage.isHeroEnabled = true
+        mainView.listImage.backgroundColor = list?.color
     }
 }
 

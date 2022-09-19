@@ -18,6 +18,8 @@ class ListTableViewCell: BaseTableViewCell {
     
     var delegate: CVCellDelegate?
     
+    var list: [List] = [List(title: "좋아요", color: .blue, songs: []), List(title: "그냥", color: .systemPink, songs: [])]
+    
     let listLabel: UILabel = {
         let view = UILabel()
         view.text = "노래 리스트"
@@ -116,23 +118,35 @@ class ListTableViewCell: BaseTableViewCell {
 
 extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return list.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reusableIdentifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
-        cell.isHeroEnabled = true
-        cell.heroID = "\(indexPath.item)"
         
+        if indexPath.item < list.count {
+            cell.isHeroEnabled = true
+            cell.heroID = "\(indexPath.item)"
+            cell.backgroundColor = list[indexPath.item].color
+        } else {
+            cell.backgroundColor = .lightGray
+        }
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let delegate = delegate {
-            let vc = ListViewController()
-            vc.mainView.listImage.heroID = "\(indexPath.item)"
-            delegate.selectedCVCell(indexPath.item, vc: vc)
+            if indexPath.item < list.count {
+                let vc = ListViewController()
+                vc.mainView.listImage.heroID = "\(indexPath.item)"
+                vc.list = list[indexPath.item]
+                delegate.selectedCVCell(indexPath.item, vc: vc)
+                
+            } else {
+                let vc = AddListViewController()
+                delegate.selectedCVCell(indexPath.item, vc: vc)
+            }
         }
     }
     
