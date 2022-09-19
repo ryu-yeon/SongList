@@ -119,7 +119,7 @@ class DetailView: BaseView {
     
     let recommandTableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .clear
         return view
     }()
     
