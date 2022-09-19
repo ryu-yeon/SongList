@@ -64,6 +64,12 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        vc.song = chartList[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
