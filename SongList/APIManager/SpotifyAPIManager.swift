@@ -17,7 +17,7 @@ class SpotifyAPIManager {
     func callToken(complietionHandler: @escaping (String) -> Void) {
         
         var token = ""
-        let parameters = ["client_id" : APIKey.spotifySecret,
+        let parameters = ["client_id" : APIKey.spotifyID,
                           "client_secret" : APIKey.spotifySecret,
                           "grant_type" : "client_credentials"]
         AF.request("https://accounts.spotify.com/api/token", method: .post, parameters: parameters).responseJSON(completionHandler: {
