@@ -83,6 +83,7 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
         cell.requestChart(range: range[indexPath.item])
         cell.isHeroEnabled = true
         cell.chartTableView.heroID = "chartTableView\(indexPath.item)"
+        cell.delegate = delegate
         
         return cell
     }

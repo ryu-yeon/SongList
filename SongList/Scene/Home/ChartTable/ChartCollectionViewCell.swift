@@ -13,6 +13,8 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     
     var text = ""
     
+    var delegate: CVCellDelegate?
+    
     var chartList: [Song] = []
     
     let chartLabel: UILabel = {
@@ -75,11 +77,20 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
         cell.view.titleLabel.text = chartList[indexPath.row].title
         cell.view.artistLabel.text = chartList[indexPath.row].artist
         cell.view.numberLabel.text = chartList[indexPath.row].number
+
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let delegate = delegate {
+            let vc = DetailViewController()
+            vc.song = chartList[indexPath.row]
+            delegate.selectedCVCell(indexPath.item, vc: vc)
+        }
     }
 }
