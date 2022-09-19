@@ -7,6 +7,8 @@
 
 import UIKit
 
+import Kingfisher
+
 class DetailViewController: BaseViewController {
     
     private let mainView = DetailView()
@@ -14,6 +16,8 @@ class DetailViewController: BaseViewController {
     var song: Song?
     
     var songList: [Song] = []
+    
+    var albumCover: String?
     
     override func loadView() {
         self.view = mainView
@@ -34,6 +38,14 @@ class DetailViewController: BaseViewController {
             self.songList = songList
             
             self.mainView.recommandTableView.reloadData()
+        }
+        
+        SpotifyAPIManager.shared.callToken { token in
+            SpotifyAPIManager.shared.requestSong(token: token, song: self.song?.title ?? "", singer: self.song?.artist ?? "") { albumCover in
+                
+                let url = URL(string: albumCover)
+                self.mainView.albumImageView.kf.setImage(with: url)
+            }
         }
         
         mainView.titleLabel.text = song?.title
