@@ -19,10 +19,9 @@ class DetailView: BaseView {
     
     let albumImageView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(systemName: "star.fill")
-        view.backgroundColor = .yellow
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
+        view.image = UIImage(systemName: "music.note")
+        view.backgroundColor = .white
+        view.clipsToBounds = true
         view.layer.cornerRadius = 10
         return view
     }()

@@ -43,8 +43,11 @@ class DetailViewController: BaseViewController {
         SpotifyAPIManager.shared.callToken { token in
             SpotifyAPIManager.shared.requestSong(token: token, song: self.song?.title ?? "", singer: self.song?.artist ?? "") { albumCover in
                 
-                let url = URL(string: albumCover)
-                self.mainView.albumImageView.kf.setImage(with: url)
+                if albumCover != "" {
+                    let url = URL(string: albumCover)
+                    self.mainView.albumImageView.kf.setImage(with: url)
+                    
+                }
             }
         }
         
