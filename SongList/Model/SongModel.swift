@@ -8,7 +8,7 @@
 import Foundation
 
 struct Song {
-//    let brand: String
+    let brand: String
 //    let alubmImage: String?
     let number: String
     let title: String

@@ -32,8 +32,9 @@ class KaraokeAPIManager {
                     let composer = song["composer"].stringValue
                     let lyricist = song["lyricist"].stringValue
                     let release = song["release"].stringValue
+                    let brand = song["brand"].stringValue
                     
-                    let data = Song(number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
+                    let data = Song(brand: brand, number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
                     chart.append(data)
                     if i == limit {
                         break
@@ -62,14 +63,16 @@ class KaraokeAPIManager {
                 var list: [Song] = []
                 
                 for song in json.arrayValue {
+                    
                     let number = song["no"].stringValue
                     let title = song["title"].stringValue
                     let artist = song["singer"].stringValue
                     let composer = song["composer"].stringValue
                     let lyricist = song["lyricist"].stringValue
                     let release = song["release"].stringValue
+                    let brand = song["brand"].stringValue
                     
-                    let data = Song(number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
+                    let data = Song(brand: brand, number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
                     list.append(data)
                 }
                 completionHandler(list)
