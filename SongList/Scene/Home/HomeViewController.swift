@@ -13,7 +13,6 @@ class HomeViewController: BaseViewController {
     
     private let mainView = HomeView()
     
-    
     override func loadView() {
         self.view = mainView
     }
@@ -39,27 +38,48 @@ class HomeViewController: BaseViewController {
         
         mainView.settingButton.addTarget(self, action: #selector(settingButtonClicked), for: .touchUpInside)
         mainView.searchContainerButton.addTarget(self, action: #selector(searchContainerButtonClicked), for: .touchUpInside)
+        mainView.searchContainer.songSearchButton.addTarget(self, action: #selector(songSearchButtonClicked), for: .touchUpInside)
+        mainView.searchContainer.artistSearchButton.addTarget(self, action: #selector(artistSearchButtonClicked), for: .touchUpInside)
         
         mainView.searchContainer.heroID = "searchContainer"
     }
     
+    @objc func songSearchButtonClicked() {
+        let vc =  SearchViewController()
+        vc.type = SearchType.song.rawValue
+        let nav = UINavigationController(rootViewController: vc)
+        nav.isHeroEnabled = true
+        nav.modalPresentationStyle = .fullScreen
+        nav.heroModalAnimationType = .fade
+        present(nav, animated: true)
+    }
+    
+    @objc func artistSearchButtonClicked() {
+        let vc =  SearchViewController()
+        vc.type = SearchType.singer.rawValue
+        let nav = UINavigationController(rootViewController: vc)
+        nav.isHeroEnabled = true
+        nav.modalPresentationStyle = .fullScreen
+        nav.heroModalAnimationType = .fade
+        present(nav, animated: true)
+    }
+    
     @objc func searchContainerButtonClicked() {
-        print(#function)
-        let vc = SearchViewController()
-        vc.isHeroEnabled = true
-        vc.modalPresentationStyle = .fullScreen
-        vc.heroModalAnimationType = .fade
-        present(vc, animated: true)
+        let vc =  SearchViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        vc.type = SearchType.song.rawValue
+        nav.isHeroEnabled = true
+        nav.modalPresentationStyle = .fullScreen
+        nav.heroModalAnimationType = .fade
+        present(nav, animated: true)
     }
     
     @objc func settingButtonClicked() {
-        print(#function)
         let vc = SettingViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func mapButtonClicked() {
-        print(#function)
         let vc = MapViewController()
         navigationController?.pushViewController(vc, animated: true)
     }

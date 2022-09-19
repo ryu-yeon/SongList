@@ -25,7 +25,7 @@ class SearchViewController: BaseViewController {
     
     var searchList: [Song] = []
     
-    var type = SearchType.song.rawValue
+    var type: String?
     
     var brand = BrandType.tj.rawValue
     
@@ -38,11 +38,12 @@ class SearchViewController: BaseViewController {
         
         mainView.searchContainer.isHeroEnabled = true
         mainView.searchContainer.heroID = "searchContainer"
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = false
+        navigationController?.isNavigationBarHidden = true
     }
 
     override func configure() {
@@ -61,15 +62,18 @@ class SearchViewController: BaseViewController {
         mainView.segmentControl.addTarget(self, action: #selector(segmentCotnrolValueChanged), for: .valueChanged)
         
         mainView.searchContainer.userTextField.becomeFirstResponder()
+        buttonClicked()
     }
     
     @objc func songSearchButtonClicked() {
         type = SearchType.song.rawValue
+        buttonClicked()
         searchTextEditing()
     }
     
     @objc func artistSearchButtonClicked() {
         type = SearchType.singer.rawValue
+        buttonClicked()
         searchTextEditing()
     }
     
@@ -80,9 +84,19 @@ class SearchViewController: BaseViewController {
     
     @objc func searchTextEditing() {
      
-        KaraokeAPIManager.shared.requestSearch(text: mainView.searchContainer.userTextField.text ?? "", type: type, brand: brand) { songList in
+        KaraokeAPIManager.shared.requestSearch(text: mainView.searchContainer.userTextField.text ?? "", type: type ?? "song", brand: brand) { songList in
             self.searchList = songList
             self.mainView.searchTableView.reloadData()
+        }
+    }
+    
+    func buttonClicked() {
+        if type == SearchType.song.rawValue {
+            self.mainView.searchContainer.songSearchButton.backgroundColor = .red
+            self.mainView.searchContainer.artistSearchButton.backgroundColor = .lightGray
+        } else {
+            self.mainView.searchContainer.songSearchButton.backgroundColor = .lightGray
+            self.mainView.searchContainer.artistSearchButton.backgroundColor = .red
         }
     }
     
@@ -108,7 +122,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
         vc.song = searchList[indexPath.row]
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
