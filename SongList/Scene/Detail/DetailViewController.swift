@@ -67,7 +67,7 @@ class DetailViewController: BaseViewController {
         let vc = WebViewController()
         let title = song?.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let artist = song?.artist.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        vc.url = "https://m.youtube.com/results?sp=mAEA&search_query=\(title)+\(artist)"
+        vc.url = "https://m.youtube.com/results?sp=mAEA&search_query=\(artist)+\(title)"
         
         present(vc, animated: true)
     }
