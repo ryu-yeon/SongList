@@ -113,7 +113,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         switch indexPath.row {
-        case 0: return 24 + 16 + (UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20
+        case 0: return 24 + 16 + (UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20 + 20
         case 1: return 20 + 24 + 260 + 16
         default: return 20 + 24 + 120 + 16
         }

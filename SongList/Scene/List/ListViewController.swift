@@ -13,7 +13,7 @@ class ListViewController: BaseViewController {
     
     let mainView = ListView()
     
-    var list: List?
+    var list: SongList?
     
     override func loadView() {
         self.view = mainView

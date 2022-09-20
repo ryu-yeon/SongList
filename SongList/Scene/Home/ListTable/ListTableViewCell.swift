@@ -18,7 +18,7 @@ class ListTableViewCell: BaseTableViewCell {
     
     var delegate: CVCellDelegate?
     
-    var list: [List] = [List(title: "좋아요", color: .blue, songs: []), List(title: "그냥", color: .systemPink, songs: [])]
+    var list: [SongList] = [SongList(title: "좋아요", color: .blue, songs: []), SongList(title: "그냥", color: .systemPink, songs: [])]
     
     let listLabel: UILabel = {
         let view = UILabel()
@@ -49,7 +49,7 @@ class ListTableViewCell: BaseTableViewCell {
         let spacing: CGFloat = 16
         let width = UIScreen.main.bounds.width - 22 - spacing * 2
         
-        layout.itemSize = CGSize(width: width / 2.5, height: width / 2.5)
+        layout.itemSize = CGSize(width: width / 2.5, height: width / 2.5 + 20)
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
@@ -111,7 +111,7 @@ class ListTableViewCell: BaseTableViewCell {
             make.top.equalTo(listLabel.snp.bottom).offset(16)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo((UIScreen.main.bounds.width - 22 - 32) / 2.5)
+            make.height.equalTo((UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20)
         }
     }
 }
@@ -128,9 +128,12 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         if indexPath.item < list.count {
             cell.isHeroEnabled = true
             cell.heroID = "\(indexPath.item)"
-            cell.backgroundColor = list[indexPath.item].color
+            cell.listImageView.backgroundColor = list[indexPath.item].color
+            cell.listTitleLabel.text = list[indexPath.row].title
         } else {
-            cell.backgroundColor = .lightGray
+            cell.listImageView.image = UIImage(systemName: "plus")
+            cell.listImageView.backgroundColor = .lightGray
+            cell.listTitleLabel.text = "리스트 추가"
         }
         return cell
     }
@@ -145,6 +148,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
                 
             } else {
                 let vc = AddListViewController()
+                vc.listCount = list.count
                 delegate.selectedCVCell(indexPath.item, vc: vc)
             }
         }
