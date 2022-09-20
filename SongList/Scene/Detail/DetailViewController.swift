@@ -59,8 +59,16 @@ class DetailViewController: BaseViewController {
         mainView.releaseLabel.text = song?.release
         mainView.brandLabel.text = song?.brand
         
+        mainView.addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
+        
         mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
         mainView.lyricsButton.addTarget(self, action: #selector(lyricsButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func addButtonClicked() {
+        let vc = AddSongViewController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
     
     @objc func youtubeButtonClicked() {
