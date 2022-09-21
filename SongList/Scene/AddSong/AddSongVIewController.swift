@@ -8,10 +8,16 @@
 import UIKit
 
 import PanModal
+import RealmSwift
+import SwiftyJSON
 
 class AddSongViewController: BaseViewController {
     
     private let mainView = AddSongView()
+    
+    let localRealm = try! Realm()
+    
+    var tasks: Results<ListRealm>!
     
     override func loadView() {
         self.view = mainView
@@ -23,20 +29,16 @@ class AddSongViewController: BaseViewController {
         
         mainView.listTableView.delegate = self
         mainView.listTableView.dataSource = self
+        mainView.listTableView.register(AddSongTalbeViewCell.self, forCellReuseIdentifier: AddSongTalbeViewCell.reusableIdentifier)
         
-        mainView.xButton.addTarget(self, action: #selector(xButtonClicked), for: .touchUpInside)
         mainView.createListButton.addTarget(self, action: #selector(createListButtonClicked), for: .touchUpInside)
     }
     
     override func configure() {
         
-        
+        tasks = localRealm.objects(ListRealm.self)
     }
-    
-    @objc func xButtonClicked() {
-        dismiss(animated: true)
-    }
-    
+
     @objc func createListButtonClicked() {
         
     }
@@ -44,12 +46,15 @@ class AddSongViewController: BaseViewController {
 
 extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "아무노래"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: AddSongTalbeViewCell.reusableIdentifier, for: indexPath) as? AddSongTalbeViewCell else { return UITableViewCell() }
+        
+        cell.titleLabel.text = tasks[indexPath.row].title
+        cell.listImageView.backgroundColor = UIColor(hexFromString: tasks[indexPath.row].color)
+        cell.countLabel.text = "\(tasks[indexPath.row].songs.count)곡"
         return cell
     }
     
@@ -57,6 +62,10 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         dismiss(animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
 }
 

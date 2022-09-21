@@ -18,12 +18,6 @@ class AddSongView: BaseView {
         return view
     }()
     
-    let xButton: UIButton = {
-        let view  = UIButton()
-        view.setImage(UIImage(systemName: "xmark"), for: .normal)
-        return view
-    }()
-    
     let listTableView: UITableView = {
         let view = UITableView()
         view.separatorStyle = .none
@@ -39,7 +33,7 @@ class AddSongView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [textLabel, xButton, listTableView, createListButton].forEach {
+        [textLabel, listTableView, createListButton].forEach {
             self.addSubview($0)
         }
     }
@@ -48,14 +42,8 @@ class AddSongView: BaseView {
         
         textLabel.snp.makeConstraints { make in
             make.top.leading.equalTo(self).offset(20)
-            make.trailing.equalTo(xButton.snp.leading).inset(16)
+            make.trailing.equalTo(self).inset(16)
             make.height.equalTo(32)
-        }
-        
-        xButton.snp.makeConstraints { make in
-            make.top.equalTo(textLabel.snp.top)
-            make.trailing.equalTo(self).inset(20)
-            make.width.height.equalTo(textLabel.snp.height)
         }
         
         listTableView.snp.makeConstraints { make in
@@ -66,7 +54,7 @@ class AddSongView: BaseView {
         
         createListButton.snp.makeConstraints { make in
             make.bottom.equalTo(self).inset(20)
-            make.trailing.equalTo(xButton.snp.trailing)
+            make.trailing.equalTo(textLabel.snp.trailing)
             make.width.equalTo(120)
             make.height.equalTo(40)
         }
