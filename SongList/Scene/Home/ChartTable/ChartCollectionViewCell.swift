@@ -18,8 +18,6 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     
     var chartList: [Song] = []
     
-    var albumCoverList = ["", "", ""]
-    
     let chartLabel: UILabel = {
         let view = UILabel()
         view.font = .boldSystemFont(ofSize: 20)
@@ -39,10 +37,9 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
             SpotifyAPIManager.shared.callToken { token in
                 for i in 0..<chartList.count {
                     SpotifyAPIManager.shared.requestSong(token: token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
-                        self.albumCoverList[i] = albumCover
+                        self.chartList[i].alubmImage = albumCover
                         DispatchQueue.main.async {
                             self.chartTableView.reloadData()
-                            print(self.albumCoverList)
                         }
                     }
                 }
@@ -92,9 +89,8 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
         cell.artistLabel.text = chartList[indexPath.row].artist
         cell.numberLabel.text = chartList[indexPath.row].number
         
-        let url = URL(string: albumCoverList[indexPath.row])
+        let url = URL(string: chartList[indexPath.row].alubmImage)
         cell.albumImageView.kf.setImage(with: url)
-        
         
         return cell
     }

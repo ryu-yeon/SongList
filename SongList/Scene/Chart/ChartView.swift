@@ -53,7 +53,7 @@ class ChartView: BaseView {
         
         chartTableView.snp.makeConstraints { make in
             make.top.equalTo(segmentControl.snp.bottom).offset(20)
-            make.leading.trailing.equalTo(self)
+            make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide)
         }
     }

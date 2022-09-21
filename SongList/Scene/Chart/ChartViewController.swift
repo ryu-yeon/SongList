@@ -19,6 +19,8 @@ class ChartViewController: BaseViewController {
     
     var chartList: [Song] = []
     
+//    var albumCoverList = Array(repeating: "", count: 100)
+    
     override func loadView() {
         self.view = mainView
     }
@@ -26,12 +28,25 @@ class ChartViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        KaraokeAPIManager.shared.requestChart(limit: 100, range: range ?? "") { charList in
-            self.chartList = charList
-            
-            self.mainView.chartTableView.reloadData()
-        }
+//        KaraokeAPIManager.shared.requestChart(limit: 100, range: range ?? "") { charList in
+//            self.chartList = charList
+//
+//            self.mainView.chartTableView.reloadData()
+        //        }
         
+        KaraokeAPIManager.shared.requestChart(limit: 100, range: range ?? "") { chartList in
+            self.chartList = chartList
+            SpotifyAPIManager.shared.callToken { token in
+                for i in 0..<chartList.count {
+                    SpotifyAPIManager.shared.requestSong(token: token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
+                        self.chartList[i].alubmImage = albumCover
+                        DispatchQueue.main.async {
+                            self.mainView.chartTableView.reloadData()
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,9 +73,12 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RankTableViewCell.reusableIdentifier, for: indexPath) as? RankTableViewCell else { return UITableViewCell() }
         
         cell.rankLabel.text = "\(indexPath.row + 1)"
-        cell.view.titleLabel.text = chartList[indexPath.row].title
-        cell.view.artistLabel.text = chartList[indexPath.row].artist
-        cell.view.numberLabel.text = chartList[indexPath.row].number
+        cell.titleLabel.text = chartList[indexPath.row].title
+        cell.artistLabel.text = chartList[indexPath.row].artist
+        cell.numberLabel.text = chartList[indexPath.row].number
+        
+        let url = URL(string: chartList[indexPath.row].alubmImage)
+        cell.albumImageView.kf.setImage(with: url)
         
         return cell
     }
