@@ -32,9 +32,11 @@ class AddListViewController: BaseViewController {
     }
     
     override func configure() {
+        tasks = localRealm.objects(ListRealm.self)
+        
         mainView.okButton.addTarget(self, action: #selector(okButtonClicked), for: .touchUpInside)
         mainView.colorButton.addTarget(self, action: #selector(colorButtonClicked), for: .touchUpInside)
-        mainView.titleTextField.placeholder = "내 리스트 #\(listCount ?? 0)"
+        mainView.titleTextField.placeholder = "내 리스트 #\(tasks.count + 1)"
     }
     
     @objc func colorButtonClicked() {
@@ -49,7 +51,7 @@ class AddListViewController: BaseViewController {
         if let title = mainView.titleTextField.text , title != "" {
             ListRepository().saveList(title: title, color: colorString)
         } else {
-            ListRepository().saveList(title: "내 리스트 #\(listCount ?? 0)", color: colorString)
+            ListRepository().saveList(title: "내 리스트 #\(tasks.count + 1)", color: colorString)
         }
         tasks = localRealm.objects(ListRealm.self)
         vc.task = tasks.last
