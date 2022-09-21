@@ -17,9 +17,9 @@ class SongRealm: Object {
     @Persisted var composer: String
     @Persisted var lyricist: String
     @Persisted var release: String
-    @Persisted var albumImage: String?
+    @Persisted var albumImage: String
     
-    convenience init(brand: String, number: String, title: String, artist: String, composer: String, lyricist: String, release: String, albumImage: String?) {
+    convenience init(brand: String, number: String, title: String, artist: String, composer: String, lyricist: String, release: String, albumImage: String) {
         self.init()
         self.brand = brand
         self.number = number
