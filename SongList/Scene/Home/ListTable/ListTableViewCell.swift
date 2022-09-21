@@ -7,8 +7,9 @@
 
 import UIKit
 
-import SnapKit
 import Hero
+import RealmSwift
+import SnapKit
 
 protocol CVCellDelegate {
     func selectedCVCell(_ index: Int, vc: UIViewController)
@@ -18,7 +19,9 @@ class ListTableViewCell: BaseTableViewCell {
     
     var delegate: CVCellDelegate?
     
-    var list: [SongList] = [SongList(title: "좋아요", color: .blue, songs: []), SongList(title: "그냥", color: .systemPink, songs: [])]
+    let localRealm = try! Realm()
+    
+    var tasks: Results<ListRealm>!
     
     let listLabel: UILabel = {
         let view = UILabel()
@@ -61,6 +64,8 @@ class ListTableViewCell: BaseTableViewCell {
     }()
     
     override func configureUI() {
+        
+        tasks = localRealm.objects(ListRealm.self)
         
         listCollectionView.dataSource = self
         listCollectionView.delegate = self
@@ -118,42 +123,48 @@ class ListTableViewCell: BaseTableViewCell {
 
 extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return list.count + 1
+        return (tasks?.count ?? 0) + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reusableIdentifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
         
-        if indexPath.item < list.count {
+        if indexPath.item < tasks?.count ?? 0 {
             cell.isHeroEnabled = true
-            cell.heroID = "\(indexPath.item)"
-            cell.listImageView.backgroundColor = list[indexPath.item].color
-            cell.listTitleLabel.text = list[indexPath.row].title
+            cell.heroID = "listImageView\(indexPath.item)"
+            cell.listImageView.backgroundColor =
+            UIColor(hexFromString: tasks[indexPath.item].color)
+            cell.listTitleLabel.text = tasks[indexPath.row].title
         } else {
+            cell.isHeroEnabled = true
+            cell.heroID = "listImageView\(indexPath.item)"
             cell.listImageView.image = UIImage(systemName: "plus")
-            cell.listImageView.backgroundColor = .lightGray
+            cell.listImageView.backgroundColor = .white
+            cell.tintColor = .black
+            cell.listImageView.layer.borderColor = UIColor.darkGray.cgColor
+            cell.listImageView.layer.borderWidth = 1
             cell.listTitleLabel.text = "리스트 추가"
         }
         return cell
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let delegate = delegate {
-            if indexPath.item < list.count {
+            if indexPath.item < tasks?.count ?? 0 {
                 let vc = ListViewController()
-                vc.mainView.listImage.heroID = "\(indexPath.item)"
-                vc.list = list[indexPath.item]
+                vc.mainView.listImage.heroID = "listImageView\(indexPath.item)"
+                vc.task = self.tasks?[indexPath.item]
                 delegate.selectedCVCell(indexPath.item, vc: vc)
                 
             } else {
                 let vc = AddListViewController()
-                vc.listCount = list.count
+                vc.mainView.colorButton.heroID = "listImageView\(indexPath.item)"
                 delegate.selectedCVCell(indexPath.item, vc: vc)
             }
         }
     }
-    
 }
 
 

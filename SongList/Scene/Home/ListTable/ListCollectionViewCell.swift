@@ -25,13 +25,21 @@ class ListCollectionViewCell: BaseCollectionViewCell {
         return view
     }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        listImageView.image = nil
+        listImageView.layer.borderWidth = 0
+    }
+    
     override func configureUI() {
+        
         [listTitleLabel, listImageView].forEach {
             contentView.addSubview($0)
         }
     }
     
     override func setConstraints() {
+        
         listImageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(self)
             make.height.equalTo(listImageView.snp.width)

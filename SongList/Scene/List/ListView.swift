@@ -14,7 +14,14 @@ class ListView: BaseView {
     let listImage: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    let listTitleLabel: UILabel = {
+        let view = UILabel()
+        view.font = .boldSystemFont(ofSize: 20)
         return view
     }()
     
@@ -25,7 +32,7 @@ class ListView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [listImage, listTableView].forEach {
+        [listImage, listTitleLabel, listTableView].forEach {
             self.addSubview($0)
         }
     }
@@ -38,9 +45,16 @@ class ListView: BaseView {
             make.height.equalTo(listImage.snp.width)
         }
         
-        listTableView.snp.makeConstraints { make in
+        listTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(listImage.snp.bottom).offset(20)
-            make.bottom.leading.trailing.equalTo(self)
+            make.leading.equalTo(36)
+            make.height.equalTo(24)
+        }
+        
+        listTableView.snp.makeConstraints { make in
+            make.top.equalTo(listTitleLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(self).inset(20)
+            make.bottom.equalTo(self)
         }
     }
 }

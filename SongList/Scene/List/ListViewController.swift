@@ -8,12 +8,15 @@
 import UIKit
 
 import Hero
+import RealmSwift
 
 class ListViewController: BaseViewController {
     
     let mainView = ListView()
     
-    var list: SongList?
+    let localRealm = try! Realm()
+    
+    var task: ListRealm!
     
     override func loadView() {
         self.view = mainView
@@ -31,19 +34,25 @@ class ListViewController: BaseViewController {
         
         mainView.listTableView.delegate = self
         mainView.listTableView.dataSource = self
+        mainView.listTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
         mainView.listImage.isHeroEnabled = true
-        mainView.listImage.backgroundColor = list?.color
+        mainView.listTitleLabel.text = task.title
+        mainView.listImage.backgroundColor = UIColor(hexFromString: task.color)
     }
 }
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return task.songs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+        
+        cell.songView.titleLabel.text = task.songs[indexPath.row].title
+        cell.songView.artistLabel.text = task.songs[indexPath.row].artist
+        cell.songView.numberLabel.text = task.songs[indexPath.row].number
         
         return cell
     }
