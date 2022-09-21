@@ -42,7 +42,8 @@ class AddSongViewController: BaseViewController {
     }
 
     @objc func createListButtonClicked() {
-        
+        let vc = AddListViewController()
+        present(vc, animated: true)
     }
 }
 
