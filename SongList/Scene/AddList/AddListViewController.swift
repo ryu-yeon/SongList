@@ -46,7 +46,6 @@ class AddListViewController: BaseViewController {
     }
     
     @objc func okButtonClicked() {
-        let vc = ListViewController()
 
         if let title = mainView.titleTextField.text , title != "" {
             ListRepository().saveList(title: title, color: colorString)
