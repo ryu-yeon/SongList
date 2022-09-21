@@ -7,6 +7,8 @@
 
 import UIKit
 
+import PanModal
+
 class AddSongViewController: BaseViewController {
     
     private let mainView = AddSongView()
@@ -27,6 +29,8 @@ class AddSongViewController: BaseViewController {
     }
     
     override func configure() {
+        
+        
     }
     
     @objc func xButtonClicked() {
@@ -40,7 +44,7 @@ class AddSongViewController: BaseViewController {
 
 extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 12
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -54,4 +58,19 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
         
         dismiss(animated: true)
     }
+}
+
+extension AddSongViewController: PanModalPresentable {
+    
+    var panScrollable: UIScrollView? {
+        return mainView.listTableView
+    }
+    
+    var shortFormHeight: PanModalHeight {
+        return .contentHeight(UIScreen.main.bounds.height / 2)
+    }
+    
+    var longFormHeight: PanModalHeight {
+        return .contentHeight(UIScreen.main.bounds.height / 2)
+    }    
 }

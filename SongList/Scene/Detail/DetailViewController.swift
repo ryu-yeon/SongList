@@ -8,6 +8,7 @@
 import UIKit
 
 import Kingfisher
+import PanModal
 
 class DetailViewController: BaseViewController {
     
@@ -67,8 +68,7 @@ class DetailViewController: BaseViewController {
     
     @objc func addButtonClicked() {
         let vc = AddSongViewController()
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true)
+        self.presentPanModal(vc)
     }
     
     @objc func youtubeButtonClicked() {
