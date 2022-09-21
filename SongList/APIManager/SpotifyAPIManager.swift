@@ -50,7 +50,6 @@ class SpotifyAPIManager {
                     if artist == singer {
                         let albumImage = song["album"]["images"][0]["url"].stringValue
                         albumCover = albumImage
-                        print(albumImage)
                         break
                     }
                 }
@@ -58,7 +57,6 @@ class SpotifyAPIManager {
                 completionHandler(albumCover)
             case .failure(let error):
                 print(error)
-                completionHandler("")
             }
         }
     }
