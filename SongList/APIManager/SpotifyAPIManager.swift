@@ -43,7 +43,7 @@ class SpotifyAPIManager {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                var albumCover = "https://cdn-icons-png.flaticon.com/512/2424/2424869.png"
+                var albumCover = "https://cdn-icons-png.flaticon.com/512/4505/4505303.png"
                 for song in json["tracks"]["items"].arrayValue {
                     let artist = song["artists"][0]["name"].stringValue
                     //                            print(artist)
