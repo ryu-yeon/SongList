@@ -9,6 +9,7 @@ import UIKit
 
 import Hero
 import RealmSwift
+import Kingfisher
 
 class ListViewController: BaseViewController {
     
@@ -53,6 +54,9 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.songView.titleLabel.text = task.songs[indexPath.row].title
         cell.songView.artistLabel.text = task.songs[indexPath.row].artist
         cell.songView.numberLabel.text = task.songs[indexPath.row].number
+        
+        let url = URL(string: task.songs[indexPath.row].albumImage)
+        cell.songView.albumImage.kf.setImage(with: url)
         
         return cell
     }

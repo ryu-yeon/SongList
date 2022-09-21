@@ -15,6 +15,8 @@ class AddSongViewController: BaseViewController {
     
     private let mainView = AddSongView()
     
+    var song: Song!
+    
     let localRealm = try! Realm()
     
     var tasks: Results<ListRealm>!
@@ -60,6 +62,9 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        try! localRealm.write {
+            tasks[indexPath.row].songs.append(SongRealm(brand: song.brand, number: song.number, title: song.title, artist: song.artist, composer: song.composer, lyricist: song.lyricist, release: song.release, albumImage: song.alubmImage))
+        }
         
         dismiss(animated: true)
     }
