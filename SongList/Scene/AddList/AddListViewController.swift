@@ -53,9 +53,12 @@ class AddListViewController: BaseViewController {
         } else {
             ListRepository().saveList(title: "내 리스트 #\(tasks.count + 1)", color: colorString)
         }
-        tasks = localRealm.objects(ListRealm.self)
-        vc.task = tasks.last
-        navigationController?.pushViewController(vc, animated: true)
+        
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        let nav = UINavigationController(rootViewController: HomeViewController())
+        sceneDelegate?.window?.rootViewController = nav
+        sceneDelegate?.window?.makeKeyAndVisible()
     }
 }
 
