@@ -36,7 +36,7 @@ class SongView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .clear
-        [albumImage, titleLabel, artistLabel, numberLabel].forEach {
+        [albumImage, titleLabel, numberLabel, artistLabel].forEach {
             self.addSubview($0)
         }
     }
@@ -55,6 +55,7 @@ class SongView: BaseView {
         
         artistLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.leading)
+            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
             make.bottom.equalTo(albumImage.snp.bottom)
         }
         
