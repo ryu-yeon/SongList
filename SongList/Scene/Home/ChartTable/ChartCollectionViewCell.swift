@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 
 class ChartCollectionViewCell: BaseCollectionViewCell {
@@ -16,6 +17,8 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     var delegate: CVCellDelegate?
     
     var chartList: [Song] = []
+    
+    var albumCoverList = ["", "", ""]
     
     let chartLabel: UILabel = {
         let view = UILabel()
@@ -33,7 +36,17 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     func requestChart(range: String) {
         KaraokeAPIManager.shared.requestChart(limit: 3, range: range) { chartList in
             self.chartList = chartList
-            self.chartTableView.reloadData()
+            SpotifyAPIManager.shared.callToken { token in
+                for i in 0..<chartList.count {
+                    SpotifyAPIManager.shared.requestSong(token: token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
+                        self.albumCoverList[i] = albumCover
+                        DispatchQueue.main.async {
+                            self.chartTableView.reloadData()
+                            print(self.albumCoverList)
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -43,7 +56,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         [chartLabel, chartTableView].forEach {
             self.addSubview($0)
         }
-
+        
         chartTableView.delegate = self
         chartTableView.dataSource = self
         chartTableView.register(RankTableViewCell.self, forCellReuseIdentifier: RankTableViewCell.reusableIdentifier)
@@ -66,6 +79,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     }
 }
 
+
 extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chartList.count
@@ -74,10 +88,13 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RankTableViewCell.reusableIdentifier, for: indexPath) as? RankTableViewCell else { return UITableViewCell() }
         cell.rankLabel.text = "\(indexPath.row + 1)"
-        cell.view.titleLabel.text = chartList[indexPath.row].title
-        cell.view.artistLabel.text = chartList[indexPath.row].artist
-        cell.view.numberLabel.text = chartList[indexPath.row].number
-
+        cell.titleLabel.text = chartList[indexPath.row].title
+        cell.artistLabel.text = chartList[indexPath.row].artist
+        cell.numberLabel.text = chartList[indexPath.row].number
+        
+        let url = URL(string: albumCoverList[indexPath.row])
+        cell.albumImageView.kf.setImage(with: url)
+        
         
         return cell
     }
