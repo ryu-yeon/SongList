@@ -34,7 +34,7 @@ class KaraokeAPIManager {
                     let release = song["release"].stringValue
                     let brand = song["brand"].stringValue
                     
-                    let data = Song(brand: brand, number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
+                    let data = Song(brand: brand, alubmImage: "", number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
                     chart.append(data)
                     if i == limit {
                         break
@@ -72,7 +72,7 @@ class KaraokeAPIManager {
                     let release = song["release"].stringValue
                     let brand = song["brand"].stringValue
                     
-                    let data = Song(brand: brand, number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
+                    let data = Song(brand: brand, alubmImage: "", number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
                     list.append(data)
                 }
                 completionHandler(list)
