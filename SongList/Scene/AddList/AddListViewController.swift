@@ -15,7 +15,9 @@ class AddListViewController: BaseViewController {
     
     var listCount: Int?
     
-    var colorString = ""
+    var colorString: String?
+    
+    var listTitle: String?
     
     let localRealm = try! Realm()
     
@@ -46,12 +48,8 @@ class AddListViewController: BaseViewController {
     }
     
     @objc func okButtonClicked() {
-
-        if let title = mainView.titleTextField.text , title != "" {
-            ListRepository().saveList(title: title, color: colorString)
-        } else {
-            ListRepository().saveList(title: "내 리스트 #\(tasks.count + 1)", color: colorString)
-        }
+        
+        ListRepository().saveList(title: listTitle ?? "내 리스트 #\(tasks.count + 1)", color: colorString ?? "#D3D3D3")
         
         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         let sceneDelegate = windowScene?.delegate as? SceneDelegate
