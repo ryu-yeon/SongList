@@ -92,6 +92,34 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         vc.song = song
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let removeButton = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
+            
+            let alert = UIAlertController(title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert)
+            
+            let ok = UIAlertAction(title: "확인", style: .destructive) { alert in
+                
+                try! self.localRealm.write {
+                    self.localRealm.delete(self.task.songs[indexPath.row])
+                }
+                
+                self.mainView.listTableView.reloadData()
+            }
+            
+            let cancel = UIAlertAction(title: "취소", style: .default)
+            
+            [ok, cancel].forEach {
+                alert.addAction($0)
+            }
+            self.present(alert, animated: true)
+        }
+        
+        removeButton.image = UIImage(systemName: "trash.fill")
+        removeButton.backgroundColor = .systemRed
+        return UISwipeActionsConfiguration(actions: [removeButton])
+    }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
