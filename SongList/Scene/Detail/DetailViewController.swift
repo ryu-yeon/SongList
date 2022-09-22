@@ -67,7 +67,7 @@ class DetailViewController: BaseViewController {
         let vc = WebViewController()
         let title = song?.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let artist = song?.artist.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        vc.url = "https://m.youtube.com/results?sp=mAEA&search_query=\(artist)+\(title)"
+        vc.url = EndPoint.youtubeURL + "\(artist)+\(title)"
         present(vc, animated: true)
     }
     
@@ -76,7 +76,7 @@ class DetailViewController: BaseViewController {
         let title = song?.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let artist = song?.artist.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let lyrics = "가사".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        vc.url = "https://m.search.naver.com/search.naver?sm=mtp_hty.top&where=m&query=\(artist)+\(title)+\(lyrics)"
+        vc.url = EndPoint.lyricsNaverSearch + "\(artist)+\(title)+\(lyrics)"
         present(vc, animated: true)
     }
 }
