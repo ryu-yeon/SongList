@@ -14,7 +14,7 @@ class AddSongView: BaseView {
     let textLabel: UILabel = {
         let view = UILabel()
         view.text = "리스트에 노래 추가"
-        view.font = .systemFont(ofSize: 28)
+        view.font = .boldSystemFont(ofSize: 28)
         return view
     }()
     
@@ -41,7 +41,8 @@ class AddSongView: BaseView {
     override func setContraints() {
         
         textLabel.snp.makeConstraints { make in
-            make.top.leading.equalTo(self).offset(20)
+            make.top.equalTo(self).offset(40)
+            make.leading.equalTo(self).offset(20)
             make.trailing.equalTo(self).inset(16)
             make.height.equalTo(32)
         }

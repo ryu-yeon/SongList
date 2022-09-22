@@ -13,7 +13,7 @@ import Toast
 
 class AddSongViewController: BaseViewController {
     
-    private let mainView = AddSongView()
+    let mainView = AddSongView()
     
     var song: Song!
     
@@ -86,10 +86,10 @@ extension AddSongViewController: PanModalPresentable {
     }
     
     var shortFormHeight: PanModalHeight {
-        return .contentHeight(UIScreen.main.bounds.height / 2)
+        return .contentHeight(320)
     }
     
     var longFormHeight: PanModalHeight {
-        return .contentHeight(UIScreen.main.bounds.height / 2)
+        return .contentHeight(320)
     }    
 }
