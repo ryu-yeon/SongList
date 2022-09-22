@@ -10,6 +10,7 @@ import UIKit
 import Hero
 import RealmSwift
 import Kingfisher
+import Toast
 
 class ListViewController: BaseViewController {
     
@@ -45,7 +46,8 @@ class ListViewController: BaseViewController {
     }
     
     @objc func removeButtonClicked() {
-        let alert = UIAlertController(title: nil, message: "\(task.title) 를(을) 삭제하시겠습니까?", preferredStyle: .alert)
+        let title = task.title
+        let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
         
         let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
             try! self.localRealm.write {
@@ -58,6 +60,7 @@ class ListViewController: BaseViewController {
             sceneDelegate?.window?.rootViewController = nav
             sceneDelegate?.window?.makeKeyAndVisible()
     
+            nav.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
         }
         
         let cancel = UIAlertAction(title: "취소", style: .cancel)
@@ -97,20 +100,24 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         
         let removeButton = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
             
-            let alert = UIAlertController(title: "삭제", message: "정말 삭제하시겠습니까?", preferredStyle: .alert)
+            let title = self.task.songs[indexPath.row].title
             
-            let ok = UIAlertAction(title: "확인", style: .destructive) { alert in
+            let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
+            
+            let remove = UIAlertAction(title: "삭제", style: .destructive) { alert in
+                
                 
                 try! self.localRealm.write {
                     self.localRealm.delete(self.task.songs[indexPath.row])
                 }
                 
                 self.mainView.listTableView.reloadData()
+                self.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
             }
             
             let cancel = UIAlertAction(title: "취소", style: .default)
             
-            [ok, cancel].forEach {
+            [cancel, remove].forEach {
                 alert.addAction($0)
             }
             self.present(alert, animated: true)
