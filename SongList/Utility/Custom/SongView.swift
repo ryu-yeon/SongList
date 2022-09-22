@@ -13,6 +13,7 @@ class SongView: BaseView {
     let albumImage: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 8
+        view.clipsToBounds = true
         return view
     }()
     
