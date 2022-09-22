@@ -9,7 +9,7 @@ import Foundation
 
 struct Song {
     let brand: String
-    var alubmImage: String
+    var albumImage: String
     let number: String
     let title: String
     let artist: String
