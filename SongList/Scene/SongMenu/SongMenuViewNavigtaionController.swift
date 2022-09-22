@@ -87,6 +87,7 @@ class SongMenuViewController: BaseViewController {
     
     @objc func addListButtonClicked() {
         let vc = AddSongViewController()
+        vc.song = self.song
         navigationController?.pushViewController(vc, animated: true)
     }
 }
