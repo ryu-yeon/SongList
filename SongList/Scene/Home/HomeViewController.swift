@@ -8,6 +8,7 @@
 import UIKit
 
 import Hero
+import PanModal
 
 class HomeViewController: BaseViewController {
     
@@ -125,5 +126,11 @@ extension HomeViewController: CVCellDelegate {
     func selectedCVCell(_ index: Int, vc: UIViewController) {
         navigationController?.pushViewController(vc, animated: true)
     }
+}
 
+extension HomeViewController: TVCellDelegate {
+    func selectedTVCell(_ index: Int, vc: SongMenuViewNavigtaionController) {
+        vc.nav.pvc = self.navigationController
+        self.presentPanModal(vc)
+    }
 }

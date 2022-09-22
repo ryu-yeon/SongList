@@ -8,6 +8,7 @@
 import UIKit
 
 import Hero
+import PanModal
 
 class ChartViewController: BaseViewController {
     
@@ -19,8 +20,6 @@ class ChartViewController: BaseViewController {
     
     var chartList: [Song] = []
     
-//    var albumCoverList = Array(repeating: "", count: 100)
-    
     override func loadView() {
         self.view = mainView
     }
@@ -28,18 +27,12 @@ class ChartViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        KaraokeAPIManager.shared.requestChart(limit: 100, range: range ?? "") { charList in
-//            self.chartList = charList
-//
-//            self.mainView.chartTableView.reloadData()
-        //        }
-        
         KaraokeAPIManager.shared.requestChart(limit: 100, range: range ?? "") { chartList in
             self.chartList = chartList
             SpotifyAPIManager.shared.callToken { token in
                 for i in 0..<chartList.count {
                     SpotifyAPIManager.shared.requestSong(token: token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
-                        self.chartList[i].alubmImage = albumCover
+                        self.chartList[i].albumImage = albumCover
                         DispatchQueue.main.async {
                             self.mainView.chartTableView.reloadData()
                         }
@@ -47,10 +40,6 @@ class ChartViewController: BaseViewController {
                 }
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = false
     }
     
     override func configure() {
@@ -77,16 +66,17 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
         cell.artistLabel.text = chartList[indexPath.row].artist
         cell.numberLabel.text = chartList[indexPath.row].number
         
-        let url = URL(string: chartList[indexPath.row].alubmImage)
+        let url = URL(string: chartList[indexPath.row].albumImage)
         cell.albumImageView.kf.setImage(with: url)
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.song = chartList[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+        let vc = SongMenuViewNavigtaionController()
+        vc.nav.song = chartList[indexPath.row]
+        vc.nav.pvc = self.navigationController
+        self.presentPanModal(vc)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

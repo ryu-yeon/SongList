@@ -10,11 +10,15 @@ import UIKit
 import Kingfisher
 import SnapKit
 
+protocol TVCellDelegate {
+    func selectedTVCell(_ index: Int, vc: SongMenuViewNavigtaionController)
+}
+
 class ChartCollectionViewCell: BaseCollectionViewCell {
     
     var text = ""
     
-    var delegate: CVCellDelegate?
+    var delegate: TVCellDelegate?
     
     var chartList: [Song] = []
     
@@ -37,7 +41,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
             SpotifyAPIManager.shared.callToken { token in
                 for i in 0..<chartList.count {
                     SpotifyAPIManager.shared.requestSong(token: token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
-                        self.chartList[i].alubmImage = albumCover
+                        self.chartList[i].albumImage = albumCover
                         DispatchQueue.main.async {
                             self.chartTableView.reloadData()
                         }
@@ -89,7 +93,7 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
         cell.artistLabel.text = chartList[indexPath.row].artist
         cell.numberLabel.text = chartList[indexPath.row].number
         
-        let url = URL(string: chartList[indexPath.row].alubmImage)
+        let url = URL(string: chartList[indexPath.row].albumImage)
         cell.albumImageView.kf.setImage(with: url)
         
         return cell
@@ -101,9 +105,9 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let delegate = delegate {
-            let vc = DetailViewController()
-            vc.song = chartList[indexPath.row]
-            delegate.selectedCVCell(indexPath.item, vc: vc)
+            let vc = SongMenuViewNavigtaionController()
+            vc.nav.song = chartList[indexPath.row]
+            delegate.selectedTVCell(indexPath.row, vc: vc)
         }
     }
 }
