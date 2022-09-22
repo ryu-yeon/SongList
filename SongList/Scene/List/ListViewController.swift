@@ -40,6 +40,31 @@ class ListViewController: BaseViewController {
         mainView.listImage.isHeroEnabled = true
         mainView.listTitleLabel.text = task.title
         mainView.listImage.backgroundColor = UIColor(hexFromString: task.color)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(removeButtonClicked))
+    }
+    
+    @objc func removeButtonClicked() {
+        let alert = UIAlertController(title: nil, message: "\(task.title) 를(을) 삭제하시겠습니까?", preferredStyle: .alert)
+        
+        let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            try! self.localRealm.write {
+                self.localRealm.delete(self.task)
+            }
+            
+            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            let sceneDelegate = windowScene?.delegate as? SceneDelegate
+            let nav = UINavigationController(rootViewController: HomeViewController())
+            sceneDelegate?.window?.rootViewController = nav
+            sceneDelegate?.window?.makeKeyAndVisible()
+    
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(cancel)
+        alert.addAction(remove)
+        present(alert, animated: true)
     }
 }
 
@@ -59,6 +84,13 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.songView.albumImage.kf.setImage(with: url)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        let song = Song(brand: task.songs[indexPath.row].brand, albumImage: task.songs[indexPath.row].albumImage, number: task.songs[indexPath.row].number, title: task.songs[indexPath.row].title, artist: task.songs[indexPath.row].artist, composer: task.songs[indexPath.row].composer, lyricist: task.songs[indexPath.row].lyricist, release: task.songs[indexPath.row].release)
+        vc.song = song
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
