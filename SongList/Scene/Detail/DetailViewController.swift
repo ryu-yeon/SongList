@@ -12,9 +12,9 @@ import PanModal
 
 class DetailViewController: BaseViewController {
     
-    private let mainView = DetailView()
+    let mainView = DetailView()
     
-    var song: Song?
+    var song: Song!
     
     var songList: [Song] = []
     
@@ -41,24 +41,15 @@ class DetailViewController: BaseViewController {
             self.mainView.recommandTableView.reloadData()
         }
         
-        SpotifyAPIManager.shared.callToken { token in
-            SpotifyAPIManager.shared.requestSong(token: token, song: self.song?.title ?? "", singer: self.song?.artist ?? "") { albumCover in
-                
-                if albumCover != "" {
-                    let url = URL(string: albumCover)
-                    self.mainView.albumImageView.kf.setImage(with: url)
-                    
-                }
-            }
-        }
-        
-        mainView.titleLabel.text = song?.title
-        mainView.artistLabel.text = song?.artist
-        mainView.numberLabel.text = song?.number
-        mainView.composerLabel.text = song?.composer
-        mainView.lyricistLabel.text = song?.lyricist
-        mainView.releaseLabel.text = song?.release
-        mainView.brandLabel.text = song?.brand
+        mainView.titleLabel.text = song.title
+        mainView.artistLabel.text = song.artist
+        mainView.numberLabel.text = song.number
+        mainView.composerLabel.text = song.composer
+        mainView.lyricistLabel.text = song.lyricist
+        mainView.releaseLabel.text = song.release
+        mainView.brandLabel.text = song.brand
+        let url = URL(string: song.albumImage)
+        mainView.albumImageView.kf.setImage(with: url)
         
         mainView.addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         
