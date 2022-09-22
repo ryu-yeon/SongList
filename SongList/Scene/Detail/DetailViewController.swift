@@ -96,6 +96,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = SongMenuViewNavigtaionController()
+        vc.nav.song = songList[indexPath.row]
+        vc.nav.pvc = self.navigationController
+        self.presentPanModal(vc)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
