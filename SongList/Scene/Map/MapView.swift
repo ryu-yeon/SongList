@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import NMapsMap
 
 class MapView: BaseView {
     
@@ -16,9 +17,20 @@ class MapView: BaseView {
         return view
     }()
     
+    let mapView: NMFMapView = {
+        let view = NMFMapView()
+        return view
+    }()
+    
+    let mapUIView: NMFNaverMapView = {
+        let view = NMFNaverMapView()
+        view.showLocationButton = true
+        return view
+    }()
+    
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [segmentControl].forEach {
+        [segmentControl, mapView, mapUIView].forEach {
             self.addSubview($0)
         }
     }
@@ -27,6 +39,15 @@ class MapView: BaseView {
         segmentControl.snp.makeConstraints { make in
             make.top.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.height.equalTo(40)
+        }
+        
+        mapView.snp.makeConstraints { make in
+            make.top.equalTo(segmentControl.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
+        }
+        
+        mapUIView.snp.makeConstraints { make in
+            make.top.trailing.leading.bottom.equalTo(mapView).inset(0)
         }
     }
 }
