@@ -20,6 +20,8 @@ class ListViewController: BaseViewController {
     
     var task: ListRealm!
     
+    var songList: DataList!
+    
     override func loadView() {
         self.view = mainView
     }
@@ -39,6 +41,12 @@ class ListViewController: BaseViewController {
         mainView.listTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
         mainView.listImage.isHeroEnabled = true
+        
+        guard let task = task else {
+            mainView.listTitleLabel.text = songList?.title
+            
+            return
+        }
         mainView.listTitleLabel.text = task.title
         mainView.listImage.backgroundColor = UIColor(hexFromString: task.color)
         
@@ -73,12 +81,22 @@ class ListViewController: BaseViewController {
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return task.songs.count
+        if let task = task {
+            return task.songs.count
+        } else {
+            return songList.songs.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
+        guard let task = task else {
+            cell.songView.titleLabel.text = songList.songs[indexPath.row].title
+            cell.songView.artistLabel.text = songList.songs[indexPath.row].artist
+            cell.songView.numberLabel.text = songList.songs[indexPath.row].number
+            return cell
+        }
         cell.songView.titleLabel.text = task.songs[indexPath.row].title
         cell.songView.artistLabel.text = task.songs[indexPath.row].artist
         cell.songView.numberLabel.text = task.songs[indexPath.row].number
@@ -91,12 +109,21 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
+        
+        guard let task = task else {
+            vc.song = songList.songs[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        
         let song = Song(brand: task.songs[indexPath.row].brand, albumImage: task.songs[indexPath.row].albumImage, number: task.songs[indexPath.row].number, title: task.songs[indexPath.row].title, artist: task.songs[indexPath.row].artist, composer: task.songs[indexPath.row].composer, lyricist: task.songs[indexPath.row].lyricist, release: task.songs[indexPath.row].release)
         vc.song = song
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        guard self.task != nil else { return nil}
         
         let removeButton = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
             

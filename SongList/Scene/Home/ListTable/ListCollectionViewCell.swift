@@ -22,6 +22,7 @@ class ListCollectionViewCell: BaseCollectionViewCell {
     var listImageView: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 24
+        view.clipsToBounds = true
         return view
     }()
     

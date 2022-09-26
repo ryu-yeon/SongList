@@ -10,6 +10,7 @@ import UIKit
 import Hero
 import RealmSwift
 import SnapKit
+import Kingfisher
 
 enum ListType {
     case my
@@ -29,6 +30,8 @@ class ListTableViewCell: BaseTableViewCell {
     var tasks: Results<ListRealm>!
     
     var listType = ListType.my
+    
+    let data = Data().data
     
     let listLabel: UILabel = {
         let view = UILabel()
@@ -86,7 +89,6 @@ class ListTableViewCell: BaseTableViewCell {
     }
     
     @objc func myListButtonClicked() {
-        print(#function)
         listType = ListType.my
         listCollectionView.reloadData()
         myListButton.backgroundColor = .black
@@ -94,7 +96,6 @@ class ListTableViewCell: BaseTableViewCell {
     }
     
     @objc func recommandListButtonClicked() {
-        print(#function)
         listType = ListType.recommand
         listCollectionView.reloadData()
         myListButton.backgroundColor = .lightGray
@@ -138,7 +139,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         if listType == ListType.my {
             return tasks.count + 1
         } else {
-            return 3
+            return data.count
         }
     }
     
@@ -165,8 +166,9 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
                 cell.listTitleLabel.text = "리스트 추가"
             }
         } else {
-            cell.listImageView.backgroundColor = .blue
-            cell.listTitleLabel.text = "듀엣곡"
+            let url = URL(string: data[indexPath.row].image)
+            cell.listImageView.kf.setImage(with: url)
+            cell.listTitleLabel.text = data[indexPath.row].title
         }
         return cell
     }
@@ -191,6 +193,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             if let delegate = delegate {
                 let vc = ListViewController()
                 vc.mainView.listImage.heroID = "listImageView\(indexPath.item)"
+                vc.songList = data[indexPath.item]
                 delegate.selectedCVCell(indexPath.item, vc: vc)
                 
             }
