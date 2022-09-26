@@ -40,14 +40,14 @@ class SongMenuView: BaseView {
     let detailButton: UIButton = {
         let view = UIButton()
         view.setTitle("곡 정보", for: .normal)
-        view.backgroundColor = .green
+        view.backgroundColor = .lightGray
         return view
     }()
     
     let addListButton: UIButton = {
         let view = UIButton()
         view.setTitle("리스트에 추가", for: .normal)
-        view.backgroundColor = .green
+        view.backgroundColor = .lightGray
         return view
     }()
     
