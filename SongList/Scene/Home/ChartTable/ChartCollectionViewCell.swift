@@ -52,7 +52,9 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
     }
     
     override func configureUI() {
-        self.backgroundColor = .systemYellow
+        self.backgroundColor = .white
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 1
         self.layer.cornerRadius = 20
         [chartLabel, chartTableView].forEach {
             self.addSubview($0)
@@ -61,6 +63,7 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         chartTableView.delegate = self
         chartTableView.dataSource = self
         chartTableView.register(RankTableViewCell.self, forCellReuseIdentifier: RankTableViewCell.reusableIdentifier)
+        chartTableView.isScrollEnabled = false
     }
     
     override func setConstraints() {
