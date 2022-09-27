@@ -11,7 +11,7 @@ import SnapKit
 
 class ListView: BaseView {
     
-    let listImage: UIImageView = {
+    var listImage: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .lightGray
         view.layer.cornerRadius = 20
@@ -19,7 +19,7 @@ class ListView: BaseView {
         return view
     }()
     
-    let listTitleLabel: UILabel = {
+    var listTitleLabel: UILabel = {
         let view = UILabel()
         view.font = .boldSystemFont(ofSize: 20)
         return view

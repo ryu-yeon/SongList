@@ -50,32 +50,54 @@ class ListViewController: BaseViewController {
         mainView.listTitleLabel.text = task.title
         mainView.listImage.backgroundColor = UIColor(hexFromString: task.color)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: #selector(removeButtonClicked))
-    }
-    
-    @objc func removeButtonClicked() {
-        let title = task.title
-        let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
-        
-        let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            try! self.localRealm.write {
-                self.localRealm.delete(self.task)
-            }
+        let editTitle = UIAction(title: "제목 수정", image: UIImage(systemName: "pencil")) { _ in
             
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-            let sceneDelegate = windowScene?.delegate as? SceneDelegate
-            let nav = UINavigationController(rootViewController: HomeViewController())
-            sceneDelegate?.window?.rootViewController = nav
-            sceneDelegate?.window?.makeKeyAndVisible()
-    
-            nav.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
+            let alert = UIAlertController(title: nil, message: "수정할 제목을 입력해주세요.", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
+            let ok = UIAlertAction(title: "확인", style: .destructive) { _ in
+                
+                if let newTitle = alert.textFields?[0].text , newTitle != "" {
+                    try! self.localRealm.write {
+                        task.title = newTitle
+                    }
+                    self.mainView.listTitleLabel.text = newTitle
+                    self.view.makeToast("\(newTitle)로 변경되었습니다.", duration: 2.0, position: .bottom)
+                }
+            }
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            alert.addTextField { UITextField in
+                UITextField.placeholder = "수정할 제목을 입력해주세요."
+            }
+            self.present(alert, animated: true)
         }
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let delete = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill")) { _ in
+            let title = task.title
+            let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
+            
+            let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                try! self.localRealm.write {
+                    self.localRealm.delete(self.task)
+                }
+                
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                let sceneDelegate = windowScene?.delegate as? SceneDelegate
+                let nav = UINavigationController(rootViewController: HomeViewController())
+                sceneDelegate?.window?.rootViewController = nav
+                sceneDelegate?.window?.makeKeyAndVisible()
         
-        alert.addAction(cancel)
-        alert.addAction(remove)
-        present(alert, animated: true)
+                nav.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
+            }
+            
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
+            
+            alert.addAction(cancel)
+            alert.addAction(remove)
+            self.present(alert, animated: true)
+        }
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "",                                                             image: UIImage(systemName: "ellipsis.circle"),                                                             primaryAction: nil,                                                             menu: UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [editTitle, delete]))
     }
 }
 
