@@ -45,9 +45,15 @@ class RankTableViewCell: BaseTableViewCell {
         return view
     }()
     
+    let brandLabel: UILabel = {
+        let view = UILabel()
+        view.font = .systemFont(ofSize: 16)
+        return view
+    }()
+    
     override func configureUI() {
         self.backgroundColor = .clear
-        [albumImageView, rankLabel, titleLabel, artistLabel, numberLabel].forEach {
+        [albumImageView, rankLabel, titleLabel, numberLabel, brandLabel, artistLabel].forEach {
             self.addSubview($0)
         }
     }
@@ -75,12 +81,17 @@ class RankTableViewCell: BaseTableViewCell {
         artistLabel.snp.makeConstraints { make in
             make.bottom.equalTo(albumImageView.snp.bottom).offset(-4)
             make.leading.equalTo(rankLabel.snp.trailing)
-            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
+            make.trailing.equalTo(brandLabel.snp.leading).offset(-8)
         }
         
         numberLabel.snp.makeConstraints { make in
             make.bottom.equalTo(artistLabel.snp.bottom)
             make.trailing.equalTo(self)
+        }
+        
+        brandLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(numberLabel.snp.bottom)
+            make.trailing.equalTo(numberLabel.snp.leading).offset(-4)
         }
     }
 }

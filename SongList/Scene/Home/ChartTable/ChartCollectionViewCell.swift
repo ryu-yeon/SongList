@@ -95,6 +95,7 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = chartList[indexPath.row].title
         cell.artistLabel.text = chartList[indexPath.row].artist
         cell.numberLabel.text = chartList[indexPath.row].number
+        cell.brandLabel.text = chartList[indexPath.row].brand
         
         let url = URL(string: chartList[indexPath.row].albumImage)
         cell.albumImageView.kf.setImage(with: url)
