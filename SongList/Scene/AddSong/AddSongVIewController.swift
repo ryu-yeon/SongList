@@ -32,18 +32,11 @@ class AddSongViewController: BaseViewController {
         mainView.listTableView.delegate = self
         mainView.listTableView.dataSource = self
         mainView.listTableView.register(AddSongTalbeViewCell.self, forCellReuseIdentifier: AddSongTalbeViewCell.reusableIdentifier)
-        
-        mainView.createListButton.addTarget(self, action: #selector(createListButtonClicked), for: .touchUpInside)
     }
     
     override func configure() {
         
         tasks = localRealm.objects(ListRealm.self)
-    }
-
-    @objc func createListButtonClicked() {
-        let vc = AddListViewController()
-        present(vc, animated: true)
     }
 }
 

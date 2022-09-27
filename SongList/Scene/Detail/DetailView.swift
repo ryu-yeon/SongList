@@ -101,14 +101,6 @@ class DetailView: BaseView {
         return view
     }()
     
-    let likeButton: UIButton = {
-        let view = UIButton()
-        view.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        view.tintColor = .systemRed
-        view.backgroundColor = .blue
-        return view
-    }()
-    
     let recommandLabel: UILabel = {
         let view = UILabel()
         view.text = "같은 가수 노래"
@@ -124,7 +116,7 @@ class DetailView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [backgroundImageView, albumImageView, brandLabel, titleLabel, artistLabel, composerLabel, lyricistLabel, releaseLabel, numberLabel, youtubeButton, lyricsButton, addButton, likeButton, recommandLabel, recommandTableView].forEach {
+        [backgroundImageView, albumImageView, brandLabel, titleLabel, artistLabel, composerLabel, lyricistLabel, releaseLabel, numberLabel, youtubeButton, lyricsButton, addButton, recommandLabel, recommandTableView].forEach {
             self.addSubview($0)
         }
     }
@@ -186,14 +178,8 @@ class DetailView: BaseView {
             make.height.equalTo(36)
         }
         
-        likeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(releaseLabel.snp.bottom)
-            make.trailing.equalTo(addButton.snp.leading).offset(-16)
-            make.width.height.equalTo(40)
-        }
-        
         addButton.snp.makeConstraints { make in
-            make.bottom.equalTo(likeButton.snp.bottom)
+            make.bottom.equalTo(releaseLabel.snp.bottom)
             make.trailing.equalTo(titleLabel.snp.trailing)
             make.width.height.equalTo(40)
         }

@@ -24,16 +24,9 @@ class AddSongView: BaseView {
         return view
     }()
     
-    let createListButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("새 리스트 생성", for: .normal)
-        view.backgroundColor = .lightGray
-        return view
-    }()
-    
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [textLabel, listTableView, createListButton].forEach {
+        [textLabel, listTableView].forEach {
             self.addSubview($0)
         }
     }
@@ -50,14 +43,7 @@ class AddSongView: BaseView {
         listTableView.snp.makeConstraints { make in
             make.top.equalTo(textLabel.snp.bottom).offset(20)
             make.leading.trailing.equalTo(self)
-            make.bottom.equalTo(createListButton.snp.top).offset(-20)
-        }
-        
-        createListButton.snp.makeConstraints { make in
-            make.bottom.equalTo(self).inset(20)
-            make.trailing.equalTo(textLabel.snp.trailing)
-            make.width.equalTo(120)
-            make.height.equalTo(40)
+            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
         }
     }
 }
