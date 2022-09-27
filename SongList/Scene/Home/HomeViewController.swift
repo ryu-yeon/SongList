@@ -9,6 +9,7 @@ import UIKit
 
 import Hero
 import PanModal
+import SideMenu
 
 class HomeViewController: BaseViewController {
     
@@ -22,6 +23,7 @@ class HomeViewController: BaseViewController {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         navigationController?.isHeroEnabled = true
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,8 +79,11 @@ class HomeViewController: BaseViewController {
     }
     
     @objc func settingButtonClicked() {
-        let vc = SettingViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        
+        let leftMenuNavigationController = SideMenuNavigationController(rootViewController: SettingViewController())
+        SideMenuManager.default.leftMenuNavigationController = leftMenuNavigationController
+        leftMenuNavigationController.leftSide = true
+        present(leftMenuNavigationController, animated: true)
     }
     
     @objc func mapButtonClicked() {
