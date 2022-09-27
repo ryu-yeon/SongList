@@ -55,21 +55,21 @@ class HomeView: BaseView {
     override func setContraints() {
         logoImageView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(8)
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.width.equalTo(self).multipliedBy(0.55)
+            make.centerX.equalTo(self)
+            make.width.equalTo(self).multipliedBy(0.4)
             make.height.equalTo(self).multipliedBy(0.06)
         }
         
         settingButton.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.top)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.leading.equalTo(self).offset(20)
             make.width.height.equalTo(logoImageView.snp.height)
         }
         
         searchContainer.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(20)
-            make.leading.equalTo(logoImageView.snp.leading)
-            make.trailing.equalTo(settingButton.snp.trailing)
+            make.leading.equalTo(self).offset(20)
+            make.trailing.equalTo(self).offset(-20)
             make.height.equalTo(80)
         }
         
