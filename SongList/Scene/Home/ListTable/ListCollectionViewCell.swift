@@ -13,7 +13,8 @@ class ListCollectionViewCell: BaseCollectionViewCell {
     
     let listTitleLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 16)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.textColor = .label
         view.numberOfLines = 1
         view.textAlignment = .center
         return view

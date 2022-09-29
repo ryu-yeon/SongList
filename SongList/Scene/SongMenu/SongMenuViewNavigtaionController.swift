@@ -43,11 +43,11 @@ class SongMenuViewNavigtaionController: UINavigationController, PanModalPresenta
     }
 
     var shortFormHeight: PanModalHeight {
-        return .contentHeight(320)
+        return .contentHeight(300)
     }
     
     var longFormHeight: PanModalHeight {
-        return .contentHeight(320)
+        return .contentHeight(300)
     }
 }
 
@@ -66,12 +66,21 @@ class SongMenuViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func configure() {
         mainView.titleLabel.text = song.title
         mainView.artistLabel.text = song.artist
         mainView.numberLabel.text = song.number
+        
+        if song.brand == Brand.tj.rawValue {
+            mainView.brandLabel.text = BrandText.TJ.rawValue
+        } else {
+            mainView.brandLabel.text = BrandText.KY.rawValue
+        }
         
         mainView.detailButton.addTarget(self, action: #selector(detailButtonClicked), for: .touchUpInside)
         mainView.addListButton.addTarget(self, action: #selector(addListButtonClicked), for: .touchUpInside)

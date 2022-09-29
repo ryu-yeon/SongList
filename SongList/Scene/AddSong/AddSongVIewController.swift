@@ -23,7 +23,6 @@ class AddSongViewController: BaseViewController {
     
     override func loadView() {
         self.view = mainView
-        
     }
     
     override func viewDidLoad() {
@@ -79,10 +78,10 @@ extension AddSongViewController: PanModalPresentable {
     }
     
     var shortFormHeight: PanModalHeight {
-        return .contentHeight(320)
+        return .contentHeight(300)
     }
     
     var longFormHeight: PanModalHeight {
-        return .contentHeight(320)
+        return .contentHeight(300)
     }    
 }

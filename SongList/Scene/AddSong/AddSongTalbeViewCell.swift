@@ -15,19 +15,20 @@ class AddSongTalbeViewCell: BaseTableViewCell {
         let view = UIImageView()
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
-        view.backgroundColor = .lightGray
         return view
     }()
     
     let titleLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 20)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 20)
+        view.textColor = .label
         return view
     }()
     
     let countLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 18)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 18)
+        view.textColor = .label
         return view
     }()
     
