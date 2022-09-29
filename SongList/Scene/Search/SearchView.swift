@@ -25,8 +25,11 @@ class SearchView: BaseView {
     }()
     
     let segmentControl: UISegmentedControl = {
-        let view = UISegmentedControl(items: ["TJ", "금영"])
+        let view = UISegmentedControl(items: [BrandText.TJ.rawValue, BrandText.KY.rawValue])
         view.selectedSegmentIndex = 0
+        view.selectedSegmentTintColor = .systemMint
+        view.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.systemBackground], for: .normal)
+        view.tintColor = .systemGray4
         return view
     }()
     
@@ -60,14 +63,14 @@ class SearchView: BaseView {
         }
         
         segmentControl.snp.makeConstraints { make in
-            make.top.equalTo(searchContainer.snp.bottom).offset(20)
+            make.top.equalTo(searchContainer.snp.bottom).offset(8)
             make.centerX.equalTo(self)
             make.width.equalTo(160)
             make.height.equalTo(40)
         }
 
         searchTableView.snp.makeConstraints { make in
-            make.top.equalTo(segmentControl.snp.bottom).offset(20)
+            make.top.equalTo(segmentControl.snp.bottom).offset(8)
             make.leading.equalTo(searchContainer.snp.leading)
             make.trailing.equalTo(searchContainer.snp.trailing)
             make.bottom.equalTo(self.safeAreaLayoutGuide)

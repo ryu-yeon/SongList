@@ -8,16 +8,7 @@
 import UIKit
 
 import Hero
-
-enum SearchType: String {
-    case song
-    case singer
-}
-
-enum BrandType: String {
-    case tj
-    case kumyoung
-}
+import Kingfisher
 
 class SearchViewController: BaseViewController {
     
@@ -25,9 +16,11 @@ class SearchViewController: BaseViewController {
     
     var searchList: [Song] = []
     
-    var type: String?
+    var type = SearchType.song.rawValue
     
-    var brand = BrandType.tj.rawValue
+    var brand = Brand.tj.rawValue
+    
+    var token = ""
     
     override func loadView() {
         self.view = mainView
@@ -48,13 +41,16 @@ class SearchViewController: BaseViewController {
 
     override func configure() {
         
+        mainView.searchContainer.userTextField.delegate = self
         mainView.searchTableView.delegate = self
         mainView.searchTableView.dataSource = self
         mainView.searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
         mainView.xButton.addTarget(self, action: #selector(xButtonClicked), for: .touchUpInside)
         
-        mainView.searchContainer.userTextField.addTarget(self, action: #selector(searchTextEditing), for: .editingChanged)
+        mainView.searchContainer.userTextField.addTarget(self, action: #selector(searchTextEditing), for: .editingDidEnd)
+        
+        mainView.searchContainer.searchButton.addTarget(self, action: #selector(searchTextEditing), for: .touchUpInside)
         
         mainView.searchContainer.songSearchButton.addTarget(self, action: #selector(songSearchButtonClicked), for: .touchUpInside)
         mainView.searchContainer.artistSearchButton.addTarget(self, action: #selector(artistSearchButtonClicked), for: .touchUpInside)
@@ -63,45 +59,65 @@ class SearchViewController: BaseViewController {
         
         mainView.searchContainer.userTextField.becomeFirstResponder()
         buttonClicked()
+        
+        SpotifyAPIManager.shared.callToken { token in
+            self.token = token
+        }
     }
     
     @objc func songSearchButtonClicked() {
+        searchList.removeAll()
         type = SearchType.song.rawValue
         buttonClicked()
-        searchTextEditing()
     }
     
     @objc func artistSearchButtonClicked() {
         type = SearchType.singer.rawValue
         buttonClicked()
-        searchTextEditing()
     }
     
     @objc func segmentCotnrolValueChanged() {
-        brand = mainView.segmentControl.selectedSegmentIndex == 0 ? BrandType.tj.rawValue : BrandType.kumyoung.rawValue
+        brand = mainView.segmentControl.selectedSegmentIndex == 0 ? Brand.tj.rawValue : Brand.kumyoung.rawValue
+        searchList.removeAll()
         searchTextEditing()
     }
     
     @objc func searchTextEditing() {
-     
-        KaraokeAPIManager.shared.requestSearch(text: mainView.searchContainer.userTextField.text ?? "", type: type ?? "song", brand: brand) { songList in
+        
+        KaraokeAPIManager.shared.requestSearch(text: mainView.searchContainer.userTextField.text ?? "", type: type, brand: brand) { songList in
             self.searchList = songList
-            self.mainView.searchTableView.reloadData()
+            for i in 0..<self.searchList.count {
+                SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
+                    self.searchList[i].albumImage = albumCover
+                    DispatchQueue.main.async {
+                        self.mainView.searchTableView.reloadData()
+                    }
+                }
+            }
         }
+        view.endEditing(true)
     }
     
     func buttonClicked() {
         if type == SearchType.song.rawValue {
-            self.mainView.searchContainer.songSearchButton.backgroundColor = .red
-            self.mainView.searchContainer.artistSearchButton.backgroundColor = .lightGray
+            self.mainView.searchContainer.songSearchButton.setTitleColor(UIColor.systemMint, for: .normal)
+            self.mainView.searchContainer.songSearchLine.backgroundColor = .systemMint
+            self.mainView.searchContainer.artistSearchButton.setTitleColor(UIColor.systemGray4, for: .normal)
+            self.mainView.searchContainer.artistSearchLine.backgroundColor = .systemGray4
         } else {
-            self.mainView.searchContainer.songSearchButton.backgroundColor = .lightGray
-            self.mainView.searchContainer.artistSearchButton.backgroundColor = .red
+            self.mainView.searchContainer.songSearchButton.setTitleColor(UIColor.systemGray4, for: .normal)
+            self.mainView.searchContainer.songSearchLine.backgroundColor = .systemGray4
+            self.mainView.searchContainer.artistSearchButton.setTitleColor(UIColor.systemMint, for: .normal)
+            self.mainView.searchContainer.artistSearchLine.backgroundColor = .systemMint
         }
     }
     
     @objc func xButtonClicked() {
         dismiss(animated: true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
@@ -116,16 +132,35 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.songView.titleLabel.text = searchList[indexPath.row].title
         cell.songView.artistLabel.text = searchList[indexPath.row].artist
         cell.songView.numberLabel.text = searchList[indexPath.row].number
+        
+        if searchList[indexPath.row].brand == Brand.tj.rawValue {
+            cell.songView.brandLabel.text = BrandText.TJ.rawValue
+        } else {
+            cell.songView.brandLabel.text = BrandText.KY.rawValue
+        }
+        
+        let url = URL(string: searchList[indexPath.row].albumImage)
+        cell.songView.albumImageView.kf.setImage(with: url)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.song = searchList[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+        let vc = SongMenuViewNavigtaionController()
+        vc.nav.song = searchList[indexPath.row]
+        vc.nav.pvc = self.navigationController
+        self.presentPanModal(vc)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextEditing()
+        return true
     }
 }

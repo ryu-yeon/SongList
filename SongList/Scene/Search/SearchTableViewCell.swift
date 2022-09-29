@@ -13,17 +13,13 @@ class SearchTableViewCell: BaseTableViewCell {
     
     let songView: SongView = {
         let view = SongView()
-        view.albumImage.backgroundColor = .lightGray
-        view.titleLabel.text = "Title"
-        view.artistLabel.text = "Artist"
-        view.numberLabel.text = "123123"
         return view
     }()
     
     override func configureUI() {
         self.backgroundColor = .clear
         [songView].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
     }
     
