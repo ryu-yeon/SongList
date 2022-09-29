@@ -11,6 +11,8 @@ class SettingViewController: BaseViewController {
     
     private let mainView = SettingView()
     
+    let settingMenu: [String] = ["문의하기", "리뷰작성", "앱 버전", "오픈소스 라이선스"]
+    
     override func loadView() {
         self.view = mainView
     }
@@ -25,6 +27,9 @@ class SettingViewController: BaseViewController {
     }
     
     override func configure() {
+        
+        navigationItem.title = "설정"
+        
         mainView.settingTableView.delegate = self
         mainView.settingTableView.dataSource = self
         mainView.settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reusableIdentifier)
@@ -33,18 +38,19 @@ class SettingViewController: BaseViewController {
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return settingMenu.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reusableIdentifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         
+        cell.titleLabel.text = settingMenu[indexPath.row]
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 50
     }
-    
 }
