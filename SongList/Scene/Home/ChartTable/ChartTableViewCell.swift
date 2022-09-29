@@ -61,7 +61,7 @@ class ChartTableViewCell: BaseTableViewCell {
     let chartCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 16
-        let width = UIScreen.main.bounds.width - spacing * 2 - 16
+        let width = UIScreen.main.bounds.width - spacing * 2 - 28
         
         layout.itemSize = CGSize(width: width, height: 210)
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
