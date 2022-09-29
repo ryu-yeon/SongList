@@ -13,10 +13,9 @@ class SearchView: BaseView {
     
     let xButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 8
+        view.backgroundColor = .clear
         view.setImage(UIImage(systemName: "xmark"), for: .normal)
-        view.tintColor = .black
+        view.tintColor = .label
         return view
     }()
     
@@ -55,10 +54,9 @@ class SearchView: BaseView {
         }
         
         xButton.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide).offset(8)
-            make.trailing.equalTo(-20)
-            make.height.equalTo(self).multipliedBy(0.06)
-            make.width.equalTo(xButton.snp.height)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.width.height.equalTo(25)
         }
         
         segmentControl.snp.makeConstraints { make in
