@@ -41,6 +41,8 @@ class ChartTableViewCell: BaseTableViewCell {
     let tjButton: UIButton = {
         let view = UIButton()
         view.setTitle(BrandText.TJ.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.systemBackground, for: .normal)
         view.layer.cornerRadius = 8
         view.backgroundColor = .systemMint
         return view
@@ -49,6 +51,8 @@ class ChartTableViewCell: BaseTableViewCell {
     let kyButton: UIButton = {
         let view = UIButton()
         view.setTitle(BrandText.KY.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.label, for: .normal)
         view.layer.cornerRadius = 8
         view.backgroundColor = .systemGray4
         return view
@@ -105,14 +109,18 @@ class ChartTableViewCell: BaseTableViewCell {
         requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
         chartCollectionView.reloadData()
         tjButton.backgroundColor = .systemMint
+        tjButton.setTitleColor(UIColor.systemBackground, for: .normal)
         kyButton.backgroundColor = .systemGray4
+        kyButton.setTitleColor(UIColor.label, for: .normal)
     }
     
     @objc func kyButtonClicked() {
         requestChart(range: Range.daily.rawValue, brand: Brand.kumyoung.rawValue)
         chartCollectionView.reloadData()
         tjButton.backgroundColor = .systemGray4
+        tjButton.setTitleColor(UIColor.label, for: .normal)
         kyButton.backgroundColor = .systemMint
+        kyButton.setTitleColor(UIColor.systemBackground, for: .normal)
     }
     
     override func setConstraints() {

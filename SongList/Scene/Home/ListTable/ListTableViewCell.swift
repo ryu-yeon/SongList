@@ -39,6 +39,8 @@ class ListTableViewCell: BaseTableViewCell {
     let myListButton: UIButton = {
         let view = UIButton()
         view.setTitle(ListType.my.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.systemBackground, for: .normal)
         view.layer.cornerRadius = 8
         view.backgroundColor = .systemMint
         return view
@@ -47,6 +49,8 @@ class ListTableViewCell: BaseTableViewCell {
     let recommandListButton: UIButton = {
         let view = UIButton()
         view.setTitle(ListType.recommand.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.label, for: .normal)
         view.layer.cornerRadius = 8
         view.backgroundColor = .systemGray4
         return view
@@ -88,14 +92,18 @@ class ListTableViewCell: BaseTableViewCell {
         listType = ListType.my
         listCollectionView.reloadData()
         myListButton.backgroundColor = .systemMint
+        myListButton.setTitleColor(UIColor.systemBackground, for: .normal)
         recommandListButton.backgroundColor = .systemGray4
+        recommandListButton.setTitleColor(UIColor.label, for: .normal)
     }
     
     @objc func recommandListButtonClicked() {
         listType = ListType.recommand
         listCollectionView.reloadData()
         myListButton.backgroundColor = .systemGray4
+        myListButton.setTitleColor(UIColor.label, for: .normal)
         recommandListButton.backgroundColor = .systemMint
+        recommandListButton.setTitleColor(UIColor.systemBackground, for: .normal)
     }
     
     override func setConstraints() {
