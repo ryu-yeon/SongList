@@ -33,27 +33,40 @@ class DetailViewController: BaseViewController {
         mainView.recommandTableView.dataSource = self
         mainView.recommandTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
-        let artist = song?.artist.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         
-        KaraokeAPIManager.shared.requestSearch(text: artist, type: "singer", brand: song?.brand ?? "tj") { songList in
+        KaraokeAPIManager.shared.requestSearchSinger(text: song?.artist ?? "", brand: song?.brand ?? "tj", songTitle: song?.title ?? "") { songList in
             self.songList = songList
-            
+            SpotifyAPIManager.shared.callToken { token in
+                for i in 0..<songList.count {
+                    SpotifyAPIManager.shared.requestSong(token: token, song: songList[i].title, singer: songList[i].artist) { albumCover in
+                        self.songList[i].albumImage = albumCover
+                        DispatchQueue.main.async {
+                            self.mainView.recommandTableView.reloadData()
+                        }
+                    }
+                }
+            }
             self.mainView.recommandTableView.reloadData()
         }
-        
         mainView.titleLabel.text = song.title
         mainView.artistLabel.text = song.artist
         mainView.numberLabel.text = song.number
         mainView.composerLabel.text = song.composer
         mainView.lyricistLabel.text = song.lyricist
         mainView.releaseLabel.text = song.release
-        mainView.brandLabel.text = song.brand
+        
+        if song.brand == Brand.tj.rawValue {
+            mainView.brandLabel.text = BrandText.TJ.rawValue
+        } else {
+            mainView.brandLabel.text = BrandText.KY.rawValue
+        }
+        
         let url = URL(string: song.albumImage)
         mainView.albumImageView.kf.setImage(with: url)
         
         mainView.addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         
-        mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
+//        mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
         mainView.lyricsButton.addTarget(self, action: #selector(lyricsButtonClicked), for: .touchUpInside)
     }
     
@@ -92,6 +105,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.songView.titleLabel.text = songList[indexPath.row].title
         cell.songView.artistLabel.text = songList[indexPath.row].artist
         cell.songView.numberLabel.text = songList[indexPath.row].number
+        let url = URL(string: songList[indexPath.row].albumImage)
+        cell.songView.albumImageView.kf.setImage(with: url)
         
         return cell
     }

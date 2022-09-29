@@ -10,13 +10,7 @@ import UIKit
 import SnapKit
 
 class DetailView: BaseView {
-    
-    let backgroundImageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = .lightGray
-        return view
-    }()
-    
+
     let albumImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "music.note")
@@ -28,83 +22,106 @@ class DetailView: BaseView {
     
     let brandLabel: UILabel = {
         let view = UILabel()
-        view.text = "TJ"
-        view.font = .boldSystemFont(ofSize: 24)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
+        view.textAlignment = .right
         return view
     }()
     
     let titleLabel: UILabel = {
         let view = UILabel()
-        view.text = "그라데이션"
-        view.font = .boldSystemFont(ofSize: 36)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 32)
+        view.textColor = .label
         return view
     }()
     
     let artistLabel: UILabel = {
         let view = UILabel()
-        view.text = "10CM"
-        view.font = .systemFont(ofSize: 24)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .systemGray2
+        view.textAlignment = .left
         return view
     }()
     
     let numberLabel: UILabel = {
         let view = UILabel()
-        view.text = "123123"
-        view.font = .boldSystemFont(ofSize: 28)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 28)
+        view.textColor = .label
+        view.textAlignment = .right
         return view
     }()
     
     let composerLabel: UILabel = {
         let view = UILabel()
-        view.text = "권정열,윤철종"
-        view.font = .systemFont(ofSize: 18)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 18)
+        view.textColor = .label
+        view.textAlignment = .left
         return view
     }()
     
     let lyricistLabel: UILabel = {
         let view = UILabel()
-        view.text = "권정열,윤철종"
-        view.font = .systemFont(ofSize: 18)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 18)
+        view.textColor = .label
+        view.textAlignment = .left
         return view
     }()
     
     let releaseLabel: UILabel = {
         let view = UILabel()
-        view.text = "2022-01-01"
-        view.font = .systemFont(ofSize: 18)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 18)
+        view.textColor = .label
+        view.textAlignment = .left
+        return view
+    }()
+    
+    let youtubeImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "youtube")
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
     let youtubeButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(systemName: "play.square.fill"), for: .normal)
-        view.tintColor = .systemRed
-        view.layer.borderColor = UIColor.black.cgColor
+        view.backgroundColor = .clear
+        view.layer.borderColor = UIColor.systemGray4.cgColor
         view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
         return view
     }()
     
     let lyricsButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(systemName: "text.alignleft"), for: .normal)
-        view.layer.borderColor = UIColor.black.cgColor
+        view.backgroundColor = .clear
+        view.layer.borderColor = UIColor.systemGray4.cgColor
         view.layer.borderWidth = 1
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    let lyricsImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "lyrics")
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
     let addButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(systemName: "plus"), for: .normal)
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
+        view.setTitle("리스트에 추가", for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 20)
+        view.setTitleColor(UIColor.systemBackground, for: .normal)
+        view.backgroundColor = .systemMint
+        view.layer.cornerRadius = 16
         return view
     }()
     
     let recommandLabel: UILabel = {
         let view = UILabel()
         view.text = "같은 가수 노래"
-        view.font = .boldSystemFont(ofSize: 24)
+        view.font  = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
         return view
     }()
     
@@ -116,36 +133,35 @@ class DetailView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [backgroundImageView, albumImageView, brandLabel, titleLabel, artistLabel, composerLabel, lyricistLabel, releaseLabel, numberLabel, youtubeButton, lyricsButton, addButton, recommandLabel, recommandTableView].forEach {
+        [albumImageView, brandLabel, titleLabel, numberLabel, artistLabel, composerLabel, lyricistLabel, releaseLabel, youtubeImage, youtubeButton, lyricsImage, lyricsButton, addButton, recommandLabel, recommandTableView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setContraints() {
         
-        backgroundImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.leading.trailing.equalTo(self)
-            make.height.equalTo(self).multipliedBy(0.15)
-        }
-        
         albumImageView.snp.makeConstraints { make in
-            make.top.equalTo(backgroundImageView.snp.centerY)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.centerX.equalTo(self)
-            make.width.equalTo(self).multipliedBy(0.32)
-            make.height.equalTo(albumImageView.snp.width)
+            make.width.height.equalTo(160)
         }
         
         brandLabel.snp.makeConstraints { make in
-            make.top.equalTo(backgroundImageView.snp.bottom).offset(24)
-            make.leading.equalTo(self).offset(20)
-            make.height.equalTo(28)
+            make.top.equalTo(composerLabel.snp.top)
+            make.trailing.equalTo(self).offset(-20)
+            make.width.equalTo(52)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(brandLabel.snp.bottom).offset(16)
-            make.leading.equalTo(brandLabel.snp.leading)
+            make.top.equalTo(albumImageView.snp.bottom).offset(16)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.trailing.equalTo(self).offset(-20)
+        }
+        
+        numberLabel.snp.makeConstraints { make in
+            make.top.equalTo(artistLabel.snp.top)
+            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.width.equalTo(120)
         }
         
         artistLabel.snp.makeConstraints { make in
@@ -157,7 +173,7 @@ class DetailView: BaseView {
         composerLabel.snp.makeConstraints { make in
             make.top.equalTo(artistLabel.snp.bottom).offset(8)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.trailing.equalTo(brandLabel.snp.leading).offset(-16)
         }
         
         lyricistLabel.snp.makeConstraints { make in
@@ -172,41 +188,43 @@ class DetailView: BaseView {
             make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
-        numberLabel.snp.makeConstraints { make in
-            make.top.equalTo(artistLabel.snp.top)
+        addButton.snp.makeConstraints { make in
+            make.top.equalTo(youtubeImage.snp.top)
+            make.leading.equalTo(lyricsButton.snp.trailing).offset(20)
             make.trailing.equalTo(titleLabel.snp.trailing)
-            make.height.equalTo(36)
+            make.height.equalTo(60)
         }
         
-        addButton.snp.makeConstraints { make in
-            make.bottom.equalTo(releaseLabel.snp.bottom)
-            make.trailing.equalTo(titleLabel.snp.trailing)
-            make.width.height.equalTo(40)
+        youtubeImage.snp.makeConstraints { make in
+            make.top.equalTo(releaseLabel.snp.bottom).offset(8)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.width.equalTo(80)
+            make.height.equalTo(60)
         }
         
         youtubeButton.snp.makeConstraints { make in
-            make.top.equalTo(releaseLabel.snp.bottom).offset(20)
-            make.leading.equalTo(titleLabel.snp.leading).offset(16)
-            make.width.equalTo(self).multipliedBy(0.4)
-            make.height.equalTo(50)
+            make.top.leading.trailing.bottom.equalTo(youtubeImage).inset(0)
+        }
+        
+        lyricsImage.snp.makeConstraints { make in
+            make.top.equalTo(youtubeImage.snp.top)
+            make.leading.equalTo(youtubeButton.snp.trailing).offset(20)
+            make.width.equalTo(80)
+            make.height.equalTo(60)
         }
         
         lyricsButton.snp.makeConstraints { make in
-            make.top.equalTo(youtubeButton.snp.top)
-            make.trailing.equalTo(titleLabel.snp.trailing).offset(-16)
-            make.width.equalTo(self).multipliedBy(0.4)
-            make.height.equalTo(50)
+            make.top.leading.trailing.bottom.equalTo(lyricsImage).inset(0)
         }
         
         recommandLabel.snp.makeConstraints { make in
-            make.top.equalTo(youtubeButton.snp.bottom).offset(20)
+            make.top.equalTo(youtubeImage.snp.bottom).offset(20)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.height.equalTo(24)
         }
         
         recommandTableView.snp.makeConstraints { make in
             make.top.equalTo(recommandLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalTo(self)
+            make.leading.trailing.equalTo(self).inset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
         }
     }
