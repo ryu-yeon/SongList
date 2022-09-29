@@ -108,6 +108,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChartTableViewCell.reusableIdentifier) as? ChartTableViewCell  else { return UITableViewCell() }
             
+            cell.chartLabel.heroID = "chartLabel"
             cell.chartButton.addTarget(self, action: #selector(chartButtonClicked), for: .touchUpInside)
             cell.delegate = self
             return cell

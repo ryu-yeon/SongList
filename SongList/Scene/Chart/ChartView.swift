@@ -11,14 +11,50 @@ import SnapKit
 
 class ChartView: BaseView {
     
-    let rangeLabel: UILabel = {
+    let chartLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 36)
+        view.text = Menu.second.rawValue
+        view.font = UIFont(name: "Cafe24Ssurround", size: 32)
+        view.textColor = .label
         return view
     }()
     
     let segmentControl: UISegmentedControl = {
-        let view = UISegmentedControl(items: ["TJ", "금영"])
+        let view = UISegmentedControl(items: [BrandText.TJ.rawValue, BrandText.KY.rawValue])
+        view.selectedSegmentIndex = 0
+        view.selectedSegmentTintColor = .systemMint
+        view.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.systemBackground], for: .normal)
+        view.tintColor = .systemGray4
+        return view
+    }()
+    
+    let dailyButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(RangeText.daily.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.systemBackground, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemMint
+        return view
+    }()
+    
+    let weeklyButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(RangeText.weekly.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.systemBackground, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemGray4
+        return view
+    }()
+    
+    let monthlyButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(RangeText.monthly.rawValue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.setTitleColor(UIColor.systemBackground, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemGray4
         return view
     }()
     
@@ -30,18 +66,37 @@ class ChartView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [rangeLabel, segmentControl, chartTableView].forEach {
+        [chartLabel, segmentControl, dailyButton, weeklyButton, monthlyButton, chartTableView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setContraints() {
         
-        rangeLabel.snp.makeConstraints { make in
+        chartLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.leading.equalTo(20)
-            make.width.equalTo(72)
-            make.height.equalTo(40)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+        }
+        
+        dailyButton.snp.makeConstraints { make in
+            make.top.equalTo(chartLabel.snp.bottom).offset(8)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.width.equalTo(40)
+            make.height.equalTo(24)
+        }
+        
+        weeklyButton.snp.makeConstraints { make in
+            make.top.equalTo(dailyButton.snp.top)
+            make.leading.equalTo(dailyButton.snp.trailing).offset(8)
+            make.width.equalTo(dailyButton.snp.width)
+            make.height.equalTo(dailyButton.snp.height)
+        }
+        
+        monthlyButton.snp.makeConstraints { make in
+            make.top.equalTo(dailyButton.snp.top)
+            make.leading.equalTo(weeklyButton.snp.trailing).offset(8)
+            make.width.equalTo(dailyButton.snp.width)
+            make.height.equalTo(dailyButton.snp.height)
         }
         
         segmentControl.snp.makeConstraints { make in
@@ -52,7 +107,7 @@ class ChartView: BaseView {
         }
         
         chartTableView.snp.makeConstraints { make in
-            make.top.equalTo(segmentControl.snp.bottom).offset(20)
+            make.top.equalTo(dailyButton.snp.bottom).offset(8)
             make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide)
         }

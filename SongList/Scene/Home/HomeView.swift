@@ -15,7 +15,7 @@ class HomeView: BaseView {
         let view = UILabel()
         view.text = "뭐 부르지?"
         view.textColor = .systemMint
-        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 32)
         return view
     }()
     
@@ -54,9 +54,8 @@ class HomeView: BaseView {
     override func setContraints() {
         
         logoLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(16)
             make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.height.equalTo(25)
         }
         
         settingButton.snp.makeConstraints { make in
@@ -66,7 +65,7 @@ class HomeView: BaseView {
         }
         
         searchContainer.snp.makeConstraints { make in
-            make.top.equalTo(logoLabel.snp.bottom).offset(16)
+            make.top.equalTo(logoLabel.snp.bottom).offset(8)
             make.leading.equalTo(self).offset(20)
             make.trailing.equalTo(self).offset(-20)
             make.height.equalTo(80)
