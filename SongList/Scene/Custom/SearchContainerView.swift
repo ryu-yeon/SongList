@@ -13,51 +13,58 @@ class SearchContainerView: BaseView {
     
     let songSearchButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .lightGray
         view.setTitle("제목검색", for: .normal)
-        view.tintColor = .black
-        view.layer.cornerRadius = 8
+        view.setTitleColor(UIColor.systemMint, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 15)
+        return view
+    }()
+    
+    let songSearchLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemMint
         return view
     }()
     
     let artistSearchButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .lightGray
         view.setTitle("가수검색", for: .normal)
-        view.tintColor = .black
-        view.layer.cornerRadius = 8
+        view.setTitleColor(UIColor.systemGray4, for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 15)
+        view.tintColor = .label
+        return view
+    }()
+    
+    let artistSearchLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray4
         return view
     }()
     
     let searchContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 20
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.systemMint.cgColor
         return view
     }()
     
     let userTextField: UITextField = {
         let view = UITextField()
         view.borderStyle = .none
-        view.backgroundColor = .white
-        view.placeholder = "입력해주세요"
+        view.backgroundColor = .clear
         return view
     }()
     
     let searchButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .lightGray
-        view.tintColor = .white
-        view.layer.cornerRadius = 8
         view.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        view.tintColor = .systemMint
         return view
     }()
     
     override func configureUI() {
         self.backgroundColor = .clear
-        [songSearchButton, artistSearchButton, searchContainer, userTextField, searchButton].forEach {
+        [songSearchButton, songSearchLine, artistSearchButton, artistSearchLine, searchContainer, userTextField, searchButton].forEach {
             self.addSubview($0)
         }
     }
@@ -66,29 +73,40 @@ class SearchContainerView: BaseView {
         songSearchButton.snp.makeConstraints { make in
             make.top.equalTo(self)
             make.leading.equalTo(self)
-            make.width.equalTo(80)
-            make.height.equalTo(25)
+            make.width.equalTo(64)
+            make.height.equalTo(20)
+        }
+        
+        songSearchLine.snp.makeConstraints { make in
+            make.top.equalTo(songSearchButton.snp.bottom).offset(1)
+            make.leading.trailing.equalTo(songSearchButton)
+            make.height.equalTo(1)
         }
         
         artistSearchButton.snp.makeConstraints { make in
             make.top.equalTo(songSearchButton.snp.top)
-            make.leading.equalTo(songSearchButton.snp.trailing).offset(8)
+            make.leading.equalTo(songSearchButton.snp.trailing).offset(12)
             make.width.equalTo(songSearchButton.snp.width)
             make.height.equalTo(songSearchButton.snp.height)
         }
         
+        artistSearchLine.snp.makeConstraints { make in
+            make.top.equalTo(artistSearchButton.snp.bottom).offset(1)
+            make.leading.trailing.equalTo(artistSearchButton)
+            make.height.equalTo(1)
+        }
+        
         searchContainer.snp.makeConstraints { make in
-            make.top.equalTo(songSearchButton.snp.bottom).offset(8)
+            make.top.equalTo(songSearchLine.snp.bottom).offset(8)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(48)
+            make.height.equalTo(40)
         }
         
         userTextField.snp.makeConstraints { make in
-            make.top.equalTo(searchContainer.snp.top).inset(2)
-            make.bottom.equalTo(searchContainer.snp.bottom).inset(2)
-            make.leading.equalTo(searchContainer.snp.leading).inset(16)
-            make.trailing.equalTo(searchButton.snp.leading)
+            make.top.bottom.equalTo(searchContainer).inset(4)
+            make.leading.equalTo(searchContainer).inset(16)
+            make.trailing.equalTo(searchContainer).inset(20)
         }
 
         searchButton.snp.makeConstraints { make in
