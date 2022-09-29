@@ -13,11 +13,44 @@ class ChartTableViewCell: BaseTableViewCell {
     
     var delegate: CVCellDelegate?
     
+    var chartList: [Song] = []
+    
+    var token = ""
+    
     let chartLabel: UILabel = {
         let view = UILabel()
-        view.text = "인기 차트"
-        view.font = .boldSystemFont(ofSize: 24)
-        view.textColor = .black
+        view.text = Menu.second.rawValue
+        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
+        return view
+    }()
+    
+    let chartImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "chevron.right.circle.fill")
+        view.tintColor = .systemMint
+        return view
+    }()
+    
+    let chartButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    let tjButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(BrandText.TJ.rawValue, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemMint
+        return view
+    }()
+    
+    let kyButton: UIButton = {
+        let view = UIButton()
+        view.setTitle(BrandText.KY.rawValue, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemGray4
         return view
     }()
     
@@ -26,7 +59,7 @@ class ChartTableViewCell: BaseTableViewCell {
         let spacing: CGFloat = 16
         let width = UIScreen.main.bounds.width - spacing * 2 - 16
         
-        layout.itemSize = CGSize(width: width, height: 260)
+        layout.itemSize = CGSize(width: width, height: 210)
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
@@ -34,69 +67,112 @@ class ChartTableViewCell: BaseTableViewCell {
         
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.backgroundColor = .systemBackground
+        view.showsHorizontalScrollIndicator = false
         return view
     }()
     
-    let text = ["일간", "주간", "월간"]
-    
-    let range = ["daily", "weekly", "monthly"]
-    
-    var chartList: [Song] = []
-    
     override func configureUI() {
-        [chartLabel, chartCollectionView].forEach {
+        self.backgroundColor = .clear
+        [chartLabel, chartImageView, chartButton, tjButton, kyButton, chartCollectionView].forEach {
             contentView.addSubview($0)
         }
         chartCollectionView.delegate = self
         chartCollectionView.dataSource = self
         chartCollectionView.register(ChartCollectionViewCell.self, forCellWithReuseIdentifier: ChartCollectionViewCell.reusableIdentifier)
+        
+        tjButton.addTarget(self, action: #selector(tjButtonClicked), for: .touchUpInside)
+        kyButton.addTarget(self, action: #selector(kyButtonClicked), for: .touchUpInside)
+        requestToken()
+    }
+    
+    func requestChart(range: String, brand: String) {
+        KaraokeAPIManager.shared.requestChart(limit: 15, range: range, brand: brand) { chartList in
+            self.chartList = chartList
+            DispatchQueue.main.async {
+                self.chartCollectionView.reloadData()
+            }
+        }
+    }
+    
+    func requestToken() {
+        SpotifyAPIManager.shared.callToken { token in
+            self.token = token
+            self.requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
+        }
+    }
+    
+    @objc func tjButtonClicked() {
+        requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
+        chartCollectionView.reloadData()
+        tjButton.backgroundColor = .systemMint
+        kyButton.backgroundColor = .systemGray4
+    }
+    
+    @objc func kyButtonClicked() {
+        requestChart(range: Range.daily.rawValue, brand: Brand.kumyoung.rawValue)
+        chartCollectionView.reloadData()
+        tjButton.backgroundColor = .systemGray4
+        kyButton.backgroundColor = .systemMint
     }
     
     override func setConstraints() {
         
         chartLabel.snp.makeConstraints { make in
+            make.top.leading.bottom.equalTo(chartButton).inset(0)
+        }
+        
+        chartImageView.snp.makeConstraints { make in
+            make.leading.equalTo(chartLabel.snp.trailing).offset(8)
+            make.centerY.equalTo(chartButton)
+            make.width.height.equalTo(28)
+        }
+        
+        chartButton.snp.makeConstraints { make in
             make.top.equalTo(10)
-            make.leading.equalTo(28)
+            make.leading.equalTo(20)
+            make.width.equalTo(140)
+            make.height.equalTo(28)
+        }
+        
+        tjButton.snp.makeConstraints { make in
+            make.top.equalTo(10)
+            make.trailing.equalTo(kyButton.snp.leading).offset(-8)
+            make.width.equalTo(40)
             make.height.equalTo(24)
+        }
+        
+        kyButton.snp.makeConstraints { make in
+            make.top.equalTo(tjButton.snp.top)
+            make.trailing.equalTo(self).offset(-20)
+            make.width.equalTo(tjButton.snp.width)
+            make.height.equalTo(tjButton.snp.height)
         }
         
         chartCollectionView.snp.makeConstraints { make in
             make.top.equalTo(chartLabel.snp.bottom).offset(16)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(260)
+            make.height.equalTo(210)
         }
     }
 }
 
 extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChartCollectionViewCell.reusableIdentifier, for: indexPath) as? ChartCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.chartLabel.text = text[indexPath.item]
-        cell.requestChart(range: range[indexPath.item])
-        cell.isHeroEnabled = true
-        cell.chartTableView.heroID = "chartTableView\(indexPath.item)"
+        if chartList.count == 15 {
+            cell.chartList = [chartList[indexPath.item * 3], chartList[indexPath.item * 3 + 1], chartList[indexPath.item * 3 + 2]]
+            cell.rank = indexPath.item * 3
+            cell.requestAlbumCover(token: token)
+        }
         cell.delegate = delegate as? TVCellDelegate
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let delegate = delegate {
-            let vc = ChartViewController()
-            vc.range = range[indexPath.item]
-            vc.text = text[indexPath.item]
-            vc.mainView.chartTableView.heroID = "chartTableView\(indexPath.item)"
-            delegate.selectedCVCell(indexPath.item, vc: vc)
-        }
-    }
-    
-
 }

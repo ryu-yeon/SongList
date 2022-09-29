@@ -23,31 +23,35 @@ class RankTableViewCell: BaseTableViewCell {
     let rankLabel: UILabel = {
         let view = UILabel()
         view.textAlignment = .center
-        view.font = .boldSystemFont(ofSize: 18)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 18)
         return view
     }()
     
     let titleLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 18)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.textColor = .label
         return view
     }()
     
     let artistLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 15)
+        view.textColor = .systemGray2
+        view.font = UIFont(name: "Cafe24Ssurround", size: 14)
         return view
     }()
     
     let numberLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 18)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.textColor = .label
         return view
     }()
     
     let brandLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 16)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.textColor = .label
         return view
     }()
     
@@ -56,6 +60,8 @@ class RankTableViewCell: BaseTableViewCell {
         [albumImageView, rankLabel, titleLabel, numberLabel, brandLabel, artistLabel].forEach {
             self.addSubview($0)
         }
+        
+        self.selectionStyle = .none
     }
     
     override func setConstraints() {
@@ -73,13 +79,13 @@ class RankTableViewCell: BaseTableViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(albumImageView.snp.top).offset(4)
+            make.top.equalTo(albumImageView.snp.top).offset(8)
             make.leading.equalTo(rankLabel.snp.trailing)
             make.trailing.equalTo(self)
         }
         
         artistLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(albumImageView.snp.bottom).offset(-4)
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.leading.equalTo(rankLabel.snp.trailing)
             make.trailing.equalTo(brandLabel.snp.leading).offset(-8)
         }

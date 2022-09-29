@@ -78,8 +78,12 @@ class HomeViewController: BaseViewController {
     }
     
     @objc func settingButtonClicked() {
-        
         let vc = SettingViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func chartButtonClicked() {
+        let vc = ChartViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -104,12 +108,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChartTableViewCell.reusableIdentifier) as? ChartTableViewCell  else { return UITableViewCell() }
             
+            cell.chartButton.addTarget(self, action: #selector(chartButtonClicked), for: .touchUpInside)
             cell.delegate = self
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BannerTableViewCell.reusableIdentifier) as? BannerTableViewCell else { return UITableViewCell()}
-            cell.bannerLabel.text = "주변 노래방 찾기"
+            
+            cell.bannerLabel.text = Menu.thrid.rawValue
             cell.bannerButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
+            cell.bannerViewButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
             return cell
         }
     }
@@ -118,7 +125,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0: return 24 + 16 + (UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20 + 8
-        case 1: return 20 + 24 + 260 + 16
+        case 1: return 20 + 24 + 210 + 20
         default: return 20 + 24 + 120 + 16
         }
     }

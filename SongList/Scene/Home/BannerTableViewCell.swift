@@ -18,33 +18,57 @@ class BannerTableViewCell: BaseTableViewCell {
         return view
     }()
     
-    let bannerButton: UIButton = {
+    let bannerImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "chevron.right.circle.fill")
+        view.tintColor = .systemMint
+        return view
+    }()
+    
+    let bannerViewButton: UIButton = {
         let view = UIButton()
         view.backgroundColor = .lightGray
         view.layer.cornerRadius = 10
         return view
     }()
     
+    let bannerButton: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     
     override func configureUI() {
-        [bannerLabel, bannerButton].forEach {
+        contentView.backgroundColor = .clear
+        [bannerLabel, bannerImageView, bannerButton, bannerViewButton].forEach {
             contentView.addSubview($0)
         }
     }
     
     override func setConstraints() {
         bannerLabel.snp.makeConstraints { make in
-            make.top.equalTo(10)
-            make.leading.equalTo(20)
-            make.height.equalTo(28)
+            make.top.leading.bottom.equalTo(bannerButton).inset(0)
+        }
+        
+        bannerImageView.snp.makeConstraints { make in
+            make.leading.equalTo(bannerLabel.snp.trailing).offset(8)
+            make.centerY.equalTo(bannerButton)
+            make.width.height.equalTo(28)
         }
         
         bannerButton.snp.makeConstraints { make in
+            make.top.equalTo(10)
+            make.leading.equalTo(20)
+            make.width.equalTo(230)
+            make.height.equalTo(28)
+        }
+        
+        bannerViewButton.snp.makeConstraints { make in
             make.top.equalTo(bannerLabel.snp.bottom).offset(16)
             make.leading.equalTo(20)
             make.trailing.equalTo(-20)
             make.height.equalTo(120)
         }
     }
-
 }

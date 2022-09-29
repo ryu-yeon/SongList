@@ -12,11 +12,6 @@ import RealmSwift
 import SnapKit
 import Kingfisher
 
-enum ListType {
-    case my
-    case recommand
-}
-
 protocol CVCellDelegate {
     func selectedCVCell(_ index: Int, vc: UIViewController)
 }
@@ -35,7 +30,7 @@ class ListTableViewCell: BaseTableViewCell {
     
     let listLabel: UILabel = {
         let view = UILabel()
-        view.text = "노래 리스트"
+        view.text = Menu.first.rawValue
         view.font = UIFont(name: "Cafe24Ssurround", size: 24)
         view.textColor = .label
         return view
@@ -43,17 +38,17 @@ class ListTableViewCell: BaseTableViewCell {
     
     let myListButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(named: "myList"), for: .normal)
-        view.contentVerticalAlignment = .fill
-        view.contentHorizontalAlignment = .fill
+        view.setTitle(ListType.my.rawValue, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemMint
         return view
     }()
     
     let recommandListButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(named: "recommand"), for: .normal)
-        view.contentVerticalAlignment = .fill
-        view.contentHorizontalAlignment = .fill
+        view.setTitle(ListType.recommand.rawValue, for: .normal)
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .systemGray4
         return view
     }()
     
@@ -92,15 +87,15 @@ class ListTableViewCell: BaseTableViewCell {
     @objc func myListButtonClicked() {
         listType = ListType.my
         listCollectionView.reloadData()
-        myListButton.setImage(UIImage(named: "myList"), for: .normal)
-        recommandListButton.setImage(UIImage(named: "recommand"), for: .normal)
+        myListButton.backgroundColor = .systemMint
+        recommandListButton.backgroundColor = .systemGray4
     }
     
     @objc func recommandListButtonClicked() {
         listType = ListType.recommand
         listCollectionView.reloadData()
-        myListButton.setImage(UIImage(named: "myButton"), for: .normal)
-        recommandListButton.setImage(UIImage(named: "recommandList"), for: .normal)
+        myListButton.backgroundColor = .systemGray4
+        recommandListButton.backgroundColor = .systemMint
     }
     
     override func setConstraints() {
@@ -116,7 +111,7 @@ class ListTableViewCell: BaseTableViewCell {
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.trailing.equalTo(recommandListButton.snp.leading).offset(-8)
             make.width.equalTo(40)
-            make.height.equalTo(28)
+            make.height.equalTo(24)
         }
         
         recommandListButton.snp.makeConstraints { make in

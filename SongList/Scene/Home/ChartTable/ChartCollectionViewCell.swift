@@ -16,17 +16,11 @@ protocol TVCellDelegate {
 
 class ChartCollectionViewCell: BaseCollectionViewCell {
     
-    var text = ""
-    
     var delegate: TVCellDelegate?
     
     var chartList: [Song] = []
     
-    let chartLabel: UILabel = {
-        let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 20)
-        return view
-    }()
+    var rank = 0
     
     let chartTableView: UITableView = {
         let view = UITableView()
@@ -35,30 +29,9 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         return view
     }()
     
-    func requestChart(range: String) {
-        KaraokeAPIManager.shared.requestChart(limit: 3, range: range) { chartList in
-            self.chartList = chartList
-            SpotifyAPIManager.shared.callToken { token in
-                for i in 0..<chartList.count {
-                    SpotifyAPIManager.shared.requestSong(token: token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
-                        self.chartList[i].albumImage = albumCover
-                        DispatchQueue.main.async {
-                            self.chartTableView.reloadData()
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
     override func configureUI() {
-        self.backgroundColor = .white
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 20
-        [chartLabel, chartTableView].forEach {
-            self.addSubview($0)
-        }
+        self.backgroundColor = .clear
+        contentView.addSubview(chartTableView)
         
         chartTableView.delegate = self
         chartTableView.dataSource = self
@@ -66,23 +39,24 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         chartTableView.isScrollEnabled = false
     }
     
-    override func setConstraints() {
-        
-        chartLabel.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(16)
-            make.leading.equalTo(16)
-            make.height.equalTo(24)
+    func requestAlbumCover(token: String) {
+        for i in 0..<self.chartList.count {
+            SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[i].title, singer: self.chartList[i].artist) { albumCover in
+                self.chartList[i].albumImage = albumCover
+                DispatchQueue.main.async {
+                    self.chartTableView.reloadData()
+                }
+            }
         }
-        
+    }
+    
+    override func setConstraints() {
+               
         chartTableView.snp.makeConstraints { make in
-            make.top.equalTo(chartLabel.snp.bottom).offset(16)
-            make.leading.equalTo(16)
-            make.trailing.equalTo(-16)
-            make.height.equalTo(180)
+            make.top.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
         }
     }
 }
-
 
 extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,11 +65,17 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RankTableViewCell.reusableIdentifier, for: indexPath) as? RankTableViewCell else { return UITableViewCell() }
-        cell.rankLabel.text = "\(indexPath.row + 1)"
+        
+        cell.rankLabel.text = "\(rank + indexPath.row + 1)"
         cell.titleLabel.text = chartList[indexPath.row].title
         cell.artistLabel.text = chartList[indexPath.row].artist
         cell.numberLabel.text = chartList[indexPath.row].number
-        cell.brandLabel.text = chartList[indexPath.row].brand
+        
+        if chartList[indexPath.row].brand == Brand.tj.rawValue {
+            cell.brandLabel.text = BrandText.TJ.rawValue
+        } else {
+            cell.brandLabel.text = BrandText.KY.rawValue
+        }
         
         let url = URL(string: chartList[indexPath.row].albumImage)
         cell.albumImageView.kf.setImage(with: url)
@@ -104,7 +84,7 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 70
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
