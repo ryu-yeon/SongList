@@ -171,6 +171,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
                 cell.listTitleLabel.text = "리스트 추가"
             }
         } else {
+            cell.heroID = "listImageView\(indexPath.item)"
             let url = URL(string: data[indexPath.row].image)
             cell.listImageView.kf.setImage(with: url)
             cell.listTitleLabel.text = data[indexPath.row].title
@@ -184,8 +185,8 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             if let delegate = delegate {
                 if indexPath.item < tasks.count{
                     let vc = ListViewController()
-                    vc.mainView.listImage.heroID = "listImageView\(indexPath.item)"
                     vc.task = self.tasks?[indexPath.item]
+                    vc.number = indexPath.item
                     delegate.selectedCVCell(indexPath.item, vc: vc)
                     
                 } else {
@@ -197,10 +198,8 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         } else {
             if let delegate = delegate {
                 let vc = ListViewController()
-                vc.mainView.listImage.heroID = "listImageView\(indexPath.item)"
                 vc.songList = data[indexPath.item]
                 delegate.selectedCVCell(indexPath.item, vc: vc)
-                
             }
         }
     }

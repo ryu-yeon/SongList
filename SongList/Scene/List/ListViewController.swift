@@ -2,19 +2,20 @@
 //  ListViewController.swift
 //  SongList
 //
-//  Created by 유연탁 on 2022/09/16.
+//  Created by 유연탁 on 2022/09/30.
 //
 
 import UIKit
 
 import Hero
-import RealmSwift
 import Kingfisher
-import Toast
+import RealmSwift
 
 class ListViewController: BaseViewController {
     
     let mainView = ListView()
+    
+    var number = 0
     
     let localRealm = try! Realm()
     
@@ -28,27 +29,31 @@ class ListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.isHeroEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
+        
+        if let task = task {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.backgroundColor = UIColor(hexFromString: task.color)
+            navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+            setNavigationBar()
+        }
     }
     
     override func configure() {
         
         mainView.listTableView.delegate = self
         mainView.listTableView.dataSource = self
-        mainView.listTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
+        mainView.listTableView.register(ListInfoTableViewCell.self, forCellReuseIdentifier: ListInfoTableViewCell.reusableIdentifier)
+        mainView.listTableView.register(SearchTableViewCell .self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
-        mainView.listImage.isHeroEnabled = true
-        
-        guard let task = task else {
-            mainView.listTitleLabel.text = songList?.title
-            
-            return
-        }
-        mainView.listTitleLabel.text = task.title
-        mainView.listImage.backgroundColor = UIColor(hexFromString: task.color)
+    }
+    
+    func setNavigationBar() {
         
         let editTitle = UIAction(title: "제목 수정", image: UIImage(systemName: "pencil")) { _ in
             
@@ -58,9 +63,9 @@ class ListViewController: BaseViewController {
                 
                 if let newTitle = alert.textFields?[0].text , newTitle != "" {
                     try! self.localRealm.write {
-                        task.title = newTitle
+                        self.task.title = newTitle
                     }
-                    self.mainView.listTitleLabel.text = newTitle
+                    self.mainView.listTableView.reloadSections(IndexSet(0...0), with: .none)
                     self.view.makeToast("\(newTitle)로 변경되었습니다.", duration: 2.0, position: .bottom)
                 }
             }
@@ -73,7 +78,7 @@ class ListViewController: BaseViewController {
         }
         
         let delete = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill")) { _ in
-            let title = task.title
+            let title = self.task.title
             let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
             
             let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
@@ -86,99 +91,138 @@ class ListViewController: BaseViewController {
                 let nav = UINavigationController(rootViewController: HomeViewController())
                 sceneDelegate?.window?.rootViewController = nav
                 sceneDelegate?.window?.makeKeyAndVisible()
-        
+                
                 nav.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
             }
-            
             let cancel = UIAlertAction(title: "취소", style: .cancel)
             
             alert.addAction(cancel)
             alert.addAction(remove)
             self.present(alert, animated: true)
         }
-
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "",                                                             image: UIImage(systemName: "ellipsis.circle"),                                                             primaryAction: nil,                                                             menu: UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [editTitle, delete]))
     }
 }
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let task = task {
+        switch section {
+        case 0: return 1
+        default :
+            guard let task = task else { return songList.songs.count}
             return task.songs.count
-        } else {
-            return songList.songs.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
         
-        guard let task = task else {
-            cell.songView.titleLabel.text = songList.songs[indexPath.row].title
-            cell.songView.artistLabel.text = songList.songs[indexPath.row].artist
-            cell.songView.numberLabel.text = songList.songs[indexPath.row].number
+        switch indexPath.section {
+        case 0 :
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ListInfoTableViewCell.reusableIdentifier, for: indexPath) as? ListInfoTableViewCell else { return UITableViewCell() }
+            
+            cell.listImageView.heroID = "listImageView\(number)"
+            guard let task = task else {
+                let url = URL(string: songList.image)
+                cell.listImageView.kf.setImage(with: url)
+                cell.listTitleLabel.text = songList.title
+                cell.listCountLabel.text = "\(songList.songs.count)곡"
+
+                return cell
+            }
+            cell.listImageView.backgroundColor = UIColor(hexFromString: task.color)
+            cell.listTitleLabel.text = task.title
+            cell.listCountLabel.text = "\(task.songs.count)곡"
+            
+            return cell
+            
+        default:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+            
+            guard let task = task else {
+                cell.songView.titleLabel.text = songList.songs[indexPath.row].title
+                cell.songView.artistLabel.text = songList.songs[indexPath.row].artist
+                cell.songView.numberLabel.text = songList.songs[indexPath.row].number
+                return cell
+            }
+            
+            cell.songView.titleLabel.text = task.songs[indexPath.row].title
+            cell.songView.artistLabel.text = task.songs[indexPath.row].artist
+            cell.songView.numberLabel.text = task.songs[indexPath.row].number
+            
+            if task.songs[indexPath.row].brand == Brand.tj.rawValue {
+                cell.songView.brandLabel.text = BrandText.TJ.rawValue
+            } else {
+                cell.songView.brandLabel.text = BrandText.KY.rawValue
+            }
+            
+            let url = URL(string: task.songs[indexPath.row].albumImage)
+            cell.songView.albumImageView.kf.setImage(with: url)
+            
             return cell
         }
-        cell.songView.titleLabel.text = task.songs[indexPath.row].title
-        cell.songView.artistLabel.text = task.songs[indexPath.row].artist
-        cell.songView.numberLabel.text = task.songs[indexPath.row].number
-        
-        let url = URL(string: task.songs[indexPath.row].albumImage)
-        cell.songView.albumImage.kf.setImage(with: url)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        
-        guard let task = task else {
-            vc.song = songList.songs[indexPath.row]
-            navigationController?.pushViewController(vc, animated: true)
-            return
-        }
-        
-        let song = Song(brand: task.songs[indexPath.row].brand, albumImage: task.songs[indexPath.row].albumImage, number: task.songs[indexPath.row].number, title: task.songs[indexPath.row].title, artist: task.songs[indexPath.row].artist, composer: task.songs[indexPath.row].composer, lyricist: task.songs[indexPath.row].lyricist, release: task.songs[indexPath.row].release)
-        vc.song = song
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        guard self.task != nil else { return nil}
-        
-        let removeButton = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
+        switch indexPath.section {
+        case 0: return UISwipeActionsConfiguration()
+        default:
+            guard self.task != nil else { return nil}
             
-            let title = self.task.songs[indexPath.row].title
-            
-            let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
-            
-            let remove = UIAlertAction(title: "삭제", style: .destructive) { alert in
+            let removeButton = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
                 
+                let title = self.task.songs[indexPath.row].title
                 
-                try! self.localRealm.write {
-                    self.localRealm.delete(self.task.songs[indexPath.row])
+                let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
+                
+                let remove = UIAlertAction(title: "삭제", style: .destructive) { alert in
+                    
+                    
+                    try! self.localRealm.write {
+                        self.localRealm.delete(self.task.songs[indexPath.row])
+                    }
+                    
+                    self.mainView.listTableView.reloadData()
+                    self.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
                 }
                 
-                self.mainView.listTableView.reloadData()
-                self.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
+                let cancel = UIAlertAction(title: "취소", style: .default)
+                
+                [cancel, remove].forEach {
+                    alert.addAction($0)
+                }
+                self.present(alert, animated: true)
             }
-            
-            let cancel = UIAlertAction(title: "취소", style: .default)
-            
-            [cancel, remove].forEach {
-                alert.addAction($0)
-            }
-            self.present(alert, animated: true)
-        }
+            removeButton.image = UIImage(systemName: "trash.fill")
+            removeButton.backgroundColor = .systemRed
+            return UISwipeActionsConfiguration(actions: [removeButton])
         
-        removeButton.image = UIImage(systemName: "trash.fill")
-        removeButton.backgroundColor = .systemRed
-        return UISwipeActionsConfiguration(actions: [removeButton])
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let vc = DetailViewController()
+            if let task = task {
+                let song = Song(brand: task.songs[indexPath.row].brand, albumImage: task.songs[indexPath.row].albumImage, number: task.songs[indexPath.row].number, title: task.songs[indexPath.row].title, artist: task.songs[indexPath.row].artist, composer: task.songs[indexPath.row].composer, lyricist: task.songs[indexPath.row].lyricist, release: task.songs[indexPath.row].release)
+                vc.song = song
+            } else {
+                let song = songList.songs[indexPath.row]
+                vc.song = song
+            }
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0: return 200
+        default : return 70
+        }
+    }
 }
