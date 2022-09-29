@@ -20,32 +20,37 @@ class MapView: BaseView {
     let infoContainer: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         return view
     }()
     
     let nameLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 20)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
         return view
     }()
     
     let distanceLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 16)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 18)
+        view.textColor = .label
         return view
     }()
     
     let addressLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 18)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 20)
+        view.textColor = .label
         return view
     }()
     
     let urlButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .lightGray
         view.setTitle("자세히 보기", for: .normal)
+        view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.backgroundColor = .systemMint
+        view.layer.cornerRadius = 20
         view.isHidden = true
         return view
     }()
@@ -75,19 +80,21 @@ class MapView: BaseView {
             make.leading.equalTo(infoContainer).inset(20)
         }
         
-        distanceLabel.snp.makeConstraints { make in
+        addressLabel.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(8)
             make.leading.equalTo(nameLabel.snp.leading)
         }
         
-        addressLabel.snp.makeConstraints { make in
-            make.top.equalTo(distanceLabel.snp.top)
-            make.leading.equalTo(distanceLabel.snp.trailing).offset(16)
+        distanceLabel.snp.makeConstraints { make in
+            make.top.equalTo(addressLabel.snp.bottom).offset(8)
+            make.leading.equalTo(nameLabel.snp.leading)
         }
         
         urlButton.snp.makeConstraints { make in
-            make.top.equalTo(distanceLabel.snp.bottom).offset(8)
-            make.leading.equalTo(infoContainer).inset(20)
+            make.top.equalTo(distanceLabel.snp.top)
+            make.trailing.equalTo(infoContainer).inset(20)
+            make.width.equalTo(160)
+            make.height.equalTo(60)
         }
     }
 }
