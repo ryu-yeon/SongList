@@ -47,7 +47,7 @@ class ListCollectionViewCell: BaseCollectionViewCell {
         }
         
         listTitleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(self)
+            make.top.equalTo(listImageView.snp.bottom).offset(4)
             make.leading.trailing.equalTo(self)
         }
     }

@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 
 class BannerTableViewCell: BaseTableViewCell {
-    
+  
     let bannerLabel: UILabel = {
         let view = UILabel()
-        view.font = .boldSystemFont(ofSize: 24)
-        view.textColor = .black
+        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
         return view
     }()
     
@@ -35,8 +35,8 @@ class BannerTableViewCell: BaseTableViewCell {
     override func setConstraints() {
         bannerLabel.snp.makeConstraints { make in
             make.top.equalTo(10)
-            make.leading.equalTo(28)
-            make.height.equalTo(24)
+            make.leading.equalTo(20)
+            make.height.equalTo(28)
         }
         
         bannerButton.snp.makeConstraints { make in

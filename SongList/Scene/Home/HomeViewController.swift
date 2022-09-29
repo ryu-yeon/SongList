@@ -9,7 +9,6 @@ import UIKit
 
 import Hero
 import PanModal
-import SideMenu
 
 class HomeViewController: BaseViewController {
     
@@ -80,10 +79,8 @@ class HomeViewController: BaseViewController {
     
     @objc func settingButtonClicked() {
         
-        let leftMenuNavigationController = SideMenuNavigationController(rootViewController: SettingViewController())
-        SideMenuManager.default.leftMenuNavigationController = leftMenuNavigationController
-        leftMenuNavigationController.leftSide = true
-        present(leftMenuNavigationController, animated: true)
+        let vc = SettingViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func mapButtonClicked() {
@@ -120,7 +117,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         switch indexPath.row {
-        case 0: return 24 + 16 + (UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20 + 20
+        case 0: return 24 + 16 + (UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20 + 8
         case 1: return 20 + 24 + 260 + 16
         default: return 20 + 24 + 120 + 16
         }

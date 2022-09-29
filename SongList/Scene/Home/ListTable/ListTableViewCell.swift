@@ -36,24 +36,24 @@ class ListTableViewCell: BaseTableViewCell {
     let listLabel: UILabel = {
         let view = UILabel()
         view.text = "노래 리스트"
-        view.font = .boldSystemFont(ofSize: 24)
-        view.textColor = .black
+        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
         return view
     }()
     
     let myListButton: UIButton = {
         let view = UIButton()
-        view.setTitle("마이", for: .normal)
-        view.layer.cornerRadius = 8
-        view.backgroundColor = .black
+        view.setImage(UIImage(named: "myList"), for: .normal)
+        view.contentVerticalAlignment = .fill
+        view.contentHorizontalAlignment = .fill
         return view
     }()
     
     let recommandListButton: UIButton = {
         let view = UIButton()
-        view.setTitle("추천", for: .normal)
-        view.layer.cornerRadius = 8
-        view.backgroundColor = .lightGray
+        view.setImage(UIImage(named: "recommand"), for: .normal)
+        view.contentVerticalAlignment = .fill
+        view.contentHorizontalAlignment = .fill
         return view
     }()
     
@@ -70,6 +70,7 @@ class ListTableViewCell: BaseTableViewCell {
         
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.backgroundColor = .systemBackground
+        view.showsHorizontalScrollIndicator = false
         return view
     }()
     
@@ -91,44 +92,45 @@ class ListTableViewCell: BaseTableViewCell {
     @objc func myListButtonClicked() {
         listType = ListType.my
         listCollectionView.reloadData()
-        myListButton.backgroundColor = .black
-        recommandListButton.backgroundColor = .lightGray
+        myListButton.setImage(UIImage(named: "myList"), for: .normal)
+        recommandListButton.setImage(UIImage(named: "recommand"), for: .normal)
     }
     
     @objc func recommandListButtonClicked() {
         listType = ListType.recommand
         listCollectionView.reloadData()
-        myListButton.backgroundColor = .lightGray
-        recommandListButton.backgroundColor = .black
+        myListButton.setImage(UIImage(named: "myButton"), for: .normal)
+        recommandListButton.setImage(UIImage(named: "recommandList"), for: .normal)
     }
     
     override func setConstraints() {
         
         listLabel.snp.makeConstraints { make in
-            make.top.equalTo(10)
-            make.leading.equalTo(28)
-            make.height.equalTo(24)
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.leading.equalTo(20)
+            make.width.equalTo(140)
+            make.height.equalTo(28)
         }
         
         myListButton.snp.makeConstraints { make in
-            make.top.equalTo(listLabel.snp.top)
+            make.top.equalTo(self.safeAreaLayoutGuide)
             make.trailing.equalTo(recommandListButton.snp.leading).offset(-8)
             make.width.equalTo(40)
-            make.height.equalTo(24)
+            make.height.equalTo(28)
         }
         
         recommandListButton.snp.makeConstraints { make in
-            make.top.equalTo(listLabel.snp.top)
+            make.top.equalTo(myListButton.snp.top)
             make.trailing.equalTo(self).offset(-20)
             make.width.equalTo(myListButton.snp.width)
             make.height.equalTo(myListButton.snp.height)
         }
         
         listCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(listLabel.snp.bottom).offset(16)
+            make.top.equalTo(listLabel.snp.bottom)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo((UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20)
+            make.height.equalTo((UIScreen.main.bounds.width - 22 - 32) / 2.5 + 20 + 16)
         }
     }
 }
