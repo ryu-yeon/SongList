@@ -15,3 +15,41 @@ struct EndPoint {
     static let youtubeURL =  "https://m.youtube.com/results?sp=mAEA&search_query="
     static let lyricsNaverSearch = "https://m.search.naver.com/search.naver?sm=mtp_hty.top&where=m&query="
 }
+
+enum Menu: String {
+    case first = "노래 리스트"
+    case second = "인기차트"
+    case thrid = "주변 노래방 찾기"
+}
+
+enum Brand: String {
+    case tj
+    case kumyoung
+}
+
+enum BrandText: String {
+    case TJ
+    case KY
+}
+
+enum ListType: String {
+    case my = "마이"
+    case recommand = "추천"
+}
+
+enum SearchType: String {
+    case song
+    case singer
+}
+
+enum Range: String {
+    case daily
+    case weekly
+    case monthly
+}
+
+enum RangeText: String {
+    case daily = "일간"
+    case weekly = "주간"
+    case monthly = "월간"
+}
