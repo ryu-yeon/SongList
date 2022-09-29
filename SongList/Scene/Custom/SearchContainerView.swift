@@ -69,7 +69,7 @@ class SearchContainerView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         songSearchButton.snp.makeConstraints { make in
             make.top.equalTo(self)
             make.leading.equalTo(self)

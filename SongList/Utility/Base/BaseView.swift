@@ -12,7 +12,7 @@ class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        setContraints()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -23,7 +23,7 @@ class BaseView: UIView {
         
     }
     
-    func setContraints() {
+    func setConstraints() {
         
     }
 }

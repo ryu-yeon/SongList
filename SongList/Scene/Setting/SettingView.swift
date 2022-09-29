@@ -24,7 +24,7 @@ class SettingView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         settingTableView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(self.safeAreaLayoutGuide)
         }

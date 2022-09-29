@@ -47,7 +47,7 @@ class SearchView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
                
         searchContainer.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)

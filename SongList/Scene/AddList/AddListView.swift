@@ -54,7 +54,7 @@ class AddListView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         colorTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(40)

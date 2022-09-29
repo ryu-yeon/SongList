@@ -32,7 +32,7 @@ class AddSongView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         textLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)

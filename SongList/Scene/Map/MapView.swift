@@ -62,7 +62,7 @@ class MapView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         infoContainer.snp.makeConstraints { make in
             make.bottom.equalTo(self).offset(20)

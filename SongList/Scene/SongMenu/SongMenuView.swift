@@ -66,7 +66,7 @@ class SongMenuView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         numberLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)

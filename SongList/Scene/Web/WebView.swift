@@ -23,7 +23,7 @@ class WebView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         webView.snp.makeConstraints { make in
             make.leading.top.bottom.trailing.equalTo(self)

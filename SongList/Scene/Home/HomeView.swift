@@ -51,7 +51,7 @@ class HomeView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         logoLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(16)

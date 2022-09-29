@@ -54,7 +54,7 @@ class SongView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         albumImageView.snp.makeConstraints { make in
             make.top.bottom.equalTo(self).inset(4)
             make.leading.equalTo(self.safeAreaLayoutGuide)

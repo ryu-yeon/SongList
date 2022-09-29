@@ -71,7 +71,7 @@ class ChartView: BaseView {
         }
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         
         chartLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)

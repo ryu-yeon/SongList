@@ -21,7 +21,7 @@ class ListView: BaseView {
         self.addSubview(listTableView)
     }
     
-    override func setContraints() {
+    override func setConstraints() {
         listTableView.snp.makeConstraints { make in
             make.top.equalTo(self).offset(-40)
             make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
