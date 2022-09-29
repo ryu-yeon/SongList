@@ -44,14 +44,18 @@ class SpotifyAPIManager {
             case .success(let value):
                 let json = JSON(value)
                 var albumCover = "https://cdn-icons-png.flaticon.com/512/4505/4505303.png"
+                var i = 0
                 for song in json["tracks"]["items"].arrayValue {
+                    if i > 5 {
+                        break
+                    }
                     let artist = song["artists"][0]["name"].stringValue
-                    //                            print(artist)
-                    if artist == singer {
+                    if artist.contains(singer) {
                         let albumImage = song["album"]["images"][0]["url"].stringValue
                         albumCover = albumImage
                         break
                     }
+                    i += 1
                 }
                 
                 completionHandler(albumCover)

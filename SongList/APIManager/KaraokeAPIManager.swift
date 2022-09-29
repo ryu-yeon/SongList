@@ -14,8 +14,8 @@ class KaraokeAPIManager {
     
     static let shared = KaraokeAPIManager()
     
-    func requestChart(limit: Int, range: String, compleitionHandler: @escaping ([Song])-> Void) {
-        let url = EndPoint.chartURL + "tj/\(range).json"
+    func requestChart(limit: Int, range: String, brand: String, compleitionHandler: @escaping ([Song])-> Void) {
+        let url = EndPoint.chartURL + "\(brand)/\(range).json"
         AF.request(url, method: .get).validate().responseData { response in
             switch response.result {
             case .success(let value):
@@ -73,7 +73,10 @@ class KaraokeAPIManager {
                     let artist = song["singer"].stringValue
                     let composer = song["composer"].stringValue
                     let lyricist = song["lyricist"].stringValue
-                    let release = song["release"].stringValue
+                    var release = song["release"].stringValue
+                    if release == "0000-00-00" {
+                        release = ""
+                    }
                     let brand = song["brand"].stringValue
                     
                     let data = Song(brand: brand, albumImage: "", number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
@@ -87,5 +90,50 @@ class KaraokeAPIManager {
         }
     }
     
-    
+    func requestSearchSinger(text: String, brand: String, songTitle: String, completionHandler: @escaping ([Song])-> Void) {
+        
+        let title = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        
+        let url = EndPoint.searchURL + "/singer/\(title)/\(brand)" + ".json"
+        
+        AF.request(url, method: .get).validate().responseData { response in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                
+                var list: [Song] = []
+                var i = 0
+                for song in json.arrayValue {
+                    if i > 10 {
+                        break
+                    }
+                    let title = song["title"].stringValue
+                    if title == songTitle {
+                        continue
+                    }
+                    let artist = song["singer"].stringValue
+                    if artist != text {
+                        continue
+                    }
+                    i += 1
+                    let number = song["no"].stringValue
+                    let composer = song["composer"].stringValue
+                    let lyricist = song["lyricist"].stringValue
+                    var release = song["release"].stringValue
+                    let brand = song["brand"].stringValue
+                    if release == "0000-00-00" {
+                        release = ""
+                    }
+                    
+                    let data = Song(brand: brand, albumImage: "", number: number, title: title, artist: artist, composer: composer, lyricist: lyricist, release: release)
+                    list.append(data)
+                    
+                }
+                completionHandler(list)
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
