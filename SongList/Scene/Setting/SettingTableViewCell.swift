@@ -13,13 +13,21 @@ class SettingTableViewCell: BaseTableViewCell {
     
     let titleLabel: UILabel = {
         let view = UILabel()
-        view.text = "리스트 설정"
+        view.font = UIFont(name: "Cafe24Ssurround", size: 20)
+        view.textColor = .label
+        return view
+    }()
+    
+    let detailLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "Cafe24Ssurround", size: 16)
+        view.textColor = .label
         return view
     }()
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [titleLabel].forEach {
+        [titleLabel, detailLabel].forEach {
             self.addSubview($0)
         }
     }
@@ -30,5 +38,11 @@ class SettingTableViewCell: BaseTableViewCell {
             make.leading.equalTo(20)
             make.height.equalTo(self).multipliedBy(0.8)
         }
+        
+        detailLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(self).inset(10)
+            make.trailing.equalTo(self).inset(20)
+        }
+        
     }
 }

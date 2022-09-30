@@ -13,7 +13,6 @@ class SettingView: BaseView {
     
     let settingTableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = .gray
         return view
     }()
     

@@ -23,14 +23,16 @@ class AddListView: BaseView {
     let colorTitleLabel: UILabel = {
         let view = UILabel()
         view.text = "리스트 커버 색상을 지정하세요."
-        view.font = .boldSystemFont(ofSize: 24)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
         return view
     }()
     
     let titleLabel: UILabel = {
         let view = UILabel()
         view.text = "리스트에 이름을 지정하세요."
-        view.font = .boldSystemFont(ofSize: 24)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 24)
+        view.textColor = .label
         return view
     }()
     
@@ -43,7 +45,10 @@ class AddListView: BaseView {
     let okButton:UIButton = {
         let view = UIButton()
         view.setTitle("만들기", for: .normal)
-        view.backgroundColor = .lightGray
+        view.setTitleColor(UIColor.label, for: .normal)
+        view.titleLabel?.font  = UIFont(name: "Cafe24Ssurround", size: 20)
+        view.backgroundColor = .systemMint
+        view.layer.cornerRadius = 12
         return view
     }()
     
@@ -59,7 +64,6 @@ class AddListView: BaseView {
         colorTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(40)
             make.leading.trailing.equalTo(self).inset(20)
-            make.height.equalTo(28)
         }
         
         colorButton.snp.makeConstraints { make in
@@ -72,7 +76,6 @@ class AddListView: BaseView {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(colorButton.snp.bottom).offset(20)
             make.leading.trailing.equalTo(self).inset(20)
-            make.height.equalTo(28)
         }
         
         titleTextField.snp.makeConstraints { make in
@@ -84,8 +87,8 @@ class AddListView: BaseView {
         okButton.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(20)
             make.centerX.equalTo(self)
-            make.width.equalTo(120)
-            make.height.equalTo(36)
+            make.leading.trailing.equalTo(self).inset(20)
+            make.height.equalTo(52)
         }
         
     }
