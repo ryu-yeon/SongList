@@ -72,6 +72,7 @@ class ChartTableViewCell: BaseTableViewCell {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.backgroundColor = .systemBackground
         view.showsHorizontalScrollIndicator = false
+        view.decelerationRate = .fast
         return view
     }()
     
@@ -80,6 +81,7 @@ class ChartTableViewCell: BaseTableViewCell {
         [chartLabel, chartImageView, chartButton, tjButton, kyButton, chartCollectionView].forEach {
             contentView.addSubview($0)
         }
+
         chartCollectionView.delegate = self
         chartCollectionView.dataSource = self
         chartCollectionView.register(ChartCollectionViewCell.self, forCellWithReuseIdentifier: ChartCollectionViewCell.reusableIdentifier)
@@ -182,5 +184,26 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
         cell.delegate = delegate as? TVCellDelegate
         
         return cell
+    }
+}
+
+extension ChartTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let layout = self.chartCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+                
+                let cellWidthIncludingSpacing = layout.itemSize.width + layout.minimumLineSpacing
+                
+                let estimatedIndex = scrollView.contentOffset.x / cellWidthIncludingSpacing
+                let index: Int
+                if velocity.x > 0 {
+                    index = Int(ceil(estimatedIndex))
+                } else if velocity.x < 0 {
+                    index = Int(floor(estimatedIndex))
+                } else {
+                    index = Int(round(estimatedIndex))
+                }
+                
+                targetContentOffset.pointee = CGPoint(x: CGFloat(index) * cellWidthIncludingSpacing, y: 0)
     }
 }
