@@ -13,9 +13,9 @@ import SwiftyJSON
 class KakaoAPIManager {
     static let shared = KakaoAPIManager()
     
-    func requestKaraoke(text: String, x: String, y: String, radius: Int,  compleitionHandler: @escaping ([Karaoke])-> Void) {
+    func requestKaraoke(text: String, x: String, y: String, radius: Int, page: Int, compleitionHandler: @escaping ([Karaoke], Bool)-> Void) {
         let query = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let url = EndPoint.kakaoURL + "query=\(query)&x=\(x)&y=\(y)&radius=\(radius)&sort=distance"
+        let url = EndPoint.kakaoURL + "query=\(query)&x=\(x)&y=\(y)&radius=\(radius)&sort=distance&page=\(page)"
         let header: HTTPHeaders = ["Authorization": APIKey.kakaoApi]
         AF.request(url, method: .get, headers: header).validate().responseData { response in
             switch response.result {
@@ -24,7 +24,7 @@ class KakaoAPIManager {
 //                print("JSON: \(json)")
                 
                 var list: [Karaoke] = []
-                
+                let isEnd: Bool = json["meta"]["is_end"].boolValue
                 for karaoke in json["documents"].arrayValue {
                     let name = karaoke["place_name"].stringValue
                     let distance = karaoke["distance"].stringValue
@@ -38,7 +38,7 @@ class KakaoAPIManager {
                     list.append(data)
                 }
                 
-                compleitionHandler(list)
+                compleitionHandler(list, isEnd)
                 
             case .failure(let error):
                 print(error)
