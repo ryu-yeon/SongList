@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>주변 노래방 데이터를 가져오기 위해 현재 위치정보 권한이 필요합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>주변 노래방 데이터를 가져오기 위해 현재 위치정보 권한이 필요합니다.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>주변 노래방 데이터를 가져오기 위해 현재 위치정보 권한이 필요합니다.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -9,7 +15,6 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>BMJUA_otf.otf</string>
 		<string>Cafe24Ssurround.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
