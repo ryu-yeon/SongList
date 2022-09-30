@@ -61,12 +61,18 @@ class DetailViewController: BaseViewController {
             mainView.brandLabel.text = BrandText.KY.rawValue
         }
         
-        let url = URL(string: song.albumImage)
-        mainView.albumImageView.kf.setImage(with: url)
+        if song.albumImage == "" {
+            mainView.albumImageView.image = UIImage(systemName: "music.note")
+            mainView.albumImageView.tintColor = .systemMint
+        } else {
+            let url = URL(string: song.albumImage)
+            mainView.albumImageView.kf.setImage(with: url)
+        }
+        
         
         mainView.addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         
-//        mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
+        mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
         mainView.lyricsButton.addTarget(self, action: #selector(lyricsButtonClicked), for: .touchUpInside)
     }
     
@@ -105,8 +111,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.songView.titleLabel.text = songList[indexPath.row].title
         cell.songView.artistLabel.text = songList[indexPath.row].artist
         cell.songView.numberLabel.text = songList[indexPath.row].number
-        let url = URL(string: songList[indexPath.row].albumImage)
-        cell.songView.albumImageView.kf.setImage(with: url)
+        
+        if songList[indexPath.row].albumImage == "" {
+            cell.songView.albumImageView.image = UIImage(systemName: "music.note")
+            cell.songView.albumImageView.tintColor = .systemMint
+        } else {
+            let url = URL(string: songList[indexPath.row].albumImage)
+            cell.songView.albumImageView.kf.setImage(with: url)
+        }
         
         return cell
     }

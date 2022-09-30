@@ -161,9 +161,14 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.songView.brandLabel.text = BrandText.KY.rawValue
             }
             
-            let url = URL(string: task.songs[indexPath.row].albumImage)
-            cell.songView.albumImageView.kf.setImage(with: url)
-            
+            if task.songs[indexPath.row].albumImage == "" {
+                cell.songView.albumImageView.image = UIImage(systemName: "music.note")
+                cell.songView.albumImageView.tintColor = .systemMint
+            } else {
+                let url = URL(string: task.songs[indexPath.row].albumImage)
+                cell.songView.albumImageView.kf.setImage(with: url)
+            }
+
             return cell
         }
     }

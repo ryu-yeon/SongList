@@ -16,7 +16,6 @@ class RankTableViewCell: BaseTableViewCell {
         view.backgroundColor = .white
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
-        view.image = UIImage(systemName: "music.note")
         return view
     }()
     

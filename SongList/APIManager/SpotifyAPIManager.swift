@@ -43,7 +43,7 @@ class SpotifyAPIManager {
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                var albumCover = "https://cdn-icons-png.flaticon.com/512/4505/4505303.png"
+                var albumCover = ""
                 var i = 0
                 for song in json["tracks"]["items"].arrayValue {
                     if i > 5 {

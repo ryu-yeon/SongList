@@ -77,8 +77,13 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
             cell.brandLabel.text = BrandText.KY.rawValue
         }
         
-        let url = URL(string: chartList[indexPath.row].albumImage)
-        cell.albumImageView.kf.setImage(with: url)
+        if chartList[indexPath.row].albumImage == "" {
+            cell.albumImageView.image = UIImage(systemName: "music.note")
+            cell.albumImageView.tintColor = .systemMint
+        } else {
+            let url = URL(string: chartList[indexPath.row].albumImage)
+            cell.albumImageView.kf.setImage(with: url)
+        }
         
         return cell
     }
