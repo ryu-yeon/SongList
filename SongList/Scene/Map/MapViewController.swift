@@ -39,6 +39,7 @@ class MapViewController: BaseViewController {
     override func configure() {
 
         mainView.urlButton.addTarget(self, action: #selector(urlButtonClicked), for: .touchUpInside)
+        mainView.currentButton.addTarget(self, action: #selector(currentButtonClicked), for: .touchUpInside)
     }
 
     
@@ -85,6 +86,10 @@ class MapViewController: BaseViewController {
             
         default: print("DEFAULT")
         }
+    }
+    
+    @objc func currentButtonClicked() {
+        mainView.mapView.positionMode = .compass
     }
     
     @objc func urlButtonClicked() {

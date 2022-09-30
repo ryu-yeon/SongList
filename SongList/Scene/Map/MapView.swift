@@ -25,6 +25,19 @@ class MapView: BaseView {
         return view
     }()
     
+    let currentButton: UIButton = {
+        let view = UIButton()
+        view.layer.cornerRadius = 12
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let currentImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "precision")
+        return view
+    }()
+    
     let infoContainer: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -95,7 +108,7 @@ class MapView: BaseView {
 
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [mapLabel, mapView, infoContainer, nameLabel, distanceLabel, addressLabel, urlButton, normalView, normalLabel, coinView, coinLabel].forEach {
+        [mapLabel, mapView, currentButton, currentImageView,infoContainer, nameLabel, distanceLabel, addressLabel, urlButton, normalView, normalLabel, coinView, coinLabel].forEach {
             self.addSubview($0)
         }
     }
@@ -117,6 +130,17 @@ class MapView: BaseView {
             make.top.equalTo(mapLabel.snp.bottom).offset(8)
             make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(16)
             make.bottom.equalTo(infoContainer.snp.top).offset(16)
+        }
+        
+        currentButton.snp.makeConstraints { make in
+            make.leading.equalTo(mapView).inset(20)
+            make.bottom.equalTo(mapView).inset(40)
+            make.width.height.equalTo(40)
+        }
+        
+        currentImageView.snp.makeConstraints { make in
+            make.center.equalTo(currentButton)
+            make.width.height.equalTo(28)
         }
         
         nameLabel.snp.makeConstraints { make in
