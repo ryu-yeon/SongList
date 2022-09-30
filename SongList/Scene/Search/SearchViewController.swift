@@ -84,14 +84,20 @@ class SearchViewController: BaseViewController {
     
     @objc func searchTextEditing() {
         
-        KaraokeAPIManager.shared.requestSearch(text: mainView.searchContainer.userTextField.text ?? "", type: type, brand: brand) { songList in
-            self.searchList = songList
-            for i in 0..<self.searchList.count {
-                SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
-                    self.searchList[i].albumImage = albumCover
-                    DispatchQueue.main.async {
-                        self.mainView.searchTableView.reloadData()
+        if searchList.count > 0 {
+            self.mainView.searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+        
+        if let text = mainView.searchContainer.userTextField.text, text != "" {
+            KaraokeAPIManager.shared.requestSearch(text: text, type: type, brand: brand) { songList in
+                self.searchList = songList
+                for i in 0..<self.searchList.count {
+                    SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
+                        self.searchList[i].albumImage = albumCover
                     }
+                }
+                DispatchQueue.main.async {
+                    self.mainView.searchTableView.reloadData()
                 }
             }
         }
@@ -139,13 +145,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             cell.songView.brandLabel.text = BrandText.KY.rawValue
         }
         
-        let url = URL(string: searchList[indexPath.row].albumImage)
-        cell.songView.albumImageView.kf.setImage(with: url)
+        if searchList[indexPath.row].albumImage == "" {
+            cell.songView.albumImageView.image = UIImage(systemName: "music.note")
+            cell.songView.albumImageView.tintColor = .systemMint
+        } else {
+            let url = URL(string: searchList[indexPath.row].albumImage)
+            cell.songView.albumImageView.kf.setImage(with: url)
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
         let vc = SongMenuViewNavigtaionController()
         vc.nav.song = searchList[indexPath.row]
         vc.nav.pvc = self.navigationController
