@@ -21,6 +21,7 @@ class SearchTableViewCell: BaseTableViewCell {
         [songView].forEach {
             contentView.addSubview($0)
         }
+        self.selectionStyle = .none
     }
     
     override func setConstraints() {

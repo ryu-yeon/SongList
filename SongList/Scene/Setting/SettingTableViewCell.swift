@@ -30,6 +30,7 @@ class SettingTableViewCell: BaseTableViewCell {
         [titleLabel, detailLabel].forEach {
             self.addSubview($0)
         }
+        self.selectionStyle = .none
     }
     
     override func setConstraints() {

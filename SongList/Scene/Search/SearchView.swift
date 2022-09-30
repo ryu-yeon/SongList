@@ -28,7 +28,7 @@ class SearchView: BaseView {
         let view = UISegmentedControl(items: [BrandText.TJ.rawValue, BrandText.KY.rawValue])
         view.selectedSegmentIndex = 0
         view.selectedSegmentTintColor = .systemMint
-        view.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.systemBackground], for: .normal)
+        view.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.label], for: .normal)
         view.tintColor = .systemGray4
         return view
     }()
