@@ -7,6 +7,8 @@
 
 import UIKit
 
+import AcknowList
+
 class SettingViewController: BaseViewController {
     
     private let mainView = SettingView()
@@ -47,7 +49,19 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.titleLabel.text = settingMenu[indexPath.row]
         
+        if indexPath.row == 2 {
+            cell.detailLabel.text = "1.0"
+        }
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 3 {
+            let vc = AcknowListViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
