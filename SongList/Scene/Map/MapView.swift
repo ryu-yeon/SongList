@@ -12,6 +12,14 @@ import NMapsMap
 
 class MapView: BaseView {
     
+    let mapLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "Cafe24Ssurround", size: 32)
+        view.textColor = .label
+        view.text = Menu.thrid.rawValue
+        return view
+    }()
+    
     let mapView: NMFMapView = {
         let view = NMFMapView()
         return view
@@ -28,6 +36,36 @@ class MapView: BaseView {
         let view = UILabel()
         view.font = UIFont(name: "Cafe24Ssurround", size: 24)
         view.textColor = .label
+        return view
+    }()
+    
+    let normalView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGreen
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    let normalLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "Cafe24Ssurround", size: 12)
+        view.textColor = .label
+        view.text = "일반 노래방"
+        return view
+    }()
+    
+    let coinView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemOrange
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
+    let coinLabel: UILabel = {
+        let view = UILabel()
+        view.font = UIFont(name: "Cafe24Ssurround", size: 12)
+        view.textColor = .label
+        view.text = "코인 노래방"
         return view
     }()
     
@@ -57,12 +95,17 @@ class MapView: BaseView {
 
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [mapView, infoContainer, nameLabel, distanceLabel, addressLabel, urlButton].forEach {
+        [mapLabel, mapView, infoContainer, nameLabel, distanceLabel, addressLabel, urlButton, normalView, normalLabel, coinView, coinLabel].forEach {
             self.addSubview($0)
         }
     }
     
     override func setConstraints() {
+        
+        mapLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+        }
         
         infoContainer.snp.makeConstraints { make in
             make.bottom.equalTo(self).offset(20)
@@ -71,7 +114,8 @@ class MapView: BaseView {
         }
         
         mapView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(mapLabel.snp.bottom).offset(8)
+            make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(16)
             make.bottom.equalTo(infoContainer.snp.top).offset(16)
         }
         
@@ -92,9 +136,31 @@ class MapView: BaseView {
         
         urlButton.snp.makeConstraints { make in
             make.top.equalTo(distanceLabel.snp.top)
+            make.bottom.equalTo(self).offset(-20)
             make.trailing.equalTo(infoContainer).inset(20)
             make.width.equalTo(160)
-            make.height.equalTo(60)
+        }
+        
+        normalLabel.snp.makeConstraints { make in
+            make.top.equalTo(mapLabel.snp.top)
+            make.trailing.equalTo(mapView.snp.trailing).offset(-8)
+        }
+        
+        normalView.snp.makeConstraints { make in
+            make.centerY.equalTo(normalLabel)
+            make.trailing.equalTo(normalLabel.snp.leading).offset(-8)
+            make.width.height.equalTo(16)
+        }
+        
+        coinLabel.snp.makeConstraints { make in
+            make.top.equalTo(normalLabel.snp.bottom).offset(8)
+            make.trailing.equalTo(normalLabel)
+        }
+        
+        coinView.snp.makeConstraints { make in
+            make.centerY.equalTo(coinLabel)
+            make.trailing.equalTo(coinLabel.snp.leading).offset(-8)
+            make.width.height.equalTo(16)
         }
     }
 }

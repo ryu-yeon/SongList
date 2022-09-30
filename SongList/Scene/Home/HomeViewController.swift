@@ -116,6 +116,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BannerTableViewCell.reusableIdentifier) as? BannerTableViewCell else { return UITableViewCell()}
             
             cell.bannerLabel.text = Menu.thrid.rawValue
+            cell.bannerLabel.heroID = "mapLabel"
             cell.bannerButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
             cell.bannerViewButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
             return cell
