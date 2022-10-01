@@ -147,7 +147,7 @@ class DetailView: BaseView {
         }
         
         brandLabel.snp.makeConstraints { make in
-            make.top.equalTo(composerLabel.snp.top)
+            make.bottom.equalTo(releaseLabel.snp.bottom)
             make.trailing.equalTo(self).offset(-20)
             make.width.equalTo(52)
         }
@@ -159,7 +159,7 @@ class DetailView: BaseView {
         }
         
         numberLabel.snp.makeConstraints { make in
-            make.top.equalTo(artistLabel.snp.top)
+            make.top.equalTo(composerLabel.snp.top)
             make.trailing.equalTo(titleLabel.snp.trailing)
             make.width.equalTo(120)
         }
@@ -167,25 +167,28 @@ class DetailView: BaseView {
         artistLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
+            make.trailing.equalTo(titleLabel.snp.trailing)
         }
         
         composerLabel.snp.makeConstraints { make in
             make.top.equalTo(artistLabel.snp.bottom).offset(8)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(brandLabel.snp.leading).offset(-16)
+            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
+            make.height.equalTo(20)
         }
         
         lyricistLabel.snp.makeConstraints { make in
             make.top.equalTo(composerLabel.snp.bottom).offset(4)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
+            make.height.equalTo(20)
         }
         
         releaseLabel.snp.makeConstraints { make in
             make.top.equalTo(lyricistLabel.snp.bottom).offset(4)
             make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.trailing.equalTo(numberLabel.snp.leading).offset(-8)
+            make.height.equalTo(20)
         }
         
         addButton.snp.makeConstraints { make in
@@ -196,7 +199,7 @@ class DetailView: BaseView {
         }
         
         youtubeImage.snp.makeConstraints { make in
-            make.top.equalTo(releaseLabel.snp.bottom).offset(8)
+            make.top.equalTo(brandLabel.snp.bottom).offset(8)
             make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.width.equalTo(80)
             make.height.equalTo(60)
