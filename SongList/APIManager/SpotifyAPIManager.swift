@@ -50,7 +50,7 @@ class SpotifyAPIManager {
                         break
                     }
                     let artist = song["artists"][0]["name"].stringValue
-                    if artist.contains(singer) {
+                    if singer.contains(artist) {
                         let albumImage = song["album"]["images"][0]["url"].stringValue
                         albumCover = albumImage
                         break
