@@ -37,6 +37,11 @@ class SpotifyAPIManager {
     }
     
     func requestSong(token: String, song: String, singer: String, completionHandler: @escaping (String) -> Void) {
+        
+        var singerText = singer
+        
+        singerText = singerText.replacingOccurrences(of: "IU", with: "아이유")
+        
         let title = song.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let url = "https://api.spotify.com/v1/search?access_token=\(token)&q=\(title)&type=track"
         AF.request(url, method: .get).validate().responseData { response in
@@ -50,7 +55,7 @@ class SpotifyAPIManager {
                         break
                     }
                     let artist = song["artists"][0]["name"].stringValue
-                    if singer.contains(artist) {
+                    if singerText.contains(artist) {
                         let albumImage = song["album"]["images"][0]["url"].stringValue
                         albumCover = albumImage
                         break

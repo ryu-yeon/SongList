@@ -88,15 +88,19 @@ class SearchViewController: BaseViewController {
             self.mainView.searchTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
         
-        if let text = mainView.searchContainer.userTextField.text, text != "" {
-            KaraokeAPIManager.shared.requestSearch(text: text, type: type, brand: brand) { songList in
-                self.searchList = songList
-                for i in 0..<self.searchList.count {
-                    SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
-                        self.searchList[i].albumImage = albumCover
-                        DispatchQueue.main.async {
-                            self.mainView.searchTableView.reloadData()
-                        }
+        guard var searchText = mainView.searchContainer.userTextField.text, searchText != "" else { return }
+        
+        if type == "singer" && searchText == "아이유" {
+            searchText = "IU"
+        }
+        
+        KaraokeAPIManager.shared.requestSearch(text: searchText, type: type, brand: brand) { songList in
+            self.searchList = songList
+            for i in 0..<self.searchList.count {
+                SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
+                    self.searchList[i].albumImage = albumCover
+                    DispatchQueue.main.async {
+                        self.mainView.searchTableView.reloadData()
                     }
                 }
             }
