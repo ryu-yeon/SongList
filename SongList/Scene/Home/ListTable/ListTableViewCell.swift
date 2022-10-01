@@ -74,7 +74,6 @@ class ListTableViewCell: BaseTableViewCell {
     }()
     
     override func configureUI() {
-        
         tasks = localRealm.objects(ListRealm.self)
         
         listCollectionView.dataSource = self

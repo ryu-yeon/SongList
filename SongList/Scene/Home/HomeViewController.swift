@@ -105,6 +105,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 0: guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reusableIdentifier) as? ListTableViewCell else { return UITableViewCell() }
             
             cell.delegate = self
+            cell.listCollectionView.reloadData()
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChartTableViewCell.reusableIdentifier) as? ChartTableViewCell  else { return UITableViewCell() }

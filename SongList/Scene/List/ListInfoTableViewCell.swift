@@ -48,12 +48,12 @@ class ListInfoTableViewCell: BaseTableViewCell {
         }
         
         listTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(listImageView.snp.bottom).offset(16)
+            make.bottom.equalTo(self)
             make.leading.equalTo(self).offset(8)
         }
         
         listCountLabel.snp.makeConstraints { make in
-            make.top.equalTo(listImageView.snp.bottom).offset(16)
+            make.bottom.equalTo(self)
             make.trailing.equalTo(self).offset(-20)
         }
     }
