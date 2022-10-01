@@ -94,10 +94,10 @@ class SearchViewController: BaseViewController {
                 for i in 0..<self.searchList.count {
                     SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
                         self.searchList[i].albumImage = albumCover
+                        DispatchQueue.main.async {
+                            self.mainView.searchTableView.reloadData()
+                        }
                     }
-                }
-                DispatchQueue.main.async {
-                    self.mainView.searchTableView.reloadData()
                 }
             }
         }

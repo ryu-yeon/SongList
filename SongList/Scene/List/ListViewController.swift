@@ -145,9 +145,25 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reusableIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
             
             guard let task = task else {
+                
+                if songList.songs[indexPath.row].albumImage == "" {
+                    cell.songView.albumImageView.image = UIImage(systemName: "music.note")
+                    cell.songView.albumImageView.tintColor = .systemMint
+                } else {
+                    let url = URL(string: songList.songs[indexPath.row].albumImage)
+                    cell.songView.albumImageView.kf.setImage(with: url)
+                }
+                
+                if songList.songs[indexPath.row].brand == Brand.tj.rawValue {
+                    cell.songView.brandLabel.text = BrandText.TJ.rawValue
+                } else {
+                    cell.songView.brandLabel.text = BrandText.KY.rawValue
+                }
+                
                 cell.songView.titleLabel.text = songList.songs[indexPath.row].title
                 cell.songView.artistLabel.text = songList.songs[indexPath.row].artist
                 cell.songView.numberLabel.text = songList.songs[indexPath.row].number
+                
                 return cell
             }
             
@@ -212,15 +228,17 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let vc = DetailViewController()
             if let task = task {
+                let vc = DetailViewController()
                 let song = Song(brand: task.songs[indexPath.row].brand, albumImage: task.songs[indexPath.row].albumImage, number: task.songs[indexPath.row].number, title: task.songs[indexPath.row].title, artist: task.songs[indexPath.row].artist, composer: task.songs[indexPath.row].composer, lyricist: task.songs[indexPath.row].lyricist, release: task.songs[indexPath.row].release)
                 vc.song = song
+                navigationController?.pushViewController(vc, animated: true)
             } else {
-                let song = songList.songs[indexPath.row]
-                vc.song = song
+                let vc = SongMenuViewNavigtaionController()
+                vc.nav.song = songList.songs[indexPath.row]
+                vc.nav.pvc = self.navigationController
+                self.presentPanModal(vc)
             }
-            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
