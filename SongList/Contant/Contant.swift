@@ -14,6 +14,7 @@ struct EndPoint {
     
     static let youtubeURL =  "https://m.youtube.com/results?sp=mAEA&search_query="
     static let lyricsNaverSearch = "https://m.search.naver.com/search.naver?sm=mtp_hty.top&where=m&query="
+    static let infoURL = "https://interesting-cow-b5d.notion.site/5015ecd9c78b4467ae2a4f7873eace7e"
 }
 
 enum Menu: String {

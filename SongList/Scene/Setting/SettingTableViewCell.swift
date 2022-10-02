@@ -25,9 +25,16 @@ class SettingTableViewCell: BaseTableViewCell {
         return view
     }()
     
+    let detailImageView: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "chevron.right.circle.fill")
+        view.tintColor = .systemMint
+        return view
+    }()
+    
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [titleLabel, detailLabel].forEach {
+        [titleLabel, detailLabel, detailImageView].forEach {
             self.addSubview($0)
         }
         self.selectionStyle = .none
@@ -42,6 +49,11 @@ class SettingTableViewCell: BaseTableViewCell {
         
         detailLabel.snp.makeConstraints { make in
             make.bottom.equalTo(self).inset(10)
+            make.trailing.equalTo(self).inset(20)
+        }
+        
+        detailImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(self)
             make.trailing.equalTo(self).inset(20)
         }
         

@@ -13,7 +13,7 @@ class SettingViewController: BaseViewController {
     
     private let mainView = SettingView()
     
-    let settingMenu: [String] = ["문의하기", "리뷰작성", "앱 버전", "오픈소스 라이선스"]
+    let settingMenu: [String] = ["앱 버전", "앱 정보", "오픈소스 라이선스"]
     
     override func loadView() {
         self.view = mainView
@@ -31,7 +31,8 @@ class SettingViewController: BaseViewController {
     override func configure() {
         
         navigationItem.title = "설정"
-        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 18)!]
+
         mainView.settingTableView.delegate = self
         mainView.settingTableView.dataSource = self
         mainView.settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reusableIdentifier)
@@ -49,18 +50,24 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.titleLabel.text = settingMenu[indexPath.row]
         
-        if indexPath.row == 2 {
+        if indexPath.row == 0 {
             cell.detailLabel.text = "1.0"
+            cell.detailImageView.isHidden = true
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.row == 3 {
+        switch indexPath.row {
+        case 1 :
+            let vc = WebViewController()
+            vc.url = EndPoint.infoURL
+            present(vc, animated: true)
+        case 2:
             let vc = AcknowListViewController()
             navigationController?.pushViewController(vc, animated: true)
+        default: return
         }
     }
     
