@@ -41,7 +41,7 @@ class FlatIconAPIManager {
 //                print("JSON: \(json)")
                 var iconList: [String] = []
                 for icon in json["data"].arrayValue {
-                    iconList.append(icon["images"]["64"].stringValue)
+                    iconList.append(icon["images"]["128"].stringValue)
                 }
                 complietionHandler(iconList)
                 

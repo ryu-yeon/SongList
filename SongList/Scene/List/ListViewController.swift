@@ -30,6 +30,7 @@ class ListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.isHeroEnabled = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,10 +60,10 @@ class ListViewController: BaseViewController {
         mainView.listTableView.register(ListInfoTableViewCell.self, forCellReuseIdentifier: ListInfoTableViewCell.reusableIdentifier)
         mainView.listTableView.register(SearchTableViewCell .self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
+        
     }
     
     func setNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
         
         let editTitle = UIAction(title: "리스트 커버 수정", image: UIImage(systemName: "pencil")) { _ in
             
