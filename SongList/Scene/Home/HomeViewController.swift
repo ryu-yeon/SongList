@@ -119,6 +119,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.bannerLabel.text = Menu.thrid.rawValue
             cell.bannerLabel.heroID = "mapLabel"
+            cell.bannerViewButton.setImage(UIImage(named: "map"), for: .normal)
+            cell.bannerViewButton.contentMode = .scaleToFill
+            cell.bannerViewButton.heroID = "mapView"
             cell.bannerButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
             cell.bannerViewButton.addTarget(self, action: #selector(mapButtonClicked), for: .touchUpInside)
             return cell

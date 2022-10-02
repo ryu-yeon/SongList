@@ -27,8 +27,9 @@ class BannerTableViewCell: BaseTableViewCell {
     
     let bannerViewButton: UIButton = {
         let view = UIButton()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .systemGray4
         view.layer.cornerRadius = 10
+        view.clipsToBounds = true
         return view
     }()
     
@@ -68,7 +69,7 @@ class BannerTableViewCell: BaseTableViewCell {
             make.top.equalTo(bannerLabel.snp.bottom).offset(16)
             make.leading.equalTo(20)
             make.trailing.equalTo(-20)
-            make.height.equalTo(120)
+            make.height.equalTo(bannerViewButton.snp.width).multipliedBy(0.35)
         }
     }
 }

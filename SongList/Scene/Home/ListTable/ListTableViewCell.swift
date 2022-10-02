@@ -173,6 +173,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.heroID = "listImageView\(indexPath.item)"
             let url = URL(string: data[indexPath.row].image)
             cell.listImageView.kf.setImage(with: url)
+            cell.listImageView.backgroundColor = .systemGray3
             cell.listTitleLabel.text = data[indexPath.row].title
         }
         return cell
@@ -197,6 +198,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         } else {
             if let delegate = delegate {
                 let vc = ListViewController()
+                vc.number = indexPath.item
                 vc.songList = data[indexPath.item]
                 delegate.selectedCVCell(indexPath.item, vc: vc)
             }

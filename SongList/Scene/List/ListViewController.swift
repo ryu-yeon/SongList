@@ -130,6 +130,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
             guard let task = task else {
                 let url = URL(string: songList.image)
                 cell.listImageView.kf.setImage(with: url)
+                cell.listImageView.backgroundColor = .systemGray3
                 cell.listTitleLabel.text = songList.title
                 cell.listCountLabel.text = "\(songList.songs.count)곡"
 

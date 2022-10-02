@@ -34,6 +34,7 @@ class MapViewController: BaseViewController {
         checkUserDeviceLocationServiceAuthorization()
         self.isHeroEnabled = true
         mainView.mapLabel.heroID = "mapLabel"
+        mainView.mapView.heroID = "mapView"
     }
     
     override func configure() {
@@ -130,8 +131,9 @@ extension MapViewController: CLLocationManagerDelegate {
                                 if let marker = overlay as? NMFMarker {
                                     if marker.infoWindow == nil {
                                         dataSource.title = "선택"
+                                        self?.infoWindow.alpha = 0.8
                                         self?.infoWindow.dataSource = dataSource
-                                        self?.infoWindow.open(with: marker)
+                                        self?.infoWindow.open(with: marker, alignType: .bottom)
                                     } else {
                                         self?.infoWindow.close()
                                     }
