@@ -180,6 +180,7 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
             cell.chartList = [chartList[indexPath.item * 3], chartList[indexPath.item * 3 + 1], chartList[indexPath.item * 3 + 2]]
             cell.rank = indexPath.item * 3
             cell.requestAlbumCover(token: token)
+            cell.chartTableView.reloadData()
         }
         cell.delegate = delegate as? TVCellDelegate
         

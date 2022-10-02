@@ -38,13 +38,17 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         chartTableView.register(RankTableViewCell.self, forCellReuseIdentifier: RankTableViewCell.reusableIdentifier)
         chartTableView.isScrollEnabled = false
     }
-    
+
     func requestAlbumCover(token: String) {
-        for i in 0..<self.chartList.count {
-            SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[i].title, singer: self.chartList[i].artist) { albumCover in
-                self.chartList[i].albumImage = albumCover
-                DispatchQueue.main.async {
-                    self.chartTableView.reloadData()
+        SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[0].title, singer: self.chartList[0].artist) { albumCover in
+            self.chartList[0].albumImage = albumCover
+            SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[1].title, singer: self.chartList[1].artist) { albumCover in
+                self.chartList[1].albumImage = albumCover
+                SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[2].title, singer: self.chartList[2].artist) { albumCover in
+                    self.chartList[2].albumImage = albumCover
+                    DispatchQueue.main.async {
+                        self.chartTableView.reloadData()
+                    }
                 }
             }
         }
