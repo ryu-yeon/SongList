@@ -12,6 +12,15 @@ import NMapsMap
 
 class MapView: BaseView {
     
+    let backButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(systemName: "chevron.left.circle.fill"), for: .normal)
+        view.tintColor = .systemMint
+        view.contentVerticalAlignment = .fill
+        view.contentHorizontalAlignment = .fill
+        return view
+    }()
+    
     let mapLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: "Cafe24Ssurround", size: 32)
@@ -63,7 +72,7 @@ class MapView: BaseView {
         let view = UILabel()
         view.font = UIFont(name: "Cafe24Ssurround", size: 12)
         view.textColor = .label
-        view.text = "일반 노래방"
+        view.text = "일반"
         return view
     }()
     
@@ -78,7 +87,7 @@ class MapView: BaseView {
         let view = UILabel()
         view.font = UIFont(name: "Cafe24Ssurround", size: 12)
         view.textColor = .label
-        view.text = "코인 노래방"
+        view.text = "코인"
         return view
     }()
     
@@ -108,16 +117,22 @@ class MapView: BaseView {
 
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [mapLabel, mapView, currentButton, currentImageView,infoContainer, nameLabel, distanceLabel, addressLabel, urlButton, normalView, normalLabel, coinView, coinLabel].forEach {
+        [backButton, mapLabel, mapView, currentButton, currentImageView,infoContainer, nameLabel, distanceLabel, addressLabel, urlButton, normalView, normalLabel, coinView, coinLabel].forEach {
             self.addSubview($0)
         }
     }
     
     override func setConstraints() {
         
+        backButton.snp.makeConstraints { make in
+            make.centerY.equalTo(mapLabel)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.width.height.equalTo(28)
+        }
+        
         mapLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.leading.equalTo(backButton.snp.trailing).offset(8)
         }
         
         infoContainer.snp.makeConstraints { make in

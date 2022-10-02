@@ -141,7 +141,7 @@ class DetailView: BaseView {
     override func setConstraints() {
         
         albumImageView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(8)
             make.centerX.equalTo(self)
             make.width.height.equalTo(160)
         }

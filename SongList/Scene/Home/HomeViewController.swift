@@ -22,7 +22,6 @@ class HomeViewController: BaseViewController {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         navigationController?.isHeroEnabled = true
-        navigationItem.backButtonTitle = " "
         self.navigationController?.navigationBar.tintColor = .systemMint
     }
     

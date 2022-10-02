@@ -11,10 +11,19 @@ import SnapKit
 
 class ChartView: BaseView {
     
+    let backButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(systemName: "chevron.left.circle.fill"), for: .normal)
+        view.tintColor = .systemMint
+        view.contentVerticalAlignment = .fill
+        view.contentHorizontalAlignment = .fill
+        return view
+    }()
+    
     let chartLabel: UILabel = {
         let view = UILabel()
         view.text = Menu.second.rawValue
-        view.font = UIFont(name: "Cafe24Ssurround", size: 32)
+        view.font = UIFont(name: "Cafe24Ssurround", size: 38)
         view.textColor = .label
         return view
     }()
@@ -66,35 +75,41 @@ class ChartView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [chartLabel, segmentControl, dailyButton, weeklyButton, monthlyButton, chartTableView].forEach {
+        [backButton, chartLabel, segmentControl, dailyButton, weeklyButton, monthlyButton, chartTableView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setConstraints() {
         
-        chartLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
+        backButton.snp.makeConstraints { make in
+            make.centerY.equalTo(chartLabel)
             make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.width.height.equalTo(32)
+        }
+        
+        chartLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(segmentControl.snp.bottom)
+            make.leading.equalTo(backButton.snp.trailing).offset(8)
         }
         
         dailyButton.snp.makeConstraints { make in
-            make.top.equalTo(chartLabel.snp.bottom).offset(8)
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.top.equalTo(segmentControl.snp.bottom).offset(8)
+            make.trailing.equalTo(weeklyButton.snp.leading).offset(-8)
             make.width.equalTo(40)
             make.height.equalTo(24)
         }
         
         weeklyButton.snp.makeConstraints { make in
             make.top.equalTo(dailyButton.snp.top)
-            make.leading.equalTo(dailyButton.snp.trailing).offset(8)
+            make.trailing.equalTo(monthlyButton.snp.leading).offset(-8)
             make.width.equalTo(dailyButton.snp.width)
             make.height.equalTo(dailyButton.snp.height)
         }
         
         monthlyButton.snp.makeConstraints { make in
             make.top.equalTo(dailyButton.snp.top)
-            make.leading.equalTo(weeklyButton.snp.trailing).offset(8)
+            make.trailing.equalTo(segmentControl.snp.trailing)
             make.width.equalTo(dailyButton.snp.width)
             make.height.equalTo(dailyButton.snp.height)
         }
@@ -103,7 +118,7 @@ class ChartView: BaseView {
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.trailing.equalTo(self).offset(-20)
             make.width.equalTo(120)
-            make.height.equalTo(40)
+            make.height.equalTo(36)
         }
         
         chartTableView.snp.makeConstraints { make in

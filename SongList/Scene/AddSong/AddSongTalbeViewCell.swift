@@ -37,6 +37,7 @@ class AddSongTalbeViewCell: BaseTableViewCell {
         [listImageView, countLabel, titleLabel].forEach {
             contentView.addSubview($0)
         }
+        self.selectionStyle = .none
     }
     
     override func setConstraints() {

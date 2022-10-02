@@ -164,7 +164,7 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
                 cell.heroID = "listImageView\(indexPath.item)"
                 cell.listImageView.image = UIImage(systemName: "plus")
                 cell.listImageView.backgroundColor = .white
-                cell.tintColor = .black
+                cell.tintColor = .darkGray
                 cell.listImageView.layer.borderColor = UIColor.darkGray.cgColor
                 cell.listImageView.layer.borderWidth = 1
                 cell.listTitleLabel.text = "리스트 추가"

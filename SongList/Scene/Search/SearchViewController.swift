@@ -152,9 +152,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         if searchList[indexPath.row].albumImage == "" {
             cell.songView.albumImageView.image = UIImage(systemName: "music.note")
             cell.songView.albumImageView.tintColor = .systemMint
+            cell.songView.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
+            cell.songView.albumImageView.layer.borderWidth = 1
         } else {
             let url = URL(string: searchList[indexPath.row].albumImage)
             cell.songView.albumImageView.kf.setImage(with: url)
+            cell.songView.albumImageView.layer.borderWidth = 0
         }
         
         return cell

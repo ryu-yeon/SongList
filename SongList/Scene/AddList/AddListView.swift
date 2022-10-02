@@ -13,7 +13,7 @@ class AddListView: BaseView {
         
     let colorButton: UIButton = {
         let view = UIButton()
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = UIColor.label.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 20
         view.clipsToBounds = true

@@ -38,7 +38,7 @@ class AddListViewController: BaseViewController {
         
         mainView.okButton.addTarget(self, action: #selector(okButtonClicked), for: .touchUpInside)
         mainView.colorButton.addTarget(self, action: #selector(colorButtonClicked), for: .touchUpInside)
-        mainView.titleTextField.placeholder = "내 리스트 #\(tasks.count + 1)"
+        mainView.titleTextField.placeholder = " 내 리스트 #\(tasks.count + 1)"
     }
     
     @objc func colorButtonClicked() {
@@ -54,12 +54,8 @@ class AddListViewController: BaseViewController {
             listTitle = "내 리스트 #\(tasks.count + 1)"
         }
         ListRepository().saveList(title: listTitle, color: colorString ?? "#D3D3D3")
-        
-        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        let sceneDelegate = windowScene?.delegate as? SceneDelegate
-        let nav = UINavigationController(rootViewController: HomeViewController())
-        sceneDelegate?.window?.rootViewController = nav
-        sceneDelegate?.window?.makeKeyAndVisible()
+        mainView.colorButton.heroID = "listImageView\(tasks.count)"
+        navigationController?.popViewController(animated: true)
     }
 }
 

@@ -30,12 +30,17 @@ class SettingViewController: BaseViewController {
     
     override func configure() {
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
         navigationItem.title = "설정"
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 18)!]
-
+        
         mainView.settingTableView.delegate = self
         mainView.settingTableView.dataSource = self
         mainView.settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reusableIdentifier)
+    }
+    
+    @objc func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
