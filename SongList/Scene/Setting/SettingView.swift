@@ -13,6 +13,7 @@ class SettingView: BaseView {
     
     let settingTableView: UITableView = {
         let view = UITableView()
+        view.isScrollEnabled = false
         return view
     }()
     

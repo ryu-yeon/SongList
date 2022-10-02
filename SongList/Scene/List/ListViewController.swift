@@ -44,6 +44,13 @@ class ListViewController: BaseViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .systemGray4
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+    }
+    
     override func configure() {
         
         mainView.listTableView.delegate = self
@@ -135,7 +142,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
             guard let task = task else {
                 let url = URL(string: songList.image)
                 cell.listImageView.kf.setImage(with: url)
-                cell.listImageView.backgroundColor = .systemGray3
+                cell.listImageView.backgroundColor = .systemGray4
                 cell.listTitleLabel.text = songList.title
                 cell.listCountLabel.text = "\(songList.songs.count)곡"
 
