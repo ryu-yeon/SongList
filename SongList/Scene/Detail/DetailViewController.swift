@@ -26,6 +26,13 @@ class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
     }
     
     override func configure() {
@@ -64,9 +71,12 @@ class DetailViewController: BaseViewController {
         if song.albumImage == "" {
             mainView.albumImageView.image = UIImage(systemName: "music.note")
             mainView.albumImageView.tintColor = .systemMint
+            mainView.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
+            mainView.albumImageView.layer.borderWidth = 1
         } else {
             let url = URL(string: song.albumImage)
             mainView.albumImageView.kf.setImage(with: url)
+            mainView.albumImageView.layer.borderWidth = 0
         }
         
         
@@ -74,6 +84,10 @@ class DetailViewController: BaseViewController {
         
         mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
         mainView.lyricsButton.addTarget(self, action: #selector(lyricsButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func addButtonClicked() {

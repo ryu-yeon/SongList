@@ -54,6 +54,7 @@ class ListViewController: BaseViewController {
     }
     
     func setNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
         
         let editTitle = UIAction(title: "제목 수정", image: UIImage(systemName: "pencil")) { _ in
             
@@ -102,6 +103,10 @@ class ListViewController: BaseViewController {
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "",                                                             image: UIImage(systemName: "ellipsis.circle"),                                                             primaryAction: nil,                                                             menu: UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [editTitle, delete]))
+    }
+    
+    @objc func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
     }
 }
 

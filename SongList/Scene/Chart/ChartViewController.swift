@@ -39,6 +39,8 @@ class ChartViewController: BaseViewController {
     
     override func configure() {
         
+        mainView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
+        
         mainView.chartTableView.delegate = self
         mainView.chartTableView.dataSource = self
         mainView.chartTableView.register(RankTableViewCell.self, forCellReuseIdentifier: RankTableViewCell.reusableIdentifier)
@@ -50,6 +52,10 @@ class ChartViewController: BaseViewController {
         mainView.monthlyButton.addTarget(self, action: #selector(monthlyButtonClicked), for: .touchUpInside)
         
         mainView.chartLabel.heroID = "chartLabel"
+    }
+    
+    @objc func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func changValue() {

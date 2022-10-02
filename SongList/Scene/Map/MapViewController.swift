@@ -38,11 +38,14 @@ class MapViewController: BaseViewController {
     }
     
     override func configure() {
-
+        mainView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
         mainView.urlButton.addTarget(self, action: #selector(urlButtonClicked), for: .touchUpInside)
         mainView.currentButton.addTarget(self, action: #selector(currentButtonClicked), for: .touchUpInside)
     }
-
+    
+    @objc func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
+    }
     
     func makeMaker(lat: Double, lng: Double) {
         let marker = NMFMarker()
