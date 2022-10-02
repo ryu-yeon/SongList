@@ -10,17 +10,17 @@ import Foundation
 import RealmSwift
 
 protocol ListRepositoryType {
-    func saveList(title: String, color: String)
+    func saveList(title: String, color: String, image: String)
 }
 
 class ListRepository: ListRepositoryType {
     
     let localRealm = try! Realm()
     
-    func saveList(title: String, color: String) {
+    func saveList(title: String, color: String, image: String) {
         do {
             try localRealm.write {
-                let task = ListRealm(title: title, color: color, songs: List<SongRealm>())
+                let task = ListRealm(title: title, color: color, image: image, songs: List<SongRealm>())
                 localRealm.add(task)
             }
         } catch {

@@ -152,13 +152,14 @@ extension ListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCollectionViewCell.reusableIdentifier, for: indexPath) as? ListCollectionViewCell else { return UICollectionViewCell() }
         
         if listType == ListType.my {
-            
             if indexPath.item < tasks.count {
                 cell.isHeroEnabled = true
                 cell.heroID = "listImageView\(indexPath.item)"
                 cell.listImageView.backgroundColor =
                 UIColor(hexFromString: tasks[indexPath.item].color)
                 cell.listTitleLabel.text = tasks[indexPath.row].title
+                let url = URL(string: tasks[indexPath.item].image)
+                cell.listImageView.kf.setImage(with: url)
             } else {
                 cell.isHeroEnabled = true
                 cell.heroID = "listImageView\(indexPath.item)"

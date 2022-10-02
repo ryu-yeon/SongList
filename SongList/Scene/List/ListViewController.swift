@@ -37,6 +37,7 @@ class ListViewController: BaseViewController {
         navigationController?.isNavigationBarHidden = false
         
         if let task = task {
+            mainView.listTableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.backgroundColor = UIColor(hexFromString: task.color)
             navigationController?.navigationBar.standardAppearance = navigationBarAppearance
@@ -63,28 +64,15 @@ class ListViewController: BaseViewController {
     func setNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
         
-        let editTitle = UIAction(title: "제목 수정", image: UIImage(systemName: "pencil")) { _ in
+        let editTitle = UIAction(title: "리스트 커버 수정", image: UIImage(systemName: "pencil")) { _ in
             
-            let alert = UIAlertController(title: nil, message: "수정할 제목을 입력해주세요.", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "취소", style: .cancel)
-            let ok = UIAlertAction(title: "확인", style: .destructive) { _ in
-                
-                if let newTitle = alert.textFields?[0].text , newTitle != "" {
-                    try! self.localRealm.write {
-                        self.task.title = newTitle
-                    }
-                    self.mainView.listTableView.reloadSections(IndexSet(0...0), with: .none)
-                    self.view.makeToast("\(newTitle)로 변경되었습니다.", duration: 2.0, position: .bottom)
-                }
-            }
-            alert.addAction(ok)
-            alert.addAction(cancel)
-            alert.addTextField { UITextField in
-                UITextField.placeholder = "수정할 제목을 입력해주세요."
-            }
-            self.present(alert, animated: true)
+            let vc = AddListViewController()
+            vc.task = self.task
+            vc.isNew = false
+            vc.setListCover()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
-        
+
         let delete = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill")) { _ in
             let title = self.task.title
             let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
@@ -147,6 +135,10 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.listCountLabel.text = "\(songList.songs.count)곡"
 
                 return cell
+            }
+            if task.image != "" {
+                let url = URL(string: task.image)
+                cell.listImageView.kf.setImage(with: url)
             }
             cell.listImageView.backgroundColor = UIColor(hexFromString: task.color)
             cell.listTitleLabel.text = task.title
