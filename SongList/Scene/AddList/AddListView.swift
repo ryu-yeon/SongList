@@ -80,7 +80,7 @@ class AddListView: BaseView {
         layout.scrollDirection = .horizontal
         
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.backgroundColor = .clear
+        view.backgroundColor = .systemGray5
         return view
     }()
     
