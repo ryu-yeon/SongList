@@ -13,7 +13,7 @@ import SwiftyJSON
 class KakaoAPIManager {
     static let shared = KakaoAPIManager()
     
-    func requestKaraoke(text: String, x: String, y: String, radius: Int, page: Int, compleitionHandler: @escaping ([Karaoke], Bool)-> Void) {
+    func requestKaraoke(text: String, x: String, y: String, radius: Int, page: Int, complietionHandler: @escaping ([Karaoke], Bool)-> Void) {
         let query = text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = EndPoint.kakaoURL + "query=\(query)&x=\(x)&y=\(y)&radius=\(radius)&sort=distance&page=\(page)"
         let header: HTTPHeaders = ["Authorization": APIKey.kakaoApi]
@@ -38,7 +38,7 @@ class KakaoAPIManager {
                     list.append(data)
                 }
                 
-                compleitionHandler(list, isEnd)
+                complietionHandler(list, isEnd)
                 
             case .failure(let error):
                 print(error)
