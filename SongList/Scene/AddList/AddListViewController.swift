@@ -28,9 +28,14 @@ class AddListViewController: BaseViewController {
         self.view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
     }
     
     override func configure() {
@@ -55,6 +60,10 @@ class AddListViewController: BaseViewController {
         }
         ListRepository().saveList(title: listTitle, color: colorString ?? "#D3D3D3")
         mainView.colorButton.heroID = "listImageView\(tasks.count)"
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func backButtonClicked() {
         navigationController?.popViewController(animated: true)
     }
 }
