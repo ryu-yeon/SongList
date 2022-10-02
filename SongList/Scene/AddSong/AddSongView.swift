@@ -11,6 +11,15 @@ import SnapKit
 
 class AddSongView: BaseView {
     
+    let backButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(systemName: "chevron.left.circle.fill"), for: .normal)
+        view.tintColor = .systemMint
+        view.contentVerticalAlignment = .fill
+        view.contentHorizontalAlignment = .fill
+        return view
+    }()
+    
     let textLabel: UILabel = {
         let view = UILabel()
         view.text = "리스트에 노래 추가"
@@ -27,16 +36,22 @@ class AddSongView: BaseView {
     
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [textLabel, listTableView].forEach {
+        [backButton, textLabel, listTableView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setConstraints() {
         
+        backButton.snp.makeConstraints { make in
+            make.centerY.equalTo(textLabel)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.width.height.equalTo(32)
+        }
+        
         textLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(20)
+            make.leading.equalTo(backButton.snp.trailing).offset(8)
         }
         
         listTableView.snp.makeConstraints { make in

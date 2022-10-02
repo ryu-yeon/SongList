@@ -34,8 +34,13 @@ class AddSongViewController: BaseViewController {
     }
     
     override func configure() {
-        
         tasks = localRealm.objects(ListRealm.self)
+        
+        mainView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func backButtonClicked() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -49,6 +54,8 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.titleLabel.text = tasks[indexPath.row].title
         cell.listImageView.backgroundColor = UIColor(hexFromString: tasks[indexPath.row].color)
+        let url = URL(string: tasks[indexPath.item].image)
+        cell.listImageView.kf.setImage(with: url)
         cell.countLabel.text = "\(tasks[indexPath.row].songs.count)곡"
         return cell
     }
