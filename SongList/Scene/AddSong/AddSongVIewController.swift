@@ -55,6 +55,15 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let listTitle = tasks[indexPath.row].title
+        
+        for i in tasks[indexPath.row].songs {
+            if song.number == i.number && song.brand == i.brand {
+                view.makeToast("\(listTitle)에 이미 있습니다.", duration: 1.0, position: .bottom)
+                return
+            }
+        }
+        
         try! localRealm.write {
             tasks[indexPath.row].songs.append(SongRealm(brand: song.brand, number: song.number, title: song.title, artist: song.artist, composer: song.composer, lyricist: song.lyricist, release: song.release, albumImage: song.albumImage))
         }
@@ -62,7 +71,7 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
         guard let pvc = self.presentingViewController else { return }
         
         dismiss(animated: true) {
-            pvc.view.makeToast("\(self.tasks[indexPath.row].title)에 추가되었습니다.", duration: 2.0, position: .bottom)
+            pvc.view.makeToast("\(listTitle)에 추가되었습니다.", duration: 2.0, position: .bottom)
         }
     }
     
