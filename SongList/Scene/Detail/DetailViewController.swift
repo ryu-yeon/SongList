@@ -83,7 +83,7 @@ class DetailViewController: BaseViewController {
         mainView.addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         
         mainView.youtubeButton.addTarget(self, action: #selector(youtubeButtonClicked), for: .touchUpInside)
-        mainView.lyricsButton.addTarget(self, action: #selector(lyricsButtonClicked), for: .touchUpInside)
+//        mainView.lyricsButton.addTarget(self, action: #selector(lyricsButtonClicked), for: .touchUpInside)
     }
     
     @objc func backButtonClicked() {
@@ -104,14 +104,14 @@ class DetailViewController: BaseViewController {
         present(vc, animated: true)
     }
     
-    @objc func lyricsButtonClicked() {
-        let vc = WebViewController()
-        let title = song?.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let artist = song?.artist.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let lyrics = "가사".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        vc.url = EndPoint.lyricsNaverSearch + "\(artist)+\(title)+\(lyrics)"
-        present(vc, animated: true)
-    }
+//    @objc func lyricsButtonClicked() {
+//        let vc = WebViewController()
+//        let title = song?.title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+//        let artist = song?.artist.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+//        let lyrics = "가사".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+//        vc.url = EndPoint.lyricsNaverSearch + "\(artist)+\(title)+\(lyrics)"
+//        present(vc, animated: true)
+//    }
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
