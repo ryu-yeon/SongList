@@ -5,7 +5,7 @@
 //  Created by 유연탁 on 2022/10/09.
 //
 
-import Foundation
+import UIKit
 
 extension UserDefaults {
     func colorForKey(key: String) -> UIColor? {
