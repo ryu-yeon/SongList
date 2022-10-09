@@ -43,18 +43,18 @@ class DetailViewController: BaseViewController {
         
         KaraokeAPIManager.shared.requestSearchSinger(text: song?.artist ?? "", brand: song?.brand ?? "tj", songTitle: song?.title ?? "") { songList in
             self.songList = songList
-            SpotifyAPIManager.shared.callToken { token in
-                for i in 0..<songList.count {
-                    SpotifyAPIManager.shared.requestSong(token: token, song: songList[i].title, singer: songList[i].artist) { albumCover in
-                        self.songList[i].albumImage = albumCover
+//            SpotifyAPIManager.shared.callToken { token in
+//                for i in 0..<songList.count {
+//                    SpotifyAPIManager.shared.requestSong(token: token, song: songList[i].title, singer: songList[i].artist) { albumCover in
+//                        self.songList[i].albumImage = albumCover
                         DispatchQueue.main.async {
                             self.mainView.recommandTableView.reloadData()
                         }
-                    }
+//                    }
                 }
-            }
-            self.mainView.recommandTableView.reloadData()
-        }
+//            }
+//            self.mainView.recommandTableView.reloadData()
+//        }
         mainView.titleLabel.text = song.title
         mainView.artistLabel.text = song.artist
         mainView.numberLabel.text = song.number
@@ -68,16 +68,16 @@ class DetailViewController: BaseViewController {
             mainView.brandLabel.text = BrandText.KY.rawValue
         }
         
-        if song.albumImage == "" {
+//        if song.albumImage == "" {
             mainView.albumImageView.image = UIImage(systemName: "music.note")
             mainView.albumImageView.tintColor = .systemMint
             mainView.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
             mainView.albumImageView.layer.borderWidth = 1
-        } else {
-            let url = URL(string: song.albumImage)
-            mainView.albumImageView.kf.setImage(with: url)
-            mainView.albumImageView.layer.borderWidth = 0
-        }
+//        } else {
+//            let url = URL(string: song.albumImage)
+//            mainView.albumImageView.kf.setImage(with: url)
+//            mainView.albumImageView.layer.borderWidth = 0
+//        }
         
         
         mainView.addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
@@ -126,13 +126,13 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         cell.songView.artistLabel.text = songList[indexPath.row].artist
         cell.songView.numberLabel.text = songList[indexPath.row].number
         
-        if songList[indexPath.row].albumImage == "" {
+//        if songList[indexPath.row].albumImage == "" {
             cell.songView.albumImageView.image = UIImage(systemName: "music.note")
             cell.songView.albumImageView.tintColor = .systemMint
-        } else {
-            let url = URL(string: songList[indexPath.row].albumImage)
-            cell.songView.albumImageView.kf.setImage(with: url)
-        }
+//        } else {
+//            let url = URL(string: songList[indexPath.row].albumImage)
+//            cell.songView.albumImageView.kf.setImage(with: url)
+//        }
         
         return cell
     }

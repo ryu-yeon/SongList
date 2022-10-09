@@ -22,7 +22,7 @@ class ChartViewController: BaseViewController {
     
     var chartList: [Song] = []
     
-    var token = ""
+//    var token = ""
     
     override func loadView() {
         self.view = mainView
@@ -31,10 +31,11 @@ class ChartViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SpotifyAPIManager.shared.callToken { token in
-            self.token = token
-            self.requestChart()
-        }
+//        SpotifyAPIManager.shared.callToken { token in
+//            self.token = token
+//            self.requestChart()
+//        }
+        requestChart()
     }
     
     override func configure() {
@@ -100,14 +101,14 @@ class ChartViewController: BaseViewController {
     func requestChart() {
         KaraokeAPIManager.shared.requestChart(limit: 100, range: range, brand: brand) { chartList in
             self.chartList = chartList
-            for i in 0..<chartList.count {
-                SpotifyAPIManager.shared.requestSong(token: self.token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
-                    self.chartList[i].albumImage = albumCover
+//            for i in 0..<chartList.count {
+//                SpotifyAPIManager.shared.requestSong(token: self.token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
+//                    self.chartList[i].albumImage = albumCover
                     DispatchQueue.main.async {
                         self.mainView.chartTableView.reloadData()
                     }
-                }
-            }
+//                }
+//            }
         }
     }
     
@@ -133,13 +134,13 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
             cell.brandLabel.text = BrandText.KY.rawValue
         }
         
-        if chartList[indexPath.row].albumImage == "" {
+//        if chartList[indexPath.row].albumImage == "" {
             cell.albumImageView.image = UIImage(systemName: "music.note")
             cell.albumImageView.tintColor = .systemMint
-        } else {
-            let url = URL(string: chartList[indexPath.row].albumImage)
-            cell.albumImageView.kf.setImage(with: url)
-        }
+//        } else {
+//            let url = URL(string: chartList[indexPath.row].albumImage)
+//            cell.albumImageView.kf.setImage(with: url)
+//        }
         
         return cell
     }

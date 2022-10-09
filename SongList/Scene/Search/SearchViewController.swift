@@ -20,7 +20,7 @@ class SearchViewController: BaseViewController {
     
     var brand = Brand.tj.rawValue
     
-    var token = ""
+//    var token = ""
     
     override func loadView() {
         self.view = mainView
@@ -60,9 +60,9 @@ class SearchViewController: BaseViewController {
         mainView.searchContainer.userTextField.becomeFirstResponder()
         buttonClicked()
         
-        SpotifyAPIManager.shared.callToken { token in
-            self.token = token
-        }
+//        SpotifyAPIManager.shared.callToken { token in
+//            self.token = token
+//        }
     }
     
     @objc func songSearchButtonClicked() {
@@ -78,7 +78,7 @@ class SearchViewController: BaseViewController {
     
     @objc func segmentCotnrolValueChanged() {
         brand = mainView.segmentControl.selectedSegmentIndex == 0 ? Brand.tj.rawValue : Brand.kumyoung.rawValue
-        searchList.removeAll()
+//        searchList.removeAll()
         searchTextEditing()
     }
     
@@ -96,14 +96,14 @@ class SearchViewController: BaseViewController {
         
         KaraokeAPIManager.shared.requestSearch(text: searchText, type: type, brand: brand) { songList in
             self.searchList = songList
-            for i in 0..<self.searchList.count {
-                SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
-                    self.searchList[i].albumImage = albumCover
+//            for i in 0..<self.searchList.count {
+//                SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
+//                    self.searchList[i].albumImage = albumCover
                     DispatchQueue.main.async {
                         self.mainView.searchTableView.reloadData()
                     }
-                }
-            }
+//                }
+//            }
         }
         view.endEditing(true)
     }
@@ -149,16 +149,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             cell.songView.brandLabel.text = BrandText.KY.rawValue
         }
         
-        if searchList[indexPath.row].albumImage == "" {
+//        if searchList[indexPath.row].albumImage == "" {
             cell.songView.albumImageView.image = UIImage(systemName: "music.note")
             cell.songView.albumImageView.tintColor = .systemMint
             cell.songView.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
             cell.songView.albumImageView.layer.borderWidth = 1
-        } else {
-            let url = URL(string: searchList[indexPath.row].albumImage)
-            cell.songView.albumImageView.kf.setImage(with: url)
-            cell.songView.albumImageView.layer.borderWidth = 0
-        }
+//        } else {
+//            let url = URL(string: searchList[indexPath.row].albumImage)
+//            cell.songView.albumImageView.kf.setImage(with: url)
+//            cell.songView.albumImageView.layer.borderWidth = 0
+//        }
         
         return cell
     }

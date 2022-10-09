@@ -89,6 +89,7 @@ class ChartTableViewCell: BaseTableViewCell {
         tjButton.addTarget(self, action: #selector(tjButtonClicked), for: .touchUpInside)
         kyButton.addTarget(self, action: #selector(kyButtonClicked), for: .touchUpInside)
         requestToken()
+        requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
     }
     
     func requestChart(range: String, brand: String) {
@@ -103,7 +104,8 @@ class ChartTableViewCell: BaseTableViewCell {
     func requestToken() {
         SpotifyAPIManager.shared.callToken { token in
             self.token = token
-            self.requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
+            print("token",token)
+//            self.requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
         }
     }
     
@@ -179,7 +181,7 @@ extension ChartTableViewCell: UICollectionViewDelegate, UICollectionViewDataSour
         if chartList.count == 15 {
             cell.chartList = [chartList[indexPath.item * 3], chartList[indexPath.item * 3 + 1], chartList[indexPath.item * 3 + 2]]
             cell.rank = indexPath.item * 3
-            cell.requestAlbumCover(token: token)
+//            cell.requestAlbumCover(token: token)
             cell.chartTableView.reloadData()
         }
         cell.delegate = delegate as? TVCellDelegate

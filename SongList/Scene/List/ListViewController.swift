@@ -152,13 +152,13 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
             
             guard let task = task else {
                 
-                if songList.songs[indexPath.row].albumImage == "" {
+//                if songList.songs[indexPath.row].albumImage == "" {
                     cell.songView.albumImageView.image = UIImage(systemName: "music.note")
                     cell.songView.albumImageView.tintColor = .systemMint
-                } else {
-                    let url = URL(string: songList.songs[indexPath.row].albumImage)
-                    cell.songView.albumImageView.kf.setImage(with: url)
-                }
+//                } else {
+//                    let url = URL(string: songList.songs[indexPath.row].albumImage)
+//                    cell.songView.albumImageView.kf.setImage(with: url)
+//                }
                 
                 if songList.songs[indexPath.row].brand == Brand.tj.rawValue {
                     cell.songView.brandLabel.text = BrandText.TJ.rawValue
@@ -183,13 +183,13 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.songView.brandLabel.text = BrandText.KY.rawValue
             }
             
-            if task.songs[indexPath.row].albumImage == "" {
+//            if task.songs[indexPath.row].albumImage == "" {
                 cell.songView.albumImageView.image = UIImage(systemName: "music.note")
                 cell.songView.albumImageView.tintColor = .systemMint
-            } else {
-                let url = URL(string: task.songs[indexPath.row].albumImage)
-                cell.songView.albumImageView.kf.setImage(with: url)
-            }
+//            } else {
+//                let url = URL(string: task.songs[indexPath.row].albumImage)
+//                cell.songView.albumImageView.kf.setImage(with: url)
+//            }
 
             return cell
         }

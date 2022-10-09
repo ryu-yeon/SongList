@@ -39,20 +39,20 @@ class ChartCollectionViewCell: BaseCollectionViewCell {
         chartTableView.isScrollEnabled = false
     }
 
-    func requestAlbumCover(token: String) {
-        SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[0].title, singer: self.chartList[0].artist) { albumCover in
-            self.chartList[0].albumImage = albumCover
-            SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[1].title, singer: self.chartList[1].artist) { albumCover in
-                self.chartList[1].albumImage = albumCover
-                SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[2].title, singer: self.chartList[2].artist) { albumCover in
-                    self.chartList[2].albumImage = albumCover
-                    DispatchQueue.main.async {
-                        self.chartTableView.reloadData()
-                    }
-                }
-            }
-        }
-    }
+//    func requestAlbumCover(token: String) {
+//        SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[0].title, singer: self.chartList[0].artist) { albumCover in
+//            self.chartList[0].albumImage = albumCover
+//            SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[1].title, singer: self.chartList[1].artist) { albumCover in
+//                self.chartList[1].albumImage = albumCover
+//                SpotifyAPIManager.shared.requestSong(token: token, song: self.chartList[2].title, singer: self.chartList[2].artist) { albumCover in
+//                    self.chartList[2].albumImage = albumCover
+//                    DispatchQueue.main.async {
+//                        self.chartTableView.reloadData()
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     override func setConstraints() {
                
@@ -81,16 +81,16 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
             cell.brandLabel.text = BrandText.KY.rawValue
         }
         
-        if chartList[indexPath.row].albumImage == "" {
+//        if chartList[indexPath.row].albumImage == "" {
             cell.albumImageView.image = UIImage(systemName: "music.note")
             cell.albumImageView.tintColor = .systemMint
             cell.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
             cell.albumImageView.layer.borderWidth = 1
-        } else {
-            let url = URL(string: chartList[indexPath.row].albumImage)
-            cell.albumImageView.kf.setImage(with: url)
-            cell.albumImageView.layer.borderWidth = 0
-        }
+//        } else {
+//            let url = URL(string: chartList[indexPath.row].albumImage)
+//            cell.albumImageView.kf.setImage(with: url)
+//            cell.albumImageView.layer.borderWidth = 0
+//        }
         
         return cell
     }
