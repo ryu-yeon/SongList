@@ -22,7 +22,7 @@ class HomeViewController: BaseViewController {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         navigationController?.isHeroEnabled = true
-        self.navigationController?.navigationBar.tintColor = .systemMint
+        self.navigationController?.navigationBar.tintColor = .mainColor
     }
     
     override func viewWillAppear(_ animated: Bool) {

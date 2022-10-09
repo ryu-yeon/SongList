@@ -14,14 +14,14 @@ class SearchContainerView: BaseView {
     let songSearchButton: UIButton = {
         let view = UIButton()
         view.setTitle("제목검색", for: .normal)
-        view.setTitleColor(UIColor.systemMint, for: .normal)
+        view.setTitleColor(UIColor.mainColor, for: .normal)
         view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 15)
         return view
     }()
     
     let songSearchLine: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         return view
     }()
     
@@ -44,7 +44,7 @@ class SearchContainerView: BaseView {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.systemMint.cgColor
+        view.layer.borderColor = UIColor.mainColor.cgColor
         return view
     }()
     
@@ -58,7 +58,7 @@ class SearchContainerView: BaseView {
     let searchButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         return view
     }()
     

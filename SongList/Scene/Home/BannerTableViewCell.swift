@@ -21,7 +21,7 @@ class BannerTableViewCell: BaseTableViewCell {
     let bannerImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "chevron.right.circle.fill")
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         return view
     }()
     

@@ -15,7 +15,7 @@ class MapView: BaseView {
     let backButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "chevron.left.circle.fill"), for: .normal)
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         view.contentVerticalAlignment = .fill
         view.contentHorizontalAlignment = .fill
         return view
@@ -109,7 +109,7 @@ class MapView: BaseView {
         let view = UIButton()
         view.setTitle("자세히 보기", for: .normal)
         view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 24)
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         view.layer.cornerRadius = 20
         view.isHidden = true
         return view

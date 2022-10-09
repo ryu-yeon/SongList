@@ -14,7 +14,7 @@ class HomeView: BaseView {
     let logoLabel: UILabel = {
         let view = UILabel()
         view.text = "뭐 부르지?"
-        view.textColor = .systemMint
+        view.textColor = .mainColor
         view.font = UIFont(name: "Cafe24Ssurround", size: 32)
         return view
     }()
@@ -22,7 +22,7 @@ class HomeView: BaseView {
     let settingButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "gearshape.fill"), for: .normal)
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         return view
     }()
     

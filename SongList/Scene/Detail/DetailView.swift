@@ -112,7 +112,7 @@ class DetailView: BaseView {
         view.setTitle("리스트에 추가", for: .normal)
         view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 24)
         view.setTitleColor(UIColor.systemBackground, for: .normal)
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         view.layer.cornerRadius = 16
         return view
     }()

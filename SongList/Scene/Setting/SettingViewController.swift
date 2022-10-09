@@ -8,12 +8,13 @@
 import UIKit
 
 import AcknowList
+import PanModal
 
 class SettingViewController: BaseViewController {
     
     private let mainView = SettingView()
     
-    let settingMenu: [String] = ["앱 버전", "앱 정보", "오픈소스 라이선스"]
+    let settingMenu: [String] = ["앱 버전", "앱 정보", "오픈소스 라이선스", "앱 메인 색상"]
     
     override func loadView() {
         self.view = mainView
@@ -72,6 +73,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 2:
             let vc = AcknowListViewController()
             navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = SettingColorViewController()
+            self.presentPanModal(vc)
         default: return
         }
     }

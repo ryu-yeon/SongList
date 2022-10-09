@@ -83,7 +83,7 @@ extension ChartCollectionViewCell: UITableViewDataSource, UITableViewDelegate {
         
 //        if chartList[indexPath.row].albumImage == "" {
             cell.albumImageView.image = UIImage(systemName: "music.note")
-            cell.albumImageView.tintColor = .systemMint
+            cell.albumImageView.tintColor = .mainColor
             cell.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
             cell.albumImageView.layer.borderWidth = 1
 //        } else {

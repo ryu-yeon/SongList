@@ -28,7 +28,7 @@ class ChartTableViewCell: BaseTableViewCell {
     let chartImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "chevron.right.circle.fill")
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         return view
     }()
     
@@ -44,7 +44,7 @@ class ChartTableViewCell: BaseTableViewCell {
         view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
         view.setTitleColor(UIColor.systemBackground, for: .normal)
         view.layer.cornerRadius = 8
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         return view
     }()
     
@@ -112,7 +112,7 @@ class ChartTableViewCell: BaseTableViewCell {
     @objc func tjButtonClicked() {
         requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
         chartCollectionView.reloadData()
-        tjButton.backgroundColor = .systemMint
+        tjButton.backgroundColor = .mainColor
         tjButton.setTitleColor(UIColor.systemBackground, for: .normal)
         kyButton.backgroundColor = .systemGray4
         kyButton.setTitleColor(UIColor.label, for: .normal)
@@ -123,7 +123,7 @@ class ChartTableViewCell: BaseTableViewCell {
         chartCollectionView.reloadData()
         tjButton.backgroundColor = .systemGray4
         tjButton.setTitleColor(UIColor.label, for: .normal)
-        kyButton.backgroundColor = .systemMint
+        kyButton.backgroundColor = .mainColor
         kyButton.setTitleColor(UIColor.systemBackground, for: .normal)
     }
     

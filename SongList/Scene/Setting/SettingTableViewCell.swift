@@ -28,7 +28,7 @@ class SettingTableViewCell: BaseTableViewCell {
     let detailImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(systemName: "chevron.right.circle.fill")
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         return view
     }()
     

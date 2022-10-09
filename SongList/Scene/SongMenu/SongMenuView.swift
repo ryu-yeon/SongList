@@ -44,7 +44,7 @@ class SongMenuView: BaseView {
         view.setTitle("곡 정보", for: .normal)
         view.setTitleColor(UIColor.label, for: .normal)
         view.titleLabel?.font  = UIFont(name: "Cafe24Ssurround", size: 20)
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         view.layer.cornerRadius = 12
         return view
     }()

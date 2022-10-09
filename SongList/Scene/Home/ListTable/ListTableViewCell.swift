@@ -42,7 +42,7 @@ class ListTableViewCell: BaseTableViewCell {
         view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
         view.setTitleColor(UIColor.systemBackground, for: .normal)
         view.layer.cornerRadius = 8
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         return view
     }()
     
@@ -101,7 +101,7 @@ class ListTableViewCell: BaseTableViewCell {
         listCollectionView.reloadData()
         myListButton.backgroundColor = .systemGray4
         myListButton.setTitleColor(UIColor.label, for: .normal)
-        recommandListButton.backgroundColor = .systemMint
+        recommandListButton.backgroundColor = .mainColor
         recommandListButton.setTitleColor(UIColor.systemBackground, for: .normal)
     }
     

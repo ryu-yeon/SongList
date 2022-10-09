@@ -14,7 +14,7 @@ class AddSongView: BaseView {
     let backButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "chevron.left.circle.fill"), for: .normal)
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         view.contentVerticalAlignment = .fill
         view.contentHorizontalAlignment = .fill
         return view

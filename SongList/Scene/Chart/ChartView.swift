@@ -14,7 +14,7 @@ class ChartView: BaseView {
     let backButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "chevron.left.circle.fill"), for: .normal)
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         view.contentVerticalAlignment = .fill
         view.contentHorizontalAlignment = .fill
         return view
@@ -31,7 +31,7 @@ class ChartView: BaseView {
     let segmentControl: UISegmentedControl = {
         let view = UISegmentedControl(items: [BrandText.TJ.rawValue, BrandText.KY.rawValue])
         view.selectedSegmentIndex = 0
-        view.selectedSegmentTintColor = .systemMint
+        view.selectedSegmentTintColor = .mainColor
         view.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Cafe24Ssurround", size: 20)!, NSAttributedString.Key.foregroundColor : UIColor.label], for: .normal)
         view.tintColor = .systemGray4
         return view
@@ -43,7 +43,7 @@ class ChartView: BaseView {
         view.titleLabel?.font = UIFont(name: "Cafe24Ssurround", size: 16)
         view.setTitleColor(UIColor.label, for: .normal)
         view.layer.cornerRadius = 8
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .mainColor
         return view
     }()
     

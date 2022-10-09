@@ -74,7 +74,7 @@ class ChartViewController: BaseViewController {
     @objc func dailyButtonClicked() {
         chartList.removeAll()
         range = Range.daily.rawValue
-        mainView.dailyButton.backgroundColor = .systemMint
+        mainView.dailyButton.backgroundColor = .mainColor
         mainView.weeklyButton.backgroundColor = .systemGray4
         mainView.monthlyButton.backgroundColor = .systemGray4
         requestChart()
@@ -84,7 +84,7 @@ class ChartViewController: BaseViewController {
         chartList.removeAll()
         range = Range.weekly.rawValue
         mainView.dailyButton.backgroundColor = .systemGray4
-        mainView.weeklyButton.backgroundColor = .systemMint
+        mainView.weeklyButton.backgroundColor = .mainColor
         mainView.monthlyButton.backgroundColor = .systemGray4
         requestChart()
     }
@@ -94,7 +94,7 @@ class ChartViewController: BaseViewController {
         range = Range.monthly.rawValue
         mainView.dailyButton.backgroundColor = .systemGray4
         mainView.weeklyButton.backgroundColor = .systemGray4
-        mainView.monthlyButton.backgroundColor = .systemMint
+        mainView.monthlyButton.backgroundColor = .mainColor
         requestChart()
     }
     
@@ -136,7 +136,7 @@ extension ChartViewController: UITableViewDelegate, UITableViewDataSource {
         
 //        if chartList[indexPath.row].albumImage == "" {
             cell.albumImageView.image = UIImage(systemName: "music.note")
-            cell.albumImageView.tintColor = .systemMint
+            cell.albumImageView.tintColor = .mainColor
 //        } else {
 //            let url = URL(string: chartList[indexPath.row].albumImage)
 //            cell.albumImageView.kf.setImage(with: url)

@@ -154,7 +154,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
                 
 //                if songList.songs[indexPath.row].albumImage == "" {
                     cell.songView.albumImageView.image = UIImage(systemName: "music.note")
-                    cell.songView.albumImageView.tintColor = .systemMint
+                    cell.songView.albumImageView.tintColor = .mainColor
 //                } else {
 //                    let url = URL(string: songList.songs[indexPath.row].albumImage)
 //                    cell.songView.albumImageView.kf.setImage(with: url)
@@ -185,7 +185,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
             
 //            if task.songs[indexPath.row].albumImage == "" {
                 cell.songView.albumImageView.image = UIImage(systemName: "music.note")
-                cell.songView.albumImageView.tintColor = .systemMint
+                cell.songView.albumImageView.tintColor = .mainColor
 //            } else {
 //                let url = URL(string: task.songs[indexPath.row].albumImage)
 //                cell.songView.albumImageView.kf.setImage(with: url)

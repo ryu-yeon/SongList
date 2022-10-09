@@ -70,7 +70,7 @@ class DetailViewController: BaseViewController {
         
 //        if song.albumImage == "" {
             mainView.albumImageView.image = UIImage(systemName: "music.note")
-            mainView.albumImageView.tintColor = .systemMint
+            mainView.albumImageView.tintColor = .mainColor
             mainView.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
             mainView.albumImageView.layer.borderWidth = 1
 //        } else {
@@ -128,7 +128,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         
 //        if songList[indexPath.row].albumImage == "" {
             cell.songView.albumImageView.image = UIImage(systemName: "music.note")
-            cell.songView.albumImageView.tintColor = .systemMint
+            cell.songView.albumImageView.tintColor = .mainColor
 //        } else {
 //            let url = URL(string: songList[indexPath.row].albumImage)
 //            cell.songView.albumImageView.kf.setImage(with: url)

@@ -32,7 +32,7 @@ class SearchViewController: BaseViewController {
         mainView.searchContainer.isHeroEnabled = true
         mainView.searchContainer.heroID = "searchContainer"
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        self.navigationController?.navigationBar.tintColor = .systemMint
+        self.navigationController?.navigationBar.tintColor = .mainColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,15 +110,15 @@ class SearchViewController: BaseViewController {
     
     func buttonClicked() {
         if type == SearchType.song.rawValue {
-            self.mainView.searchContainer.songSearchButton.setTitleColor(UIColor.systemMint, for: .normal)
-            self.mainView.searchContainer.songSearchLine.backgroundColor = .systemMint
+            self.mainView.searchContainer.songSearchButton.setTitleColor(UIColor.mainColor, for: .normal)
+            self.mainView.searchContainer.songSearchLine.backgroundColor = .mainColor
             self.mainView.searchContainer.artistSearchButton.setTitleColor(UIColor.systemGray4, for: .normal)
             self.mainView.searchContainer.artistSearchLine.backgroundColor = .systemGray4
         } else {
             self.mainView.searchContainer.songSearchButton.setTitleColor(UIColor.systemGray4, for: .normal)
             self.mainView.searchContainer.songSearchLine.backgroundColor = .systemGray4
-            self.mainView.searchContainer.artistSearchButton.setTitleColor(UIColor.systemMint, for: .normal)
-            self.mainView.searchContainer.artistSearchLine.backgroundColor = .systemMint
+            self.mainView.searchContainer.artistSearchButton.setTitleColor(UIColor.mainColor, for: .normal)
+            self.mainView.searchContainer.artistSearchLine.backgroundColor = .mainColor
         }
     }
     
@@ -151,7 +151,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         
 //        if searchList[indexPath.row].albumImage == "" {
             cell.songView.albumImageView.image = UIImage(systemName: "music.note")
-            cell.songView.albumImageView.tintColor = .systemMint
+            cell.songView.albumImageView.tintColor = .mainColor
             cell.songView.albumImageView.layer.borderColor = UIColor.systemGray4.cgColor
             cell.songView.albumImageView.layer.borderWidth = 1
 //        } else {
