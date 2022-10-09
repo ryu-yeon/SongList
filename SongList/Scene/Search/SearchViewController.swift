@@ -32,6 +32,7 @@ class SearchViewController: BaseViewController {
         mainView.searchContainer.isHeroEnabled = true
         mainView.searchContainer.heroID = "searchContainer"
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        self.navigationController?.navigationBar.tintColor = .systemMint
     }
     
     override func viewWillAppear(_ animated: Bool) {
