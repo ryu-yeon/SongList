@@ -90,7 +90,7 @@ class ListTableViewCell: BaseTableViewCell {
     @objc func myListButtonClicked() {
         listType = ListType.my
         listCollectionView.reloadData()
-        myListButton.backgroundColor = .systemMint
+        myListButton.backgroundColor = .mainColor
         myListButton.setTitleColor(UIColor.systemBackground, for: .normal)
         recommandListButton.backgroundColor = .systemGray4
         recommandListButton.setTitleColor(UIColor.label, for: .normal)

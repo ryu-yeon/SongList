@@ -64,7 +64,7 @@ class AddListView: BaseView {
     let searchButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        view.tintColor = .systemMint
+        view.tintColor = .mainColor
         return view
     }()
     
