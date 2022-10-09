@@ -78,7 +78,6 @@ class SearchViewController: BaseViewController {
     
     @objc func segmentCotnrolValueChanged() {
         brand = mainView.segmentControl.selectedSegmentIndex == 0 ? Brand.tj.rawValue : Brand.kumyoung.rawValue
-//        searchList.removeAll()
         searchTextEditing()
     }
     
