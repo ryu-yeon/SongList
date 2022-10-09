@@ -29,12 +29,13 @@ class ListInfoTableViewCell: BaseTableViewCell {
         let view = UILabel()
         view.font = UIFont(name: "Cafe24Ssurround", size: 20)
         view.textColor = .label
+        view.textAlignment = .right
         return view
     }()
     
     override func configureUI() {
         self.backgroundColor = .clear
-        [listImageView, listTitleLabel, listCountLabel].forEach {
+        [listImageView, listCountLabel, listTitleLabel].forEach {
             contentView.addSubview($0)
         }
         self.selectionStyle = .none
@@ -47,14 +48,16 @@ class ListInfoTableViewCell: BaseTableViewCell {
             make.width.height.equalTo(160)
         }
         
+        listCountLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(self)
+            make.trailing.equalTo(self).offset(-8)
+            make.width.equalTo(48)
+        }
+        
         listTitleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(self)
             make.leading.equalTo(self).offset(8)
-        }
-        
-        listCountLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(self)
-            make.trailing.equalTo(self).offset(-20)
+            make.trailing.equalTo(listCountLabel.snp.leading).offset(-8)
         }
     }
 }
