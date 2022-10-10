@@ -7,6 +7,7 @@
 
 import UIKit
 
+import FirebaseAnalytics
 import Hero
 import PanModal
 
@@ -20,6 +21,13 @@ class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+            AnalyticsParameterItemID: "id-\(title ?? "")",
+            AnalyticsParameterItemName: title ?? "",
+          AnalyticsParameterContentType: "cont",
+        ])
+        
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         navigationController?.isHeroEnabled = true
         self.navigationController?.navigationBar.tintColor = .mainColor
