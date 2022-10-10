@@ -59,11 +59,7 @@ class MapViewController: BaseViewController {
         
         authorizationStatus = locationManager.authorizationStatus
         
-        if CLLocationManager.locationServicesEnabled() {
-            checkUserCurrentLocationAuthorization(authorizationStatus)
-        } else {
-            print("위치 서비스가 꺼져 있어서 위치 권한 요청을 못합니다.")
-        }
+        checkUserCurrentLocationAuthorization(authorizationStatus)
     }
     
     func checkUserCurrentLocationAuthorization(_ authorizationStatus: CLAuthorizationStatus) {
