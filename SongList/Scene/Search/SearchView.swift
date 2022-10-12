@@ -40,9 +40,16 @@ class SearchView: BaseView {
         return view
     }()
     
+    let searchTextTableView: UITableView = {
+        let view = UITableView()
+        view.separatorStyle = .singleLine
+        view.backgroundColor = .systemBackground
+        return view
+    }()
+    
     override func configureUI() {
         self.backgroundColor = .systemBackground
-        [searchContainer, segmentControl, searchTableView, xButton].forEach {
+        [searchContainer, segmentControl, searchTableView, xButton, searchTextTableView].forEach {
             self.addSubview($0)
         }
     }
@@ -70,6 +77,13 @@ class SearchView: BaseView {
         }
 
         searchTableView.snp.makeConstraints { make in
+            make.top.equalTo(segmentControl.snp.bottom).offset(8)
+            make.leading.equalTo(searchContainer.snp.leading)
+            make.trailing.equalTo(searchContainer.snp.trailing)
+            make.bottom.equalTo(self.safeAreaLayoutGuide)
+        }
+        
+        searchTextTableView.snp.makeConstraints { make in
             make.top.equalTo(segmentControl.snp.bottom).offset(8)
             make.leading.equalTo(searchContainer.snp.leading)
             make.trailing.equalTo(searchContainer.snp.trailing)
