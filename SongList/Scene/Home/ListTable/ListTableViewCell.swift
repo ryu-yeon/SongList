@@ -20,7 +20,7 @@ class ListTableViewCell: BaseTableViewCell {
     
     var delegate: CVCellDelegate?
     
-    let localRealm = try! Realm()
+    let listRepository = ListRepository()
     
     var tasks: Results<ListRealm>!
     
@@ -74,7 +74,7 @@ class ListTableViewCell: BaseTableViewCell {
     }()
     
     override func configureUI() {
-        tasks = localRealm.objects(ListRealm.self)
+        tasks = listRepository.fetch()
         
         listCollectionView.dataSource = self
         listCollectionView.delegate = self

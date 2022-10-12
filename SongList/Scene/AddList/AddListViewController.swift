@@ -28,7 +28,7 @@ class AddListViewController: BaseViewController {
     
     var selectIndexPath: IndexPath?
     
-    let localRealm = try! Realm()
+    let listRepository = ListRepository()
     
     var token = ""
     
@@ -57,7 +57,7 @@ class AddListViewController: BaseViewController {
     }
     
     override func configure() {
-        tasks = localRealm.objects(ListRealm.self)
+        tasks = listRepository.fetch()
         
         mainView.iconCollectionView.delegate = self
         mainView.iconCollectionView.dataSource = self
@@ -95,7 +95,7 @@ class AddListViewController: BaseViewController {
             if listTitle == "" {
                 listTitle = "내 리스트 #\(tasks.count + 1)"
             }
-            ListRepository().saveList(title: listTitle, color: colorString ?? "#D3D3D3", image: listIcon)
+            listRepository.saveList(title: listTitle, color: colorString ?? "#D3D3D3", image: listIcon)
             mainView.colorButton.heroID = "listImageView\(tasks.count)"
             navigationController?.popViewController(animated: true)
         } else {
@@ -103,11 +103,9 @@ class AddListViewController: BaseViewController {
             let alert = UIAlertController(title: nil, message: "리스트 커버를 수정하시겠습니까?", preferredStyle: .alert)
             
             let edit = UIAlertAction(title: "수정", style: .destructive) { _ in
-                try! self.localRealm.write{
-                    self.task.title = self.mainView.titleTextField.text ?? self.task.title
-                    self.task.image = self.listIcon
-                    self.task.color = self.colorString ?? "#D3D3D3"
-                }
+                
+                self.listRepository.updateList(task: self.task, title: self.mainView.titleTextField.text ?? self.task.title, color: self.colorString ?? "#D3D3D3", image: self.listIcon)
+
                 self.navigationController?.popViewController(animated: true)
                 }
             let cancel = UIAlertAction(title: "취소", style: .cancel)

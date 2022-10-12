@@ -17,7 +17,7 @@ class AddSongViewController: BaseViewController {
     
     var song: Song!
     
-    let localRealm = try! Realm()
+    let listRepository = ListRepository()
     
     var tasks: Results<ListRealm>!
     
@@ -34,7 +34,7 @@ class AddSongViewController: BaseViewController {
     }
     
     override func configure() {
-        tasks = localRealm.objects(ListRealm.self)
+        tasks = listRepository.fetch()
         
         mainView.backButton.addTarget(self, action: #selector(backButtonClicked), for: .touchUpInside)
     }
@@ -62,18 +62,18 @@ extension AddSongViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let listTitle = tasks[indexPath.row].title
+        let task = tasks[indexPath.row]
         
-        for i in tasks[indexPath.row].songs {
+        let listTitle = task.title
+        
+        for i in task.songs {
             if song.number == i.number && song.brand == i.brand {
                 view.makeToast("\(listTitle)에 이미 있습니다.", duration: 1.0, position: .bottom)
                 return
             }
         }
         
-        try! localRealm.write {
-            tasks[indexPath.row].songs.append(SongRealm(brand: song.brand, number: song.number, title: song.title, artist: song.artist, composer: song.composer, lyricist: song.lyricist, release: song.release, albumImage: song.albumImage))
-        }
+        listRepository.addSong(task: task, song: song)
         
         guard let pvc = self.presentingViewController else { return }
         

@@ -17,7 +17,7 @@ class ListViewController: BaseViewController {
     
     var number = 0
     
-    let localRealm = try! Realm()
+    let listRepository = ListRepository()
     
     var task: ListRealm!
     
@@ -79,9 +79,8 @@ class ListViewController: BaseViewController {
             let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
             
             let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                try! self.localRealm.write {
-                    self.localRealm.delete(self.task)
-                }
+                
+                self.listRepository.removeList(task: self.task)
                 
                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                 let sceneDelegate = windowScene?.delegate as? SceneDelegate
@@ -209,10 +208,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 let remove = UIAlertAction(title: "삭제", style: .destructive) { alert in
                     
-                    
-                    try! self.localRealm.write {
-                        self.localRealm.delete(self.task.songs[indexPath.row])
-                    }
+                    self.listRepository.removeSong(task: self.task, index: indexPath.row)
                     
                     self.mainView.listTableView.reloadData()
                     self.view.makeToast("\(title)이(가) 삭제되었습니다.", duration: 2.0, position: .bottom)
