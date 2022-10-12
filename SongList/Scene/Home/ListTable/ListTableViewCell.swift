@@ -26,7 +26,7 @@ class ListTableViewCell: BaseTableViewCell {
     
     var listType = ListType.my
     
-    let data = Data().data
+    let data = SongData().data
     
     let listLabel: UILabel = {
         let view = UILabel()

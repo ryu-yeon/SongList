@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Data {
+struct SongData {
     let data: [DataList] = [DataList(title: "커플 듀엣", image: "https://cdn-icons-png.flaticon.com/512/4533/4533829.png", songs:
                                         [Song(brand: "tj", albumImage: "", number: "45917", title: "Dream", artist: "수지(미스에이),백현(EXO)", composer: "박근태,최진석", lyricist: "김이나", release: "2016-01-01"),
                                          Song(brand: "tj", albumImage: "https://i.scdn.co/image/ab67616d0000b27390eca65ed86cc92fd599a81e", number: "32663", title: "잔소리", artist: "IU(With 임슬옹(2AM))", composer: "이민수", lyricist: "김이나", release: "2010-06-01"),
