@@ -106,7 +106,7 @@ class SearchContainerView: BaseView {
         userTextField.snp.makeConstraints { make in
             make.top.bottom.equalTo(searchContainer).inset(4)
             make.leading.equalTo(searchContainer).inset(16)
-            make.trailing.equalTo(searchContainer).inset(20)
+            make.trailing.equalTo(searchButton.snp.leading).offset(-4)
         }
 
         searchButton.snp.makeConstraints { make in
