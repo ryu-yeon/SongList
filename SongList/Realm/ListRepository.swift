@@ -38,6 +38,7 @@ class ListRepository: ListRepositoryType {
     func removeList(task: ListRealm) {
         do {
             try localRealm.write {
+                localRealm.delete(task.songs)
                 localRealm.delete(task)
             }
         } catch {
