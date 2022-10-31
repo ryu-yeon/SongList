@@ -13,7 +13,7 @@ import RealmSwift
 
 class SearchViewController: BaseViewController {
     
-    private let mainView = SearchView()
+    let mainView = SearchView()
     
     var searchList: [Song] = []
     
@@ -44,7 +44,6 @@ class SearchViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-        mainView.searchTextTableView.isHidden = false
     }
 
     override func configure() {

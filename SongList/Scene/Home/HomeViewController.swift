@@ -58,6 +58,7 @@ class HomeViewController: BaseViewController {
     @objc func songSearchButtonClicked() {
         let vc =  SearchViewController()
         vc.type = SearchType.song.rawValue
+        vc.mainView.searchTextTableView.isHidden = false
         let nav = UINavigationController(rootViewController: vc)
         nav.isHeroEnabled = true
         nav.modalPresentationStyle = .fullScreen
