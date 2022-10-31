@@ -10,13 +10,13 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-protocol TVCellDelegate {
+protocol TVCellDelegate: AnyObject {
     func selectedTVCell(_ index: Int, vc: SongMenuViewNavigtaionController)
 }
 
 class ChartCollectionViewCell: BaseCollectionViewCell {
     
-    var delegate: TVCellDelegate?
+    weak var delegate: TVCellDelegate?
     
     var chartList: [Song] = []
     

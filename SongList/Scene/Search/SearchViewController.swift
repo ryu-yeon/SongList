@@ -120,13 +120,13 @@ class SearchViewController: BaseViewController {
             searchText = "IU"
         }
         
-        KaraokeAPIManager.shared.requestSearch(text: searchText, type: type, brand: brand) { songList in
-            self.searchList = songList
+        KaraokeAPIManager.shared.requestSearch(text: searchText, type: type, brand: brand) { [weak self] songList in
+            self?.searchList = songList
 //            for i in 0..<self.searchList.count {
 //                SpotifyAPIManager.shared.requestSong(token: self.token, song: self.searchList[i].title, singer: self.searchList[i].artist) { albumCover in
 //                    self.searchList[i].albumImage = albumCover
-                    DispatchQueue.main.async {
-                        self.mainView.searchTableView.reloadData()
+                    DispatchQueue.main.async { [weak self] in
+                        self?.mainView.searchTableView.reloadData()
                     }
 //                }
 //            }

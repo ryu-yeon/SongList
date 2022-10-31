@@ -12,13 +12,13 @@ import RealmSwift
 import SnapKit
 import Kingfisher
 
-protocol CVCellDelegate {
+protocol CVCellDelegate: AnyObject {
     func selectedCVCell(_ index: Int, vc: UIViewController)
 }
 
 class ListTableViewCell: BaseTableViewCell {
     
-    var delegate: CVCellDelegate?
+    weak var delegate: CVCellDelegate?
     
     let listRepository = ListRepository()
     

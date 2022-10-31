@@ -51,8 +51,8 @@ class AddListViewController: BaseViewController {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image:  UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(backButtonClicked))
         
-        FlatIconAPIManager.shared.requestToken { token in
-            self.token = token
+        FlatIconAPIManager.shared.requestToken { [weak self] token in
+            self?.token = token
         }
     }
     
@@ -122,10 +122,10 @@ class AddListViewController: BaseViewController {
     
     func searchIcon() {
         if let text = mainView.iconTextField.text, text != "" {
-                FlatIconAPIManager.shared.requestIcon(text: text, token: self.token) { iconList in
-                    self.iconList = iconList
-                    DispatchQueue.main.async {
-                        self.mainView.iconCollectionView.reloadData()
+                FlatIconAPIManager.shared.requestIcon(text: text, token: self.token) { [weak self] iconList in
+                    self?.iconList = iconList
+                    DispatchQueue.main.async { [weak self] in
+                        self?.mainView.iconCollectionView.reloadData()
                 }
             }
         }

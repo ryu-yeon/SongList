@@ -112,10 +112,12 @@ extension MapViewController: CLLocationManagerDelegate {
             mainView.mapView.moveCamera(cameraUpdate)
             mainView.mapView.positionMode = .direction
             
-            KakaoAPIManager.shared.requestKaraoke(text: "노래방", x: x, y: y, radius: 1000, page: 1) { list, isEnd  in
+            KakaoAPIManager.shared.requestKaraoke(text: "노래방", x: x, y: y, radius: 1000, page: 1) { [weak self] list, isEnd  in
+                guard let self = self else { return }
                 self.list.append(contentsOf: list)
                 if isEnd == false {
-                    KakaoAPIManager.shared.requestKaraoke(text: "노래방", x: x, y: y, radius: 1000, page: 2) { list, isEnd  in
+                    KakaoAPIManager.shared.requestKaraoke(text: "노래방", x: x, y: y, radius: 1000, page: 2) { [weak self] list, isEnd  in
+                        guard let self = self else { return }
                         self.list.append(contentsOf: list)
                         for karaoke in self.list {
                             let lat = Double(karaoke.y) ?? 0

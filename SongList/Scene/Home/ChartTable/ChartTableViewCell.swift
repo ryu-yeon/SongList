@@ -11,7 +11,7 @@ import SnapKit
 
 class ChartTableViewCell: BaseTableViewCell {
     
-    var delegate: CVCellDelegate?
+    weak var delegate: CVCellDelegate?
     
     var chartList: [Song] = []
     
@@ -93,17 +93,17 @@ class ChartTableViewCell: BaseTableViewCell {
     }
     
     func requestChart(range: String, brand: String) {
-        KaraokeAPIManager.shared.requestChart(limit: 15, range: range, brand: brand) { chartList in
-            self.chartList = chartList
-            DispatchQueue.main.async {
-                self.chartCollectionView.reloadData()
+        KaraokeAPIManager.shared.requestChart(limit: 15, range: range, brand: brand) { [weak self] chartList in
+            self?.chartList = chartList
+            DispatchQueue.main.async { [weak self] in
+                self?.chartCollectionView.reloadData()
             }
         }
     }
     
     func requestToken() {
-        SpotifyAPIManager.shared.callToken { token in
-            self.token = token
+        SpotifyAPIManager.shared.callToken { [weak self] token in
+            self?.token = token
             print("token",token)
 //            self.requestChart(range: Range.daily.rawValue, brand: Brand.tj.rawValue)
         }

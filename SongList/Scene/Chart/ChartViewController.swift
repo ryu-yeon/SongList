@@ -99,13 +99,13 @@ class ChartViewController: BaseViewController {
     }
     
     func requestChart() {
-        KaraokeAPIManager.shared.requestChart(limit: 100, range: range, brand: brand) { chartList in
-            self.chartList = chartList
+        KaraokeAPIManager.shared.requestChart(limit: 100, range: range, brand: brand) { [weak self] chartList in
+            self?.chartList = chartList
 //            for i in 0..<chartList.count {
 //                SpotifyAPIManager.shared.requestSong(token: self.token, song: chartList[i].title, singer: chartList[i].artist) { albumCover in
 //                    self.chartList[i].albumImage = albumCover
-                    DispatchQueue.main.async {
-                        self.mainView.chartTableView.reloadData()
+                    DispatchQueue.main.async { [weak self] in
+                        self?.mainView.chartTableView.reloadData()
                     }
 //                }
 //            }

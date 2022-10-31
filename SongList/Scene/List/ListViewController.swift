@@ -65,22 +65,22 @@ class ListViewController: BaseViewController {
     
     func setNavigationBar() {
         
-        let editTitle = UIAction(title: "리스트 커버 수정", image: UIImage(systemName: "pencil")) { _ in
+        let editTitle = UIAction(title: "리스트 커버 수정", image: UIImage(systemName: "pencil")) { [weak self] _ in
             
             let vc = AddListViewController()
-            vc.task = self.task
+            vc.task = self?.task
             vc.isNew = false
             vc.setListCover()
-            self.navigationController?.pushViewController(vc, animated: true)
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
 
-        let delete = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill")) { _ in
-            let title = self.task.title
+        let delete = UIAction(title: "삭제", image: UIImage(systemName: "trash.fill")) { [weak self] _ in
+            let title = self?.task.title ?? ""
             let alert = UIAlertController(title: nil, message: "\(title)를(을) 삭제하시겠습니까?", preferredStyle: .alert)
             
-            let remove = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            let remove = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
                 
-                self.listRepository.removeList(task: self.task)
+                self?.listRepository.removeList(task: (self?.task)!)
                 
                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                 let sceneDelegate = windowScene?.delegate as? SceneDelegate
@@ -94,8 +94,9 @@ class ListViewController: BaseViewController {
             
             alert.addAction(cancel)
             alert.addAction(remove)
-            self.present(alert, animated: true)
+            self?.present(alert, animated: true)
         }
+        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "",                                                             image: UIImage(systemName: "ellipsis.circle"),                                                             primaryAction: nil,                                                             menu: UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [editTitle, delete]))
     }

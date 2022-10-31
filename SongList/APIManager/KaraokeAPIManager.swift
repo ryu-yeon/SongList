@@ -14,7 +14,7 @@ class KaraokeAPIManager {
     
     static let shared = KaraokeAPIManager()
     
-    func requestChart(limit: Int, range: String, brand: String, compleitionHandler: @escaping ([Song])-> Void) {
+    func requestChart(limit: Int, range: String, brand: String, compleitionHandler: @escaping ([Song])-> Void) { 
         let url = EndPoint.chartURL + "\(brand)/\(range).json"
         AF.request(url, method: .get).validate().responseData { response in
             switch response.result {

@@ -41,14 +41,14 @@ class DetailViewController: BaseViewController {
         mainView.recommandTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.reusableIdentifier)
         
         
-        KaraokeAPIManager.shared.requestSearchSinger(text: song?.artist ?? "", brand: song?.brand ?? "tj", songTitle: song?.title ?? "") { songList in
-            self.songList = songList
+        KaraokeAPIManager.shared.requestSearchSinger(text: song?.artist ?? "", brand: song?.brand ?? "tj", songTitle: song?.title ?? "") { [weak self] songList in
+            self?.songList = songList
 //            SpotifyAPIManager.shared.callToken { token in
 //                for i in 0..<songList.count {
 //                    SpotifyAPIManager.shared.requestSong(token: token, song: songList[i].title, singer: songList[i].artist) { albumCover in
 //                        self.songList[i].albumImage = albumCover
-                        DispatchQueue.main.async {
-                            self.mainView.recommandTableView.reloadData()
+                        DispatchQueue.main.async { [weak self] in
+                            self?.mainView.recommandTableView.reloadData()
                         }
 //                    }
                 }

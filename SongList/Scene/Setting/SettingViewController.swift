@@ -57,8 +57,13 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.titleLabel.text = settingMenu[indexPath.row]
         
         if indexPath.row == 0 {
-            cell.detailLabel.text = "1.0"
-            cell.detailImageView.isHidden = true
+            if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String  {
+                cell.detailLabel.text = appVersion
+                cell.detailImageView.isHidden = true
+            } else {
+                cell.detailLabel.text = ""
+                cell.detailImageView.isHidden = true
+            }
         }
         
         return cell
