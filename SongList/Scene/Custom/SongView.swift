@@ -44,6 +44,7 @@ class SongView: BaseView {
         let view = UILabel()
         view.font = UIFont(name: "Cafe24Ssurround", size: 16)
         view.textColor = .label
+        view.textAlignment = .right
         return view
     }()
     
@@ -76,11 +77,13 @@ class SongView: BaseView {
         numberLabel.snp.makeConstraints { make in
             make.bottom.equalTo(artistLabel.snp.bottom)
             make.trailing.equalTo(self)
+            make.width.equalTo(60)
         }
         
         brandLabel.snp.makeConstraints { make in
             make.bottom.equalTo(numberLabel.snp.bottom)
             make.trailing.equalTo(numberLabel.snp.leading).offset(-4)
+            make.width.equalTo(24)
         }
     }
 }
