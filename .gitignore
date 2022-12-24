@@ -107,3 +107,4 @@ xcuserdata
 
 .DS_Store
 APIKey.swift
+GoogleService-Info.plist
